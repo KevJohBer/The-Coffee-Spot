@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
-print(f'Here is the BASE_DIR: {BASE_DIR}')
 
 
 # Quick-start development settings - unsuitable for production
@@ -46,6 +45,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'home',
     'subscription',
+    'order',
 ]
 
 SITE_ID = 1

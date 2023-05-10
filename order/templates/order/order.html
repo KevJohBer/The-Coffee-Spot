@@ -3,5 +3,19 @@
 {% block content %}
 
 <h1>Order page</h1>
-
+<div class="d-flex d-flex-row">
+  <div class="card-deck">
+    {% for product in product_list %}
+      <div class="card">
+        <div class="card-body">
+          <h4>{{ product.name }}</h4>
+          <p>{{ product.price }}$</p>
+          <p>{{ product.category }}</p>
+          <p>{{ product.rating }}</p>
+          <button href="#" class="btn btn-outline-dark rounded-0 py-3">+</button>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}
