@@ -3,23 +3,76 @@
 
 {% block content %}
 <!-- Special Offer -->
-<div class="container h-100">
-  <div class="row h1-100">
-    <div class="col-7 col-md-6 my-auto w-100">
-      <h1 class="display-4 logo-font text-black">Special Offer!</h1>
-      <p>
-        Right now, we are offering a year long discount on our coffee
-        subscription "Special". Get all of your favorite coffee whenever
-        you want it for only $xx.xx per month for a whole year!
-      </p>
-    </div>
-    <div class="col-7 col-md-6 my-auto">
-      <div class="my-5 text-right">
-        <a href="#" class="btn btn-outline-dark rounded-0 py-3">Go To Offer</a>
-      </div>
-    </div>
+<div class="row h-100">
+  <div class="col-7 col-md-6 my-auto">
+    <h1 class="display-4 logo-font text-black">Special Offer!</h1>
+    <p>
+      Right now, we are offering a year long discount on our coffee
+      subscription "Special". Get all of your favorite coffee whenever
+      you want it for only $xx.xx per month for a whole year!
+    </p>
+  </div>
+  <div class="col-7 col-md-6 my-auto">
+    <div class="my-5 text-right">
+      <a href="{% url 'subscription' %}" class="btn btn-outline-dark rounded-0 py-3">Go To Offer</a>
     </div>
   </div>
 </div>
-<div class="container h-100"></div>
+<!-- Subscriptions -->
+<div class="row h-100">
+  <div class="col-7 col-md-6 my-auto">
+    <h2 class="display-4 logo-font text-black">Subscriptions</h2>
+    <p>Do you go out for coffee often? Why not subscribe to our coffee services?
+      Whenever you want a cup of coffee, just order or come down to one of our stores
+      and get as much as you want for a montly cost. Choose a subscription that best
+      suits you and start enjoying coffee knowing that the expenses are already set.
+    </p>
+    <div class="d-flex d-flex-row">
+      <div class="card-deck">
+        <div class="card">
+          <div class="card-body">
+            <h3>Regular</h3>
+            <p>
+              if you just want regular black coffee with or without milk and no 
+              other fancy additions then this is the subscription for you
+            </p>
+            <a href="{% url 'subscription' %}" class="btn btn-outline-dark rounded-0 py-3">See More</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h3>Special</h3>
+            <p>
+              If you want more options to you coffee, this subscriptions offers 
+              special warm drinks like caffe latte, cappucino or Americano
+            </p>
+            <a href="{% url 'subscription' %}" class="btn btn-outline-dark rounded-0 py-3">See More</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h3>Premium</h3>
+            <p>
+              If you don’t like limitations, then premium is the subscription for you. 
+              Enjoy any drink warm or cold from our menu
+            </p>
+            <a href="{% url 'subscription' %}" class="btn btn-outline-dark rounded-0 py-3">See More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Menu -->
+<div class="row h-100">
+  <div class="col-7 col-md-6 my-auto">
+    <h2 class="display-4 logo-font text-black">Menu</h2>
+  </div>
+</div>
+<!-- About -->
+<div class="row h-100">
+  <div class="col-7 col-md-6 my-auto">
+    <h2 class="display-4 logo-font text-black">About</h2>
+  </div>
+</div>
 {% endblock %}
