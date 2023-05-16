@@ -150,4 +150,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-kevjohber-thecoffeespot-oggaxra3acm.ws-eu96b.gitpod.io']
+CSRF_TRUSTED_ORIGINS = ['https://8000-kevjohber-thecoffeespot-oggaxra3acm.ws-eu97.gitpod.io']

@@ -13,6 +13,9 @@ class Product(models.Model):
     def __str_(self):
         return self.name
 
+    def serialize(self):
+        return self.__dict__
+
 
 class Order(models.Model):
     order_number = models.CharField(max_length=32, null=False, editable=False)
