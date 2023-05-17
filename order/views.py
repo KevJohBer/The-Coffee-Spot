@@ -72,4 +72,10 @@ def remove_from_cart(request, item_id):
     cart = request.session.get('cart', {})
     cart.pop(item_id)
     request.session['cart'] = cart
-    return redirect('order')
+    return redirect('order') 
+
+
+def order_confirmation(request):
+    cart = request.session.get('cart', {})
+    order = Order.objects.create()
+    return render(request, 'order/order_confirmation.html', {'cart': cart})

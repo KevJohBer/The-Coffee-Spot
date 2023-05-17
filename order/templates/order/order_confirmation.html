@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Your order is being taken care of</h1>
+    {{ cart }}
+    <a href="{% url 'home_page' %}" class="btn btn-outline-dark rounded-0 py-3">Head back home</a>
+{% endblock %}
