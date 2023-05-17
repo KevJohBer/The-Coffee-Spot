@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.views import generic, View
 from .models import Product, Order
+from .forms import orderForm
 from django.http import HttpResponseRedirect
 
 # Create your views here.
@@ -26,10 +27,13 @@ class order(View):
                 'product': product,
             })
 
+        order_form = orderForm()
+
         context = {
             'product_list': product_list,
             'cart_items': cart_items,
             'total': total,
+            'order_form': order_form,
         }
 
         return render(request, 'order/order.html', context)

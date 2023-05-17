@@ -51,5 +51,9 @@
   </div>
 </div>
 <h4>total = {{ total }}$</h4>
+<form action="#">
+  {% csrf_token %}
+  {{ order_form }}
+</form>
 <button class="btn btn-outline-dark rounded-0 py-3">Create Order</button>
 {% endblock %}
