@@ -52,7 +52,7 @@
   </div>
 </div>
 <h4>total = {{ total }}$</h4>
-<form action="{% url 'order_confirmation' %}">
+<form method="POST" action="{% url 'order_confirmation' %}">
   {% csrf_token %}
   <div class="form-group">
     {{ order_form.name }}
@@ -69,8 +69,14 @@
   <div class="form-group">
     <input type="text" placeholder="xxxx-xxxx-xxxx-xxxx">
   </div>
-  <div class="col text-right">
-    <input type="submit" class="btn btn-outline-dark rounded-0 py-3" value="Create Order">
+  <div class="col text-right" id="card-element">
   </div>
 </form>
+{% endblock %}
+
+{% block postloadjs %}
+    {{ block.super }}
+    {{ stripe_public_key|json_script:"id_stripe_public_key" }}
+    {{ client_secret|json_script:"id_client_secret" }}
+    <script src="{% static 'order/js/stripe_elements.js' %}"></script>
 {% endblock %}

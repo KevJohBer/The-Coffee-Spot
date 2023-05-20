@@ -3,5 +3,9 @@
 {% block content %}
     <h1>Your order is being taken care of</h1>
     {{ cart }}
+    <form action="#">
+    {% csrf_token %}
+    {{ form }}
+    </form>
     <a href="{% url 'home_page' %}" class="btn btn-outline-dark rounded-0 py-3">Head back home</a>
 {% endblock %}

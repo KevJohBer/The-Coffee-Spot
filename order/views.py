@@ -25,6 +25,7 @@ class order(View):
                 'item_id': item_id,
                 'quantity': quantity,
                 'product': product,
+                'total': total,
             })
 
         order_form = orderForm()
@@ -34,6 +35,8 @@ class order(View):
             'cart_items': cart_items,
             'total': total,
             'order_form': order_form,
+            'stripe_public_key': 'pk_test_51N9XBbIZJRxOs6OtBIBxlkOD4M2kfn3AZX1saZJeHFiAOUqkzMFvczSgg1QrwNc5NFYfU6YC9mrVJreHKDtupFwK0091VBBvxE',
+            'client_secret': 'test client secret',
         }
 
         return render(request, 'order/order.html', context)
@@ -72,10 +75,22 @@ def remove_from_cart(request, item_id):
     cart = request.session.get('cart', {})
     cart.pop(item_id)
     request.session['cart'] = cart
-    return redirect('order') 
+    return redirect('order')
 
 
-def order_confirmation(request):
-    cart = request.session.get('cart', {})
-    order = Order.objects.create()
-    return render(request, 'order/order_confirmation.html', {'cart': cart})
+def order_confirmation(request, *args, **kwargs):
+
+    if request.method == 'POST':
+        cart = request.session.get('cart', {})
+        form_data = {
+            'name': request.POST['name'],
+            'country': request.POST['country'],
+            'city': request.POST['city'],
+            'address': request.POST['address'],
+            'total': request.POST['total']
+        }
+
+        order_form = orderForm(form_data)
+        order_form.save()
+
+    return render(request, 'order/order_confirmation.html')

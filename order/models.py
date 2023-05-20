@@ -1,5 +1,6 @@
 from django.db import models
 from django_countries.fields import CountryField
+import uuid
 
 from profiles.models import Profile
 
@@ -23,7 +24,7 @@ class Product(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders')
     name = models.CharField(max_length=35, null=True, blank=True)
-    order_number = models.CharField(max_length=32, null=True, editable=False)
+    order_number = models.UUIDField(default=uuid.uuid4, unique=True, db_index=True, editable=False)
     address = models.CharField(max_length=100, null=True, blank=True)
     country = CountryField(blank_label='Country *', null=True, blank=True)
     city = models.CharField(max_length=40, null=True, blank=True)
