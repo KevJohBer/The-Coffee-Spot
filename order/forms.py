@@ -5,4 +5,4 @@ from django import forms
 class orderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ["name", "country", "city", "address",]
+        fields = ["name", "country", "city", "address", "total_cost"]

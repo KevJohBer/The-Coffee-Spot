@@ -87,7 +87,7 @@ def order_confirmation(request, *args, **kwargs):
             'country': request.POST['country'],
             'city': request.POST['city'],
             'address': request.POST['address'],
-            'total': request.POST['total']
+            'total_cost': request.POST.get('total')
         }
 
         order_form = orderForm(form_data)
