@@ -28,51 +28,54 @@
   </div>
 </div>
 <!-- View of cart -->
-<h1>Checkout</h1>
-<h2>items</h2>
-<div class="d-flex d-flex-row">
-  <div class="card-deck">
-    {% for item in cart_items %}
-      <div class="card">
-        <div class="card-body">
-          {{ item.product.name }}
-          <form action="{% url 'remove_from_cart' item.product.id %}" method="POST">
-            {% csrf_token %}
-            <input type="submit" class="btn btn-outline-dark rounded-0 py-3" value="x"></input>
-          </form>
-          <div class="row">
-            <form action="{% url 'adjust_cart_items' item.product.id %}" method="POST">
+{% if cart_items %}
+  <h1>Checkout</h1>
+  <h2>items</h2>
+  <div class="d-flex d-flex-row">
+    <div class="card-deck">
+      {% for item in cart_items %}
+        <div class="card">
+          <div class="card-body">
+            {{ item.product.name }}
+            <form action="{% url 'remove_from_cart' item.product.id %}" method="POST">
               {% csrf_token %}
-              <input type="submit" value="+" name="increment" class="btn btn-outline-dark rounded-0 py-3"></input>
-              {{ item.quantity }}
-              <input type="submit" value="-" name="decrement" class="btn btn-outline-dark rounded-0 py-3"></input>
+              <input type="submit" class="btn btn-outline-dark rounded-0 py-3" value="x"></input>
             </form>
+            <div class="row">
+              <form action="{% url 'adjust_cart_items' item.product.id %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="+" name="increment" class="btn btn-outline-dark rounded-0 py-3"></input>
+                {{ item.quantity }}
+                <input type="submit" value="-" name="decrement" class="btn btn-outline-dark rounded-0 py-3"></input>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
   </div>
-</div>
-<h4>total = {{ total }}$</h4>
-<form method="POST" action="{% url 'order_confirmation' %}">
-  {% csrf_token %}
-  <div class="form-group">
-    {{ order_form.name }}
-  </div>
-  <div class="form-group">
-    {{ order_form.country }}
-  </div>
-  <div class="form-group">
-    {{ order_form.city }}
-  </div>
-  <div class="form-group">
-    {{ order_form.address }}
-  </div>
-  <div class="col text-right" id="card-element">
-  </div>
-  <input type="hidden" name="total" value="{{ total }}">
-  <input type="submit" value="create order" class="text-right btn btn-outline-dark rounded-0 py-3">
-</form>
+  <h4>total = {{ total }}$</h4>
+  <form method="POST" action="{% url 'order_confirmation' %}" id="payment-form">
+    {% csrf_token %}
+    <div class="form-group">
+      {{ order_form.name }}
+    </div>
+    <div class="form-group">
+      {{ order_form.country }}
+    </div>
+    <div class="form-group">
+      {{ order_form.city }}
+    </div>
+    <div class="form-group">
+      {{ order_form.address }}
+    </div>
+    <div class="form-group">
+      <div class="col text-right" id="card-element"></div>
+    </div>
+    <input type="hidden" name="total" value="{{ total }}">
+    <input type="submit" value="create order" class="text-right btn btn-outline-dark rounded-0 py-3">
+  </form>
+{% endif %}
 {% endblock %}
 
 {% block postloadjs %}

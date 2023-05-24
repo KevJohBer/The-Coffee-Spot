@@ -3,6 +3,8 @@ from django.views import generic, View
 from .models import Product, Order
 from .forms import orderForm
 from django.http import HttpResponseRedirect
+from django.conf import settings
+import stripe
 
 # Create your views here.
 
@@ -16,6 +18,11 @@ class order(View):
         total = 0
         product_count = 0
         cart = request.session.get('cart', {})
+        stripe_public_key = settings.STRIPE_PUBLIC_KEY
+        stripe_secret_key = settings.STRIPE_SECRET_KEY
+
+        if not stripe_public_key:
+            messages.warning(request, 'No public key bud')
 
         for item_id, quantity in cart.items():
             product = get_object_or_404(Product, pk=item_id)
@@ -30,13 +37,20 @@ class order(View):
 
         order_form = orderForm()
 
+        stripe_total = round(total * 100)
+        stripe.api_key = stripe_secret_key
+        intent = stripe.PaymentIntent.create(
+            amount=stripe_total,
+            currency=settings.STRIPE_CURRENCY,
+        )
+
         context = {
             'product_list': product_list,
             'cart_items': cart_items,
             'total': total,
             'order_form': order_form,
-            'stripe_public_key': 'pk_test_51N9XBbIZJRxOs6OtBIBxlkOD4M2kfn3AZX1saZJeHFiAOUqkzMFvczSgg1QrwNc5NFYfU6YC9mrVJreHKDtupFwK0091VBBvxE',
-            'client_secret': 'test client secret',
+            'stripe_public_key': stripe_public_key,
+            'client_secret': intent.client_secret,
         }
 
         return render(request, 'order/order.html', context)
@@ -80,14 +94,20 @@ def remove_from_cart(request, item_id):
 
 def order_confirmation(request, *args, **kwargs):
 
+    stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    stripe_secret_key = settings.STRIPE_SECRET_KEY
+
     if request.method == 'POST':
         cart = request.session.get('cart', {})
+        current_cart = request.POST.get('cart_items')
+        total = float(request.POST.get('total'))
+
         form_data = {
             'name': request.POST['name'],
             'country': request.POST['country'],
             'city': request.POST['city'],
             'address': request.POST['address'],
-            'total_cost': request.POST.get('total')
+            'total_cost': total,
         }
 
         order_form = orderForm(form_data)
