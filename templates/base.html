@@ -55,7 +55,7 @@
           </li>
           {% if user.is_authenticated %}
             <li class="nav-item active">
-              <a href="#" class="nav-link">
+              <a href="{% url 'profile_page' %}" class="nav-link">
                 Profile
               </a>
             </li>
