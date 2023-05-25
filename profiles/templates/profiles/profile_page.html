@@ -2,6 +2,36 @@
 
 {% block content %}
 
-<h1>this is the profile page</h1>
+<h1>Profile page</h1>
+<div class="row">
+    <div class="col">
+        <div class="d-flex">
+            <a href="#">
+            <img src="" alt="" width="300px" height="300px">
+            </a>
+            <div class="d-flex flex-column">
+                <h2>{{ user.username }}</h2>
+                <h3>Full name</h3>
+                <p>Description</p>
+            </div>
+        </div>
+        <div class="d-flex flex-column">
+            <a href="#">Order History</a>
+            <a href="#">Settings</a>
+            <a href="#">My Subscriptions</a>
+            <a href="#">Invoices</a>
+        </div>
+    </div> 
+</div>
+<div class="row">
+    <div class="col">
+        <div class="d-flex flex-column">
+            {% for order in orders %}
+                {{ order }}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}

@@ -20,6 +20,7 @@ class order(View):
         cart = request.session.get('cart', {})
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         stripe_secret_key = settings.STRIPE_SECRET_KEY
+        client_secret = 0
 
         if not stripe_public_key:
             messages.warning(request, 'No public key bud')
@@ -37,12 +38,14 @@ class order(View):
 
         order_form = orderForm()
 
-        stripe_total = round(total * 100)
-        stripe.api_key = stripe_secret_key
-        intent = stripe.PaymentIntent.create(
-            amount=stripe_total,
-            currency=settings.STRIPE_CURRENCY,
-        )
+        if cart_items:
+            stripe_total = round(total * 100)
+            stripe.api_key = stripe_secret_key
+            intent = stripe.PaymentIntent.create(
+                amount=stripe_total,
+                currency=settings.STRIPE_CURRENCY,
+            )
+            client_secret = intent.client_secret
 
         context = {
             'product_list': product_list,
@@ -50,7 +53,7 @@ class order(View):
             'total': total,
             'order_form': order_form,
             'stripe_public_key': stripe_public_key,
-            'client_secret': intent.client_secret,
+            'client_secret': client_secret,
         }
 
         return render(request, 'order/order.html', context)
@@ -103,6 +106,7 @@ def order_confirmation(request, *args, **kwargs):
         total = float(request.POST.get('total'))
 
         form_data = {
+            'customer': request.user.profile,
             'name': request.POST['name'],
             'country': request.POST['country'],
             'city': request.POST['city'],
