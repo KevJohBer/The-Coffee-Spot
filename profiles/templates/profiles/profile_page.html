@@ -23,12 +23,25 @@
         </div>
     </div> 
 </div>
-<div class="row">
-    <div class="col">
-        <div class="d-flex flex-column">
-            {% for order in orders %}
-                {{ order }}
-            {% endfor %}
+<div class="container">
+    <h2>Orders</h2>
+    <div class="row">
+        <div class="col">
+            <div class="d-flex flex-column">
+                {% for order in orders %}
+                    <div class="d-flex flex-inline">
+                        <img src="" alt="" width="300px" height="300px">
+                        <div class="d-flex flex-column">
+                            <p>Items: {% for item in order.product.all %}{{ item.name }} x{{ forloop.counter }} {% endfor %}</p>
+                            <p>Total: {{ order.total_cost }}$</p>
+                            <p>Order Number: {{ order.order_number }}</p>
+                            <p>Date: {{ order.date|date:"Y-m-d" }}</p>
+                            <p>Pickup at: {{ order.address }}</p>
+                            <p>Ready at: {{ new_time|time:"H:i" }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>

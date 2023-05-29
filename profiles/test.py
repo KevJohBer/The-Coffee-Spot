@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from django.test import TestCase
 from . import views
+from order.models import Order
 
 
 class TestProfile(TestCase):

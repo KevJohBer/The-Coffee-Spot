@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
+from datetime import timedelta
 from django.views import generic, View
 from .models import Product, Order
 from .forms import orderForm
+from profiles.models import Profile
 from django.http import HttpResponseRedirect
 from django.conf import settings
 import stripe
@@ -102,11 +104,10 @@ def order_confirmation(request, *args, **kwargs):
 
     if request.method == 'POST':
         cart = request.session.get('cart', {})
-        current_cart = request.POST.get('cart_items')
         total = float(request.POST.get('total'))
 
         form_data = {
-            'customer': request.user.profile,
+            'customer': request.user,
             'name': request.POST['name'],
             'country': request.POST['country'],
             'city': request.POST['city'],
@@ -115,6 +116,19 @@ def order_confirmation(request, *args, **kwargs):
         }
 
         order_form = orderForm(form_data)
-        order_form.save()
+        order = order_form.save()
+        for key, value in cart.items():
+            item = Product.objects.get(id=key)
+            item.quantity = int(value)
+            order.product.add(item)
 
-    return render(request, 'order/order_confirmation.html')
+        order.save()
+
+        new_time = order.date + timedelta(minutes=15)
+
+        context = {
+            'order': order,
+            'new_time': new_time,
+            }
+
+    return render(request, 'order/order_confirmation.html', context)
