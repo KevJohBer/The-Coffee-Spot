@@ -14,7 +14,7 @@
   </div>
   <div class="col-7 col-md-6 my-auto">
     <div class="my-5 text-right">
-      <a href="{% url 'subscription' %}" class="btn btn-outline-dark rounded-0 py-3">Go To Offer</a>
+      <a href="{% url 'subscription' 2 %}" class="btn btn-outline-dark rounded-0 py-3">Go To Offer</a>
     </div>
   </div>
 </div>
@@ -36,7 +36,7 @@
               if you just want regular black coffee with or without milk and no 
               other fancy additions then this is the subscription for you
             </p>
-            <a href="{% url 'subscription' %}" class="btn btn-outline-dark rounded-0 py-3">See More</a>
+            <a href="{% url 'subscription' 1 %}" class="btn btn-outline-dark rounded-0 py-3">See More</a>
           </div>
         </div>
         <div class="card">
@@ -46,7 +46,7 @@
               If you want more options to you coffee, this subscriptions offers 
               special warm drinks like caffe latte, cappucino or Americano
             </p>
-            <a href="{% url 'subscription' %}" class="btn btn-outline-dark rounded-0 py-3">See More</a>
+            <a href="{% url 'subscription' 2 %}" class="btn btn-outline-dark rounded-0 py-3">See More</a>
           </div>
         </div>
         <div class="card">
@@ -56,7 +56,7 @@
               If you don’t like limitations, then premium is the subscription for you. 
               Enjoy any drink warm or cold from our menu
             </p>
-            <a href="{% url 'subscription' %}" class="btn btn-outline-dark rounded-0 py-3">See More</a>
+            <a href="{% url 'subscription' 3 %}" class="btn btn-outline-dark rounded-0 py-3">See More</a>
           </div>
         </div>
       </div>
@@ -67,6 +67,19 @@
 <div class="row h-100">
   <div class="col-7 col-md-6 my-auto">
     <h2 class="display-4 logo-font text-black">Menu</h2>
+    <div class="container">
+      <div class="border border-dark">
+        <div class="row">
+          <div class="col-md-6">
+            <ul>
+              {% for item in menu %}
+                <li>{{ item.name }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <!-- About -->

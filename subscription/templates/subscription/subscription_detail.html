@@ -2,4 +2,26 @@
 
 {% block content %}
   <h1>This is the subscription details page</h1>
+  <h2>Subscription name</h2>
+  <p>{{ about }}</p>
+  <h2>included drinks</h2>
+  <ul>
+    {% for drink in included_drinks %}
+      <li>{{ drink }}</li>
+    {% endfor %}
+  </ul>
+  <h2>sign up now!</h2>
+  <div class="row">
+    <div class="col-md-2">
+      <form action="" class="d-flex flex-column">
+        <input type="text" placeholder="Name">
+        <input type="text" placeholder="Last Name">
+        <input type="text" placeholder="Username">
+        <input type="text" placeholder="Email">
+        <input type="text" placeholder="Country">
+        <input type="text" placeholder="City">
+        <input type="text" placeholder="credit card information">
+      </form>
+    </div>
+  </div>
 {% endblock %}

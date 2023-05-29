@@ -1,8 +1,12 @@
 from django.shortcuts import render
+from order.models import Product
 
 # Create your views here.
 
 
 def home_page(request):
     """ Displays the home page """
-    return render(request, 'home/index.html')
+
+    menu = Product.objects.all()
+
+    return render(request, 'home/index.html', {'menu': menu})
