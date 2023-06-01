@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -158,3 +161,8 @@ CSRF_TRUSTED_ORIGINS = ['https://8000-kevjohber-thecoffeespot-oggaxra3acm.ws-eu9
 STRIPE_CURRENCY = 'usd'
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
+STRIPE_PLAN_REGULAR = os.getenv('STRIPE_PLAN_REGULAR', '')
+STRIPE_PLAN_SPECIAL = os.getenv('STRIPE_PLAN_SPECIAL', '')
+STRIPE_PLAN_PREMIUM = os.getenv('STRIPE_PLAN_PREMIUM', '')
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

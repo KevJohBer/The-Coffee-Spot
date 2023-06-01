@@ -5,4 +5,7 @@ from .models import Profile
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_dispay = ('user', 'subscription')
+    list_display = ('user', 'subscription')
+
+
+admin.site.register(Profile, ProfileAdmin)

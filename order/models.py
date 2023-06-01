@@ -15,6 +15,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=3, decimal_places=2)
     image = models.ImageField(null=True, blank=True)
     category = models.CharField(max_length=30, null=True, blank=True)
+    category_id = models.IntegerField(default=0)
     rating = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
     def __str_(self):
