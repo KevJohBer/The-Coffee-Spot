@@ -77,6 +77,11 @@
               </a>
             </li>
           {% endif %} 
+          {% if user.is_superuser %}
+            <li class="nav-item active">
+              <a href="{% url 'create_product' %}" class="nav-link text-white">Create Product</a>
+            </li>
+          {% endif %}
         </ul>
       </div>
     </nav>

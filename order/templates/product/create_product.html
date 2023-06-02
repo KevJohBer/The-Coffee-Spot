@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <div class="row" style="background-color: #703600">
+        <div class="container" style="padding: 10% 10%;">
+            <h1 class="display-4 logo-font text-white">Create A Product</h1>
+            {% if errormsg %}
+                <p class="text-white">{{ errormsg }}</p>
+            {% endif %}
+            <form action="{% url 'create_product' %}" method="POST" class="d-flex flex-column">
+                {% csrf_token %}
+                {{ form.name }}
+                {{ form.price }}
+                {{ form.category_id }}
+                {{ form.image }}
+                <input type="submit" class="text-right btn btn-outline-light rounded-0 py-3">
+            </form>
+        </div>
+    </div>
+{% endblock %}

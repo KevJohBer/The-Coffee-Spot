@@ -16,7 +16,7 @@
       </div>
       <div class="col-7 col-md-6 my-auto">
         <div class="my-5 text-right">
-          <a href="{% url 'subscription' 2 %}" class="btn btn-outline-light rounded-0 py-3">Go To Offer</a>
+          <a href="{% if user.is_authenticated %}{% url 'subscription' 2 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">Go To Offer</a>
         </div>
       </div>
     </div>
@@ -41,7 +41,7 @@
                 if you just want regular black coffee with or without milk and no 
                 other fancy additions then this is the subscription for you
               </p>
-              <a href="{% url 'subscription' 1 %}" class="btn btn-outline-light rounded-0 py-3">See More</a>
+              <a href="{% if user.is_authenticated %}{% url 'subscription' 1 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">See More</a>
             </div>
           </div>
           <div class="card rounded-0 border-light" style="background-color: #1E0E00;">
@@ -51,7 +51,7 @@
                 If you want more options to you coffee, this subscriptions offers 
                 special warm drinks like caffe latte, cappucino or Americano
               </p>
-              <a href="{% url 'subscription' 2 %}" class="btn btn-outline-light rounded-0 py-3">See More</a>
+              <a href="{% if user.is_authenticated %}{% url 'subscription' 2 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">See More</a>
             </div>
           </div>
           <div class="card rounded-0 border-light" style="background-color: #1E0E00;">
@@ -61,7 +61,7 @@
                 If you don’t like limitations, then premium is the subscription for you. 
                 Enjoy any drink warm or cold from our menu
               </p>
-              <a href="{% url 'subscription' 3 %}" class="btn btn-outline-light rounded-0 py-3">See More</a>
+              <a href="{% if user.is_authenticated %}{% url 'subscription' 3 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">See More</a>
             </div>
           </div>
         </div>

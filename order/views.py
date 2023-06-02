@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from datetime import timedelta
 from django.views import generic, View
 from .models import Product, Order
-from .forms import orderForm
+from .forms import orderForm, productForm
 from profiles.models import Profile
 from django.http import HttpResponseRedirect
 from django.conf import settings
@@ -132,3 +132,39 @@ def order_confirmation(request, *args, **kwargs):
             }
 
     return render(request, 'order/order_confirmation.html', context)
+
+
+def create_product(request):
+    """ A view for admin to create products """
+
+    if request.method == 'POST':
+        category_id = int(request.POST.get('category_id'))
+        form = productForm(data=request.POST)
+        if category_id == 1:
+            form.category = 'Regular'
+        elif category_id == 2:
+            form.category = 'Special'
+        elif category_id == 3:
+            form.category = 'Premium'
+        else:
+            print('man there is no category id :o')
+
+        if form.is_valid():
+            form.save()
+            return redirect('home_page')
+        else:
+            context = {}
+            form = productForm
+            errormsg = 'data did not validate'
+            context['form'] = form
+            context['errormsg'] = errormsg
+            return render(request, 'product/create_product.html', context)
+
+    else:
+        form = productForm()
+
+        context = {
+            'form': form
+            }
+
+        return render(request, 'product/create_product.html', context)
