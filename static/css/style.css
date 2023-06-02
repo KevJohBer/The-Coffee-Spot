@@ -1,0 +1,25 @@
+.container {
+    padding: 5% 5%;
+    max-width: 100%;
+}
+
+#search-bar {
+    width: 100%;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid white;
+}
+
+#search-bar::placeholder {
+    color: white;
+}
+
+#search-bar:focus {
+    width: 100%;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid white;
+    outline: none;
+}

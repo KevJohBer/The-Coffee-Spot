@@ -5,18 +5,18 @@
 {% block content %}
 
 <div class="row" style="background-color: #703600">
-  <div class="container">
+  <div class="container-fluid">
     <!-- list of products -->
     <h2 class="display-4 logo-font text-white">Coffee Selection</h2>
-    <textarea class="text-white border-light" cols="100" rows="1" placeholder="This will become a search field later :)" style="background-color: #703600"></textarea>
+    <textarea id="search-bar" class="text-white border-light" cols="50" rows="1" placeholder="Search" style="background-color: #703600"></textarea>
     <div class="d-flex d-flex-row">
-      <div class="card-deck">
+      <div class="card-deck flex-nowrap" style="overflow-x: scroll;">
         {% for product in product_list %}
-          <div class="card rounded-0 border-light" style="background-color: #703600">
+          <div class="card rounded-0 border-light" style="background-color: #703600; min-width: 300px;">
             <div class="card-body text-white">
                 <form action="{% url 'add_to_cart' product.id %}" method="POST">
                   {% csrf_token %}
-                  <h4>{{ product.name }}</h4>
+                  <h4 class="card-title">{{ product.name }}</h4>
                   <p>{{ product.price }}$</p>
                   <p>{{ product.category }}</p>
                   <p>{{ product.rating }}</p>
@@ -32,62 +32,62 @@
   </div>
 </div>
 <!-- View of cart -->
+<div class="row" style="background-color: #1E0E00; height: 500px;">
 {% if cart_items %}
-  <div class="row" style="background-color: #1E0E00;">
-    <div class="container">
-      <h1 class="display-4 logo-font text-white">Checkout</h1>
-      <h2 class="text-white">items</h2>
-      <div class="d-flex d-flex-row">
-        <div class="card-deck">
-          {% for item in cart_items %}
-            <div class="card rounded-0 border-light" style="background-color: #1E0E00;">
-              <div class="card-body text-white">
-                {{ item.product.name }}
-                <form action="{% url 'remove_from_cart' item.product.id %}" method="POST">
+  <div class="container">
+    <h1 class="display-4 logo-font text-white">Checkout</h1>
+    <h2 class="text-white">items</h2>
+    <div class="d-flex d-flex-row">
+      <div class="card-deck">
+        {% for item in cart_items %}
+          <div class="card rounded-0 border-light" style="background-color: #1E0E00;">
+            <div class="card-body text-white">
+              {{ item.product.name }}
+              <form action="{% url 'remove_from_cart' item.product.id %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-outline-light rounded-0 py-3" value="x"></input>
+              </form>
+              <div class="row">
+                <form action="{% url 'adjust_cart_items' item.product.id %}" method="POST">
                   {% csrf_token %}
-                  <input type="submit" class="btn btn-outline-light rounded-0 py-3" value="x"></input>
+                  <input type="submit" value="+" name="increment" class="btn btn-outline-light rounded-0 py-3"></input>
+                  {{ item.quantity }}
+                  <input type="submit" value="-" name="decrement" class="btn btn-outline-light rounded-0 py-3"></input>
                 </form>
-                <div class="row">
-                  <form action="{% url 'adjust_cart_items' item.product.id %}" method="POST">
-                    {% csrf_token %}
-                    <input type="submit" value="+" name="increment" class="btn btn-outline-light rounded-0 py-3"></input>
-                    {{ item.quantity }}
-                    <input type="submit" value="-" name="decrement" class="btn btn-outline-light rounded-0 py-3"></input>
-                  </form>
-                </div>
               </div>
             </div>
-          {% endfor %}
-        </div>
+          </div>
+        {% endfor %}
       </div>
     </div>
   </div>
-  <div class="row" style="background-color: #1E0E00;">
-    <div class="container">
-      <h4 class="text-white">Total = {{ total }}$</h4>
-      <form method="POST" action="{% url 'order_confirmation' %}" id="payment-form">
-        {% csrf_token %}
-        <div class="form-group">
-          {{ order_form.name }}
-        </div>
-        <div class="form-group">
-          {{ order_form.country }}
-        </div>
-        <div class="form-group">
-          {{ order_form.city }}
-        </div>
-        <div class="form-group">
-          {{ order_form.address }}
-        </div>
-        <div class="form-group">
-          <div class="col text-right" id="card-element"></div>
-        </div>
-        <input type="hidden" name="total" value="{{ total }}">
-        <input type="submit" value="create order" class="text-right btn btn-outline-light rounded-0 py-3">
-      </form>
-    </div>
+</div>
+<div class="row" style="background-color: #1E0E00;">
+  <div class="container">
+    <h4 class="text-white">Total = {{ total }}$</h4>
+    <form method="POST" action="{% url 'order_confirmation' %}" id="payment-form">
+      {% csrf_token %}
+      <div class="form-group">
+        {{ order_form.name }}
+      </div>
+      <div class="form-group">
+        {{ order_form.country }}
+      </div>
+      <div class="form-group">
+        {{ order_form.city }}
+      </div>
+      <div class="form-group">
+        {{ order_form.address }}
+      </div>
+      <div class="form-group">
+        <div class="col text-right" id="card-element"></div>
+      </div>
+      <input type="hidden" name="total" value="{{ total }}">
+      <input type="submit" value="create order" class="text-right btn btn-outline-light rounded-0 py-3">
+    </form>
   </div>
 {% endif %}
+</div>
 {% endblock %}
 
 {% block postloadjs %}

@@ -146,8 +146,6 @@ def create_product(request):
             form.category = 'Special'
         elif category_id == 3:
             form.category = 'Premium'
-        else:
-            print('man there is no category id :o')
 
         if form.is_valid():
             form.save()
