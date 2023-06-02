@@ -15,20 +15,24 @@ def subscription_detail(request, subscription_id):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
     stripe.api_key = settings.STRIPE_SECRET_KEY
+    customer_email = request.user.email
     sub_id = int(subscription_id)
     if sub_id == 1:
         price = 20
-        stripe_plan_id = settings.STRIPE_PLAN_REGULAR
+        sub_name = 'Regular'
+        stripe_price_id = settings.STRIPE_PLAN_REGULAR
         included_drinks = Product.objects.filter(category_id=sub_id)
         about = "if you just want regular black coffee with or without milk and no other fancy additions then this is the subscription for you"
     elif sub_id == 2:
         price = 40
-        stripe_plan_id = settings.STRIPE_PLAN_SPECIAL
+        sub_name = 'Special'
+        stripe_price_id = settings.STRIPE_PLAN_SPECIAL
         included_drinks = Product.objects.filter(Q(category_id=1) | Q(category_id=2))
         about = "If you want more options to you coffee, this subscriptions offers special warm drinks like caffe latte, cappucino or Americano"
     elif sub_id == 3:
         price = 70
-        stripe_plan_id = settings.STRIPE_PLAN_PREMIUM
+        sub_name = 'Premium'
+        stripe_price_id = settings.STRIPE_PLAN_PREMIUM
         included_drinks = Product.objects.all
         about = "If you don’t like limitations, then premium is the subscription for you. Enjoy any drink warm or cold from our menu"
 
@@ -50,8 +54,11 @@ def subscription_detail(request, subscription_id):
         'sub_id': sub_id,
         'stripe_public_key': stripe_public_key,
         'client_secret': client_secret,
-        'stripe_plan_id': stripe_plan_id,
+        'stripe_price_id': stripe_price_id,
         'included_drinks': included_drinks,
+        'customer_email': customer_email,
+        'intent_id': intent.id,
+        'sub_name': sub_name,
         }
 
     return render(request, 'subscription/subscription_detail.html', context)
@@ -61,20 +68,27 @@ def confirm_subscription(request):
     """ Handles subscription creation """
 
     if request.method == 'POST':
-        stripe_plan_id = request.POST.get('stripe_plan_id')
+        stripe_price_id = request.POST.get('stripe_price_id')
         stripe.api_key = settings.STRIPE_SECRET_KEY
         payment_method_id = request.POST.get('payment_method_id')
-        print(f'{payment_method_id} over here!')
+        intent_id = request.POST['intent_id']
+
+        stripe.PaymentIntent.modify(
+            intent_id,
+            payment_method=payment_method_id
+        )
+        stripe.PaymentIntent.confirm(
+            intent_id
+        )
         customer = stripe.Customer.create(
             email=request.user.email,
             payment_method=payment_method_id
         )
-        customer.payment_method = request.POST.get('payment_method', 'card')
         stripe.Subscription.create(
             customer=customer.id,
             items=[
                 {
-                    'plan': stripe_plan_id,
+                    'price': stripe_price_id,
                 }
             ],
         )
@@ -97,7 +111,7 @@ def confirm_subscription(request):
                 'stripe_subscription': stripe_subscription,
                 'product': product,
             }
-     
+
             render(request, 'subscription/subscription_detail.html', context)
         else:
             print(form.errors)

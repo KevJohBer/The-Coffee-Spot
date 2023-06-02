@@ -24,43 +24,45 @@
 </div>
 <!-- Subscriptions -->
 <div class="row h-100" style="background-color: #1E0E00;">
-  <div class="col my-auto">
-    <h2 class="display-4 logo-font text-white" id="subscriptions">Subscriptions</h2>
-    <p class="text-white">Do you go out for coffee often? Why not subscribe to our coffee services?
-      Whenever you want a cup of coffee, just order or come down to one of our stores
-      and get as much as you want for a montly cost. Choose a subscription that best
-      suits you and start enjoying coffee knowing that the expenses are already set.
-    </p>
-    <div class="d-flex d-flex-row">
-      <div class="card-deck">
-        <div class="card">
-          <div class="card-body">
-            <h3>Regular</h3>
-            <p>
-              if you just want regular black coffee with or without milk and no 
-              other fancy additions then this is the subscription for you
-            </p>
-            <a href="{% url 'subscription' 1 %}" class="btn btn-outline-dark rounded-0 py-3">See More</a>
+  <div class="container">
+    <div class="col my-auto">
+      <h2 class="display-4 logo-font text-white" id="subscriptions">Subscriptions</h2>
+      <p class="text-white">Do you go out for coffee often? Why not subscribe to our coffee services?
+        Whenever you want a cup of coffee, just order or come down to one of our stores
+        and get as much as you want for a montly cost. Choose a subscription that best
+        suits you and start enjoying coffee knowing that the expenses are already set.
+      </p>
+      <div class="d-flex d-flex-row">
+        <div class="card-deck">
+          <div class="card rounded-0 border-light" style="background-color: #1E0E00;">
+            <div class="card-body text-white">
+              <h3>Regular</h3>
+              <p>
+                if you just want regular black coffee with or without milk and no 
+                other fancy additions then this is the subscription for you
+              </p>
+              <a href="{% url 'subscription' 1 %}" class="btn btn-outline-light rounded-0 py-3">See More</a>
+            </div>
           </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <h3>Special</h3>
-            <p>
-              If you want more options to you coffee, this subscriptions offers 
-              special warm drinks like caffe latte, cappucino or Americano
-            </p>
-            <a href="{% url 'subscription' 2 %}" class="btn btn-outline-dark rounded-0 py-3">See More</a>
+          <div class="card rounded-0 border-light" style="background-color: #1E0E00;">
+            <div class="card-body text-white">
+              <h3>Special</h3>
+              <p>
+                If you want more options to you coffee, this subscriptions offers 
+                special warm drinks like caffe latte, cappucino or Americano
+              </p>
+              <a href="{% url 'subscription' 2 %}" class="btn btn-outline-light rounded-0 py-3">See More</a>
+            </div>
           </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <h3>Premium</h3>
-            <p>
-              If you don’t like limitations, then premium is the subscription for you. 
-              Enjoy any drink warm or cold from our menu
-            </p>
-            <a href="{% url 'subscription' 3 %}" class="btn btn-outline-dark rounded-0 py-3">See More</a>
+          <div class="card rounded-0 border-light" style="background-color: #1E0E00;">
+            <div class="card-body text-white">
+              <h3>Premium</h3>
+              <p>
+                If you don’t like limitations, then premium is the subscription for you. 
+                Enjoy any drink warm or cold from our menu
+              </p>
+              <a href="{% url 'subscription' 3 %}" class="btn btn-outline-light rounded-0 py-3">See More</a>
+            </div>
           </div>
         </div>
       </div>
@@ -69,17 +71,19 @@
 </div>
 <!-- Menu -->
 <div class="row h-100" style="background-color: #401F00;">
-  <div class="col my-auto">
-    <h2 class="display-4 logo-font text-white" id="menu">Menu</h2>
-    <div class="container">
-      <div class="border border-light">
-        <div class="row">
-          <div class="col-md-6">
-            <ul class="text-white">
-              {% for item in menu %}
-                <li>{{ item.name }}</li>
-              {% endfor %}
-            </ul>
+  <div class="container">
+    <div class="col my-auto">
+      <h2 class="display-4 logo-font text-white" id="menu">Menu</h2>
+      <div class="container">
+        <div class="border border-light">
+          <div class="row">
+            <div class="col-md-6">
+              <ul class="text-white">
+                {% for item in menu %}
+                  <li>{{ item.name }}</li>
+                {% endfor %}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -88,13 +92,15 @@
 </div>
 <!-- About -->
 <div class="row h-100" style="background-color: #703600;" id="about">
-  <div class="col-7 col-md-6 my-auto">
-    <h2 class="display-4 logo-font text-white">About</h2>
-    <p class="text-white">The Coffee Spot is a coffee shop based in Sweden. The company started out in 1996 in Stockholm Sweden. 
-      The original coffee shop was focused on creating a cozy environment where you can enjoy a quality cup 
-      of coffee. Since then the company has grown a substantial amount and is now among the most popular 
-      coffee shops in Sweden. 
-    </p>
+  <div class="container">
+    <div class="col-7 col-md-6 my-auto">
+      <h2 class="display-4 logo-font text-white">About</h2>
+      <p class="text-white">The Coffee Spot is a coffee shop based in Sweden. The company started out in 1996 in Stockholm Sweden. 
+        The original coffee shop was focused on creating a cozy environment where you can enjoy a quality cup 
+        of coffee. Since then the company has grown a substantial amount and is now among the most popular 
+        coffee shops in Sweden. 
+      </p>
+    </div>
   </div>
 </div>
 {% endblock %}

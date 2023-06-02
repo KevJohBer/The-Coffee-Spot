@@ -3,38 +3,38 @@
 {% load static %}
 
 {% block content %}
-  <h1>This is the subscription details page</h1>
-  <h2>Subscription name</h2>
-  <p>{{ about }}</p>
-  <h2>included drinks</h2>
-  <ul>
-    {% for drink in included_drinks %}
-      <li>{{ drink.name }}</li>
-    {% endfor %}
-  </ul>
-  <h2>sign up now!</h2>
-  <form method="POST" action="{% url 'confirm_subscription' %}" id="payment-form">
-    {% csrf_token %}
-    <p>monthly cost: {{ price }}$/month</p>
-    <input type="hidden" name="sub_id" value="{{ sub_id }}">
-    <input type="hidden" name="stripe_plan_id" value="{{ stripe_plan_id }}">
-    <input type="hidden" name="price" value="{{ price }}">
-    {{ form.billing_address }}
-    <div class="form-group">
-      <div class="col text-right" id="card-element"></div>
+  <div class="row" style="background-color: #703600">
+    <div class="container">
+      <h1 class="display-4 logo-font text-white">{{ sub_name }}</h1>
+      <p class="text-white">{{ about }}</p>
+      <h2 class="display-4 logo-font text-white">included drinks</h2>
+      <ul class="text-white">
+        {% for drink in included_drinks %}
+          <li>{{ drink.name }}</li>
+        {% endfor %}
+      </ul>
+      <h2 class="display-4 logo-font text-white">sign up now!</h2>
+      <form class="text-white" method="POST" action="{% url 'confirm_subscription' %}" id="payment-form">
+        {% csrf_token %}
+        <p>monthly cost: {{ price }}$/month</p>
+        <input type="hidden" name="sub_id" value="{{ sub_id }}">
+        <input type="hidden" name="stripe_price_id" value="{{ stripe_price_id }}">
+        <input type="hidden" name="price" value="{{ price }}">
+        <input type="hidden" id="email" value="{{ user.email }}">
+        <input type="hidden" name="intent_id" value="{{ intent_id }}">
+        {{ form.billing_address }}
+        <div class="form-group">
+          <div class="col text-right" id="card-element"></div>
+        </div>
+        <input type="submit" class="text-right btn btn-outline-light rounded-0 py-3" value="sign up!">
+      </form>
     </div>
-    <input type="submit" class="text-right btn btn-outline-dark rounded-0 py-3" value="sign up!">
-  </form>
-
+  </div>
 {% endblock %}
 
 {% block postloadjs %}
     {{ block.super }}
     {{ stripe_public_key|json_script:"id_stripe_public_key" }}
     {{ client_secret|json_script:"id_client_secret" }}
-    <script src="{% static 'js/stripe_elements.js' %}"></script>
-    <script src="https://js.stripe.com/v3/"></script>
-    <script>
-      card('{{ STRIPE_PUBLISHABLE_KEY }}','{{ customer_email }}')
-    </script>
+    <script src="{% static 'js/stripe_elements2.js' %}"></script>
 {% endblock %}
