@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="row" style="background-color: #703600">
-  <div class="container-fluid">
+  <div class="container">
     <!-- list of products -->
     <h2 class="display-4 logo-font text-white">Coffee Selection</h2>
     <textarea id="search-bar" class="text-white border-light" cols="50" rows="1" placeholder="Search" style="background-color: #703600"></textarea>
@@ -17,13 +17,25 @@
                 <form action="{% url 'add_to_cart' product.id %}" method="POST">
                   {% csrf_token %}
                   <h4 class="card-title">{{ product.name }}</h4>
-                  <p>{{ product.price }}$</p>
-                  <p>{{ product.category }}</p>
-                  <p>{{ product.rating }}</p>
-                <input type="submit" class="btn btn-outline-light rounded-0 py-3" value="+">
+                  <p>cost: {{ product.price }}$</p>
+                  <p>category: {{ product.category }}</p>
+                  <p>rating: {{ product.rating }}</p>
+                <input type="submit" class="btn btn-outline-light rounded-0" value="+">
                 <input type="hidden" name="quantity" value="1">
                 <input type="hidden" name="redirect_url" value="{{ request.path }}">
               </form>
+              {% if user.is_superuser %}
+                <div class="d-flex justify-content-end">
+                  <form method="POST" action="{% url 'delete_product' product.id %}">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-outline-light rounded-0" value="Delete">
+                  </form>
+                  <form method="POST" action="{% url 'edit_product' product.id %}">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-outline-light rounded-0" value="Edit">
+                  </form>
+                </div>
+              {% endif %}
             </div>
           </div>
         {% endfor %}
@@ -32,27 +44,26 @@
   </div>
 </div>
 <!-- View of cart -->
-<div class="row" style="background-color: #1E0E00; height: 500px;">
 {% if cart_items %}
+<div class="row" style="background-color: #1E0E00;">
   <div class="container">
-    <h1 class="display-4 logo-font text-white">Checkout</h1>
     <h2 class="text-white">items</h2>
     <div class="d-flex d-flex-row">
       <div class="card-deck">
         {% for item in cart_items %}
           <div class="card rounded-0 border-light" style="background-color: #1E0E00;">
             <div class="card-body text-white">
-              {{ item.product.name }}
-              <form action="{% url 'remove_from_cart' item.product.id %}" method="POST">
+              <form class="d-flex justify-content-end" action="{% url 'remove_from_cart' item.product.id %}" method="POST">
                 {% csrf_token %}
-                <input type="submit" class="btn btn-outline-light rounded-0 py-3" value="x"></input>
+                <input type="submit" class="btn btn-outline-light rounded-0" value="x"></input>
               </form>
-              <div class="row">
+              <p class="py-3">{{ item.product.name }}</p>
+              <div class="row d-flex justify-content-center">
                 <form action="{% url 'adjust_cart_items' item.product.id %}" method="POST">
                   {% csrf_token %}
-                  <input type="submit" value="+" name="increment" class="btn btn-outline-light rounded-0 py-3"></input>
+                  <input type="submit" value="+" name="increment" class="btn btn-outline-light rounded-0"></input>
                   {{ item.quantity }}
-                  <input type="submit" value="-" name="decrement" class="btn btn-outline-light rounded-0 py-3"></input>
+                  <input type="submit" value="-" name="decrement" class="btn btn-outline-light rounded-0"></input>
                 </form>
               </div>
             </div>
@@ -61,20 +72,13 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row" style="background-color: #1E0E00;">
   <div class="container">
+    <h1 class="display-4 logo-font text-white">Checkout</h1>
     <h4 class="text-white">Total = {{ total }}$</h4>
     <form method="POST" action="{% url 'order_confirmation' %}" id="payment-form">
       {% csrf_token %}
       <div class="form-group">
         {{ order_form.name }}
-      </div>
-      <div class="form-group">
-        {{ order_form.country }}
-      </div>
-      <div class="form-group">
-        {{ order_form.city }}
       </div>
       <div class="form-group">
         {{ order_form.address }}

@@ -1,21 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Your order is being taken care of</h1>
-    <div class="d-flex flex-inline">
-        <img src="" alt="" width="300px" height="300px">
-        <div class="d-flex flex-column">
-            <p>Items: {% for item in order.product.all %}{{ item.name }} x{{ forloop.counter }} {% endfor %}</p>
-            <p>Total: {{ order.total_cost }}$</p>
-            <p>Order Number: {{ order.order_number }}</p>
-            <p>Date: {{ order.date|date:"Y-m-d" }}</p>
-            <p>Pickup at: {{ order.address }}</p>
-            <p>Ready at: {{ new_time|time:"H:i" }}</p>
+<div class="row" style="background-color: #703600">
+    <div class="container">
+        <h1 class="display-4 logo-font text-white">Your order is being taken care of</h1>
+        <div class="d-flex flex-inline">
+            <img src="" alt="" width="300px" height="300px">
+            <div class="d-flex flex-column text-white" style="padding-left: 30px;">
+                <p>Items: {% for item in order.product.all %}{{ item.name }} x{{ forloop.counter }} {% endfor %}</p>
+                <p>Total: {{ order.total_cost }}$</p>
+                <p>Order Number: {{ order.order_number }}</p>
+                <p>Date: {{ order.date|date:"Y-m-d" }}</p>
+                <p>Pickup at: {{ order.address }}</p>
+                <p>Ready at: {{ new_time|time:"H:i" }}</p>
+            </div>
         </div>
+        <form action="#">
+        {% csrf_token %}
+        {{ form }}
+        </form>
+        <a href="{% url 'home_page' %}" class="btn btn-outline-light rounded-0 mt-4">Head back home</a>
     </div>
-    <form action="#">
-    {% csrf_token %}
-    {{ form }}
-    </form>
-    <a href="{% url 'home_page' %}" class="btn btn-outline-dark rounded-0 py-3">Head back home</a>
+</div>
 {% endblock %}

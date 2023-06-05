@@ -4,25 +4,25 @@ from django import forms
 
 
 class orderForm(forms.ModelForm):
+    CHOICES = (
+        ('1', 'Drottninggatan 19'),
+        ('1', 'Hamngatan 14'),
+        ('1', 'Klarabergsgatan 50'),
+    )
+    address = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={
+        'class': "form-control rounded-0 border-light text-white",
+        'style': 'background-color:  #703600',
+        })
+    )
+
     class Meta:
         model = Order
-        fields = ["customer", "name", "country", "city",
-                  "address", "total_cost",]
+        fields = ["customer", "name", "address", "total_cost",]
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': "form-control rounded-0 border-light text-white",
                 'style': 'background-color: #1E0E00',
                 'placeholder': 'Name',
-            }),
-            'country': forms.Select(attrs={
-                'class': "form-control rounded-0 border-light text-white",
-                'style': 'background-color: #1E0E00',
-                'placeholder': 'Name',
-            }),
-            'city': forms.TextInput(attrs={
-                'class': "form-control rounded-0 border-light text-white",
-                'style': 'background-color: #1E0E00',
-                'placeholder': 'City',
             }),
             'address': forms.TextInput(attrs={
                 'class': "form-control rounded-0 border-light text-white",

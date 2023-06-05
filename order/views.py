@@ -109,8 +109,6 @@ def order_confirmation(request, *args, **kwargs):
         form_data = {
             'customer': request.user,
             'name': request.POST['name'],
-            'country': request.POST['country'],
-            'city': request.POST['city'],
             'address': request.POST['address'],
             'total_cost': total,
         }
@@ -138,14 +136,8 @@ def create_product(request):
     """ A view for admin to create products """
 
     if request.method == 'POST':
-        category_id = int(request.POST.get('category_id'))
+        category_id = request.POST.get('category_id')
         form = productForm(data=request.POST)
-        if category_id == 1:
-            form.category = 'Regular'
-        elif category_id == 2:
-            form.category = 'Special'
-        elif category_id == 3:
-            form.category = 'Premium'
 
         if form.is_valid():
             form.save()
@@ -166,3 +158,23 @@ def create_product(request):
             }
 
         return render(request, 'product/create_product.html', context)
+
+
+def delete_product(request, item_id):
+    product = get_object_or_404(Product, id=item_id)
+    product.delete()
+    return redirect('order')
+
+
+def edit_product(request, item_id=None):
+    product = get_object_or_404(Product, id=item_id)
+
+    if request.method == 'POST':
+        form = productForm(data=request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('order')
+
+    form = productForm(instance=product)
+    context = {'form': form}
+    return render(request, 'product/edit_product.html', context)
