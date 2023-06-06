@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from order.models import Order
+from subscription.models import Subscription
 from datetime import timedelta
 
 # Create your views here.
@@ -7,12 +8,23 @@ from datetime import timedelta
 
 def profile_page(request):
     """ A view to display user profile """
-    orders = Order.objects.filter(customer=request.user)
-    for order in orders:
-        new_time = order.date + timedelta(minutes=15)
+    return render(request, 'profiles/profile_page.html')
 
-    context = {
-        'orders': orders,
-        'new_time': new_time,
-        }
+
+def order_history(request):
+    orders = Order.objects.filter(customer=request.user)
+    context = {}
+    if orders:
+        for order in orders:
+            new_time = order.date + timedelta(minutes=15)
+            context['new_time'] = new_time
+
+    context['orders'] = orders
+
     return render(request, 'profiles/profile_page.html', context)
+
+
+def view_subscriptions(request):
+    subscriptions = Subscription.objects.filter(subscriber=request.user)
+    context = {'subscriptions': subscriptions, 'request': request}
+    return render(request, 'profiles/profile_page.html', context,)

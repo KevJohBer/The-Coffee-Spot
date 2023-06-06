@@ -2,7 +2,22 @@ var stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
 var clientSecret = $('#id_client_secret').text().slice(1, -1);
 var stripe = Stripe(stripePublicKey);
 var elements = stripe.elements();
-var card = elements.create('card');
+var style = {
+    base: {
+        color: '#000',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+            color: '#aab7c4'
+        }
+    },
+    invalid: {
+        color: '#dc3545',
+        iconColor: '#dc3545'
+    }
+};
+var card = elements.create('card', {'style': style});
 card.mount('#card-element');
 
 
@@ -16,6 +31,11 @@ form.addEventListener('submit', function(ev) {
     customer_email = document.getElementById('email').value
 
     stripe.createToken(card).then(function(result) {
+        var token = result.token.id
+        var hiddenInputTwo = document.createElement('input');
+            hiddenInputTwo.setAttribute('type', 'hidden');
+            hiddenInputTwo.setAttribute('name', 'token');
+            hiddenInputTwo.setAttribute('value', token);
         stripe.createPaymentMethod({
             type: 'card',
             card: card,
@@ -27,32 +47,9 @@ form.addEventListener('submit', function(ev) {
             hiddenInput.setAttribute('type', 'hidden')
             hiddenInput.setAttribute('name', 'payment_method_id')
             hiddenInput.setAttribute('value', payment_method_result.paymentMethod.id)
+
             form.appendChild(hiddenInput)
+            form.appendChild(hiddenInputTwo)
             form.submit()
         })
     })
-    
-
-    // card.update({'disabled': true});
-    // $('#submit-button').attr('disabled', true)
-    // stripe.confirmCardPayment(clientSecret, {
-    //     payment_method: {
-    //         card: card,
-    //     }
-    // }).then(function(result) {
-    //     if (result.error) {
-    //         var errorDiv = document.getElementById('card-errors');
-    //         var html = `
-    //             <span class="icon" role="alert">
-    //                 <i class="fas fa-times"></i>
-    //             </span>
-    //             <span>${result.error.message}</span>`;
-    //         $(errorDiv).html(html);
-    //         card.update({'disabled': false});
-    //     } else {
-    //         if (result.paymentIntent.status === 'succeeded') {
-    //             form.submit()
-    //         }
-    //     }
-    // });
-});

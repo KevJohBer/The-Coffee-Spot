@@ -14,24 +14,23 @@ def subscription_detail(request, subscription_id):
 
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
-    stripe.api_key = settings.STRIPE_SECRET_KEY
     customer_email = request.user.email
-    sub_id = int(subscription_id)
-    if sub_id == 1:
+    subscription_id = int(subscription_id)
+    if subscription_id == 1:
         price = 20
-        sub_name = 'Regular'
+        subscription_name = 'Regular'
         stripe_price_id = settings.STRIPE_PLAN_REGULAR
-        included_drinks = Product.objects.filter(category_id=sub_id)
+        included_drinks = Product.objects.filter(category_id=subscription_id)
         about = "if you just want regular black coffee with or without milk and no other fancy additions then this is the subscription for you"
-    elif sub_id == 2:
+    elif subscription_id == 2:
         price = 40
-        sub_name = 'Special'
+        subscription_name = 'Special'
         stripe_price_id = settings.STRIPE_PLAN_SPECIAL
         included_drinks = Product.objects.filter(Q(category_id=1) | Q(category_id=2))
         about = "If you want more options to you coffee, this subscriptions offers special warm drinks like caffe latte, cappucino or Americano"
-    elif sub_id == 3:
+    elif subscription_id == 3:
         price = 70
-        sub_name = 'Premium'
+        subscription_name = 'Premium'
         stripe_price_id = settings.STRIPE_PLAN_PREMIUM
         included_drinks = Product.objects.all
         about = "If you don’t like limitations, then premium is the subscription for you. Enjoy any drink warm or cold from our menu"
@@ -44,6 +43,7 @@ def subscription_detail(request, subscription_id):
         amount=stripe_total,
         currency=settings.STRIPE_CURRENCY,
         payment_method_types=['card'],
+        setup_future_usage='off_session',
     )
     client_secret = intent.client_secret
 
@@ -51,14 +51,14 @@ def subscription_detail(request, subscription_id):
         'price': price,
         'about': about,
         'form': form,
-        'sub_id': sub_id,
+        'subscription_id': subscription_id,
         'stripe_public_key': stripe_public_key,
         'client_secret': client_secret,
         'stripe_price_id': stripe_price_id,
         'included_drinks': included_drinks,
         'customer_email': customer_email,
         'intent_id': intent.id,
-        'sub_name': sub_name,
+        'subscription_name': subscription_name,
         }
 
     return render(request, 'subscription/subscription_detail.html', context)
@@ -69,6 +69,8 @@ def confirm_subscription(request):
 
     if request.method == 'POST':
         stripe_price_id = request.POST.get('stripe_price_id')
+        token = request.POST.get('token')
+        print(f'the token id is: {token}!')
         stripe.api_key = settings.STRIPE_SECRET_KEY
         payment_method_id = request.POST.get('payment_method_id')
         intent_id = request.POST['intent_id']
@@ -82,18 +84,14 @@ def confirm_subscription(request):
         )
         customer = stripe.Customer.create(
             email=request.user.email,
-            payment_method=payment_method_id
+            source=token,
         )
         stripe.Subscription.create(
             customer=customer.id,
-            items=[
-                {
-                    'price': stripe_price_id,
-                }
-            ],
+            items=[{'price': stripe_price_id}],
         )
 
-        name = int(request.POST.get('sub_id'))
+        name = int(request.POST.get('subscription_id'))
         price = float(request.POST.get('price'))
 
         form_data = {
@@ -108,7 +106,7 @@ def confirm_subscription(request):
             subscription = form.save()
             subscription.save()
             context = {
-                'stripe_subscription': stripe_subscription,
+                'subscription': subscription,
                 'product': product,
             }
 

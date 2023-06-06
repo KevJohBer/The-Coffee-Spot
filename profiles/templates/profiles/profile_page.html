@@ -10,44 +10,76 @@
             <a href="#">
             <img src="" alt="" width="300px" height="300px">
             </a>
-            <div class="d-flex flex-column">
+            <div    class="d-flex flex-column">
                 <h2 class="text-white">{{ user.username }}</h2>
                 <h3 class="text-white">Full name</h3>
                 <p class="text-white">Description</p>
             </div>
         </div>
         <div class="d-flex flex-column">
-            <a href="#" class="text-white">Order History</a>
+            <a href="{% url 'order_history' %}" class="text-white">Order History</a>
             <a href="#" class="text-white">Settings</a>
-            <a href="#" class="text-white">My Subscriptions</a>
+            <a href="{% url 'view_subscriptions' %}" class="text-white">My Subscriptions</a>
             <a href="#" class="text-white">Invoices</a>
         </div>
     </div> 
 </div>
-<div class="row w-100" style="background-color:  #1E0E00;">
-    <div class="container">
-        <h2 class="display-4 logo-font text-white">Orders</h2>
-        <div class="row">
-            <div class="col">
-                <div class="d-flex flex-column">
-                    {% for order in orders %}
-                        <div class="d-flex flex-inline">
-                            <img src="" alt="" width="300px" height="300px">
-                            <div class="d-flex flex-column text-white">
-                                <p>Items: {% for item in order.product.all %}{{ item.name }} x{{ forloop.counter }} {% endfor %}</p>
-                                <p>Total: {{ order.total_cost }}$</p>
-                                <p>Order Number: {{ order.order_number }}</p>
-                                <p>Date: {{ order.date|date:"Y-m-d" }}</p>
-                                <p>Pickup at: {{ order.address }}</p>
-                                <p>Ready at: {{ new_time|time:"H:i" }}</p>
+{% if request.resolver_match.view_name == "order_history" %}
+    <div class="row w-100" style="background-color:  #1E0E00;">
+        <div class="container">
+            <h2 class="display-4 logo-font text-white">Orders</h2>
+            {% if not orders %}
+                <h3 class="text-white">You currently don't have any orders</h3>
+            {% endif %}
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex flex-column">
+                        {% for order in orders %}
+                            <div class="d-flex flex-inline">
+                                <img src="" alt="" width="300px" height="300px">
+                                <div class="d-flex flex-column text-white">
+                                    <p>Items: {% for item in order.product.all %}{{ item.name }} x{{ forloop.counter }} {% endfor %}</p>
+                                    <p>Total: {{ order.total_cost }}$</p>
+                                    <p>Order Number: {{ order.order_number }}</p>
+                                    <p>Date: {{ order.date|date:"Y-m-d" }}</p>
+                                    <p>Pickup at: {{ order.address }}</p>
+                                    <p>Ready at: {{ new_time|time:"H:i" }}</p>
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+{% endif %}
+{% if request.resolver_match.view_name == "view_subscriptions" %}
+    <div class="row w-100" style="background-color:  #1E0E00;">
+        <div class="container">
+            <h2 class="display-4 logo-font text-white">Subscriptions</h2>
+            {% if not subscriptions %}
+                <h3 class="text-white">You currently don't have any subscriptions</h3>
+            {% endif %}
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex flex-column">
+                        {% for subscription in subscriptions %}
+                        <div class="d-flex flex-inline">
+                            <img src="" alt="" width="300px" height="300px">
+                            <div class="d-flex flex-column text-white">
+                                <p>Subscription: {{ subscription.name }}</p>
+                                <p>Name: {{ subscription.subscriber }}</p>
+                                <p>Price: {{ subscription.price}}$</p>
+                                <p>Billing Address: {{ subscription.billing_address }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
 
 
 {% endblock %}
