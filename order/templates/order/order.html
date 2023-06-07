@@ -8,7 +8,11 @@
   <div class="container">
     <!-- list of products -->
     <h2 class="display-4 logo-font text-white">Coffee Selection</h2>
-    <textarea id="search-bar" class="text-white border-light" cols="50" rows="1" placeholder="Search" style="background-color: #703600"></textarea>
+    <form action="{% url 'order' %}" method="POST">
+      {% csrf_token %}
+      {{ search_form }}
+      <input type="submit" value="Search">
+    </form>
     <div class="d-flex d-flex-row">
       <div class="card-deck flex-nowrap" style="overflow-x: scroll;">
         {% for product in product_list %}
@@ -26,14 +30,8 @@
               </form>
               {% if user.is_superuser %}
                 <div class="d-flex justify-content-end">
-                  <form method="POST" action="{% url 'delete_product' product.id %}">
-                    {% csrf_token %}
-                    <input type="submit" class="btn btn-outline-light rounded-0" value="Delete">
-                  </form>
-                  <form method="POST" action="{% url 'edit_product' product.id %}">
-                    {% csrf_token %}
-                    <input type="submit" class="btn btn-outline-light rounded-0" value="Edit">
-                  </form>
+                  <a href="{% url 'delete_product' product.id %}" class="btn btn-outline-light rounded-0">Delete</a>
+                  <a href="{% url 'edit_product' product.id %}" class="btn btn-outline-light rounded-0">Edit</a>
                 </div>
               {% endif %}
             </div>

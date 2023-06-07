@@ -71,6 +71,7 @@
                                 <p>Name: {{ subscription.subscriber }}</p>
                                 <p>Price: {{ subscription.price}}$</p>
                                 <p>Billing Address: {{ subscription.billing_address }}</p>
+                                <a href="{% url 'cancel_subscription' subscription.stripe_subscription_id %}">Cancel Subscription</a>
                             </div>
                         </div>
                         {% endfor %}

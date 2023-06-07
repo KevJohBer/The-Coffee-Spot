@@ -27,12 +27,14 @@ class Product(models.Model):
 
 class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='orders')
-    product = models.ManyToManyField('Product')
     name = models.CharField(max_length=35, null=True, blank=True)
     order_number = models.UUIDField(default=uuid.uuid4, unique=True, db_index=True, editable=False)
     address = models.CharField(max_length=100, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     total_cost = models.DecimalField(max_digits=5, decimal_places=2, null=False, default=0)
 
-    def __str_(self):
-        return self.order_number
+    def add_to_order_list(self, products):
+        self.order_list = products
+
+    def order_items(self):
+        return self.order_list

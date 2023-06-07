@@ -5,19 +5,19 @@ from django import forms
 
 class orderForm(forms.ModelForm):
     CHOICES = (
-        ('1', 'Drottninggatan 19'),
-        ('1', 'Hamngatan 14'),
-        ('1', 'Klarabergsgatan 50'),
+        ('Drottninggatan 19', 'Drottninggatan 19'),
+        ('Hamngatan 14', 'Hamngatan 14'),
+        ('Klarabergsgatan 50', 'Klarabergsgatan 50'),
     )
     address = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={
         'class': "form-control rounded-0 border-light text-white",
-        'style': 'background-color:  #703600',
+        'style': 'background-color:  #1E0E00',
         })
     )
 
     class Meta:
         model = Order
-        fields = ["customer", "name", "address", "total_cost",]
+        fields = ["customer", "name", "address", "total_cost"]
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': "form-control rounded-0 border-light text-white",
@@ -63,12 +63,11 @@ class productForm(forms.ModelForm):
                 'style': 'background-color:  #703600',
                 'placeholder': 'Category',
             }),
-            'category': forms.TextInput(attrs={
-                'class': "form-control rounded-0 border-light text-white",
-                'style': 'background-color:  #703600',
-                'placeholder': 'Category',
-            }),
             'image': forms.FileInput(attrs={
                 'class': 'text-right btn btn-outline-light rounded-0 py-3'
             }),
         }
+
+
+class SearchForm(forms.Form):
+    query = forms.CharField(max_length=30, required=True, label='Search')

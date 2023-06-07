@@ -4,12 +4,11 @@ var stripe = Stripe(stripePublicKey);
 var elements = stripe.elements();
 var style = {
     base: {
-        color: '#000',
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSmoothing: 'antialiased',
+        color: 'white',
         fontSize: '16px',
         '::placeholder': {
-            color: '#aab7c4'
+            color: 'white',
+            iconColor: 'white',
         }
     },
     invalid: {
@@ -51,5 +50,6 @@ form.addEventListener('submit', function(ev) {
             form.appendChild(hiddenInput)
             form.appendChild(hiddenInputTwo)
             form.submit()
-        })
+        });
     })
+})

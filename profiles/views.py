@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from order.models import Order
 from subscription.models import Subscription
 from datetime import timedelta
+from django.conf import settings
+import stripe
 
 # Create your views here.
 
@@ -28,3 +30,12 @@ def view_subscriptions(request):
     subscriptions = Subscription.objects.filter(subscriber=request.user)
     context = {'subscriptions': subscriptions, 'request': request}
     return render(request, 'profiles/profile_page.html', context,)
+
+
+def cancel_subscription(request, item_id):
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    subscription = stripe.Subscription.retrieve(item_id)
+    subscription_object = get_object_or_404(Subscription, stripe_subscription_id=item_id)
+    subscription_object.delete()
+    subscription.cancel()
+    return redirect('view_subscriptions')

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import subscriptionForm
 from django.conf import settings
 from profiles.models import Profile
@@ -37,10 +37,9 @@ def subscription_detail(request, subscription_id):
 
     form = subscriptionForm()
 
-    stripe_total = round(price * 100)
-
+    stripe.api_key = stripe_secret_key
     intent = stripe.PaymentIntent.create(
-        amount=stripe_total,
+        amount=price * 100,
         currency=settings.STRIPE_CURRENCY,
         payment_method_types=['card'],
         setup_future_usage='off_session',
@@ -70,7 +69,6 @@ def confirm_subscription(request):
     if request.method == 'POST':
         stripe_price_id = request.POST.get('stripe_price_id')
         token = request.POST.get('token')
-        print(f'the token id is: {token}!')
         stripe.api_key = settings.STRIPE_SECRET_KEY
         payment_method_id = request.POST.get('payment_method_id')
         intent_id = request.POST['intent_id']
@@ -86,16 +84,18 @@ def confirm_subscription(request):
             email=request.user.email,
             source=token,
         )
-        stripe.Subscription.create(
+        stripe_subscription = stripe.Subscription.create(
             customer=customer.id,
             items=[{'price': stripe_price_id}],
         )
-
-        name = int(request.POST.get('subscription_id'))
+        subscription_id = int(request.POST.get('subscription_id'))
+        subscription_name = request.POST.get('subscription_name')
         price = float(request.POST.get('price'))
 
         form_data = {
-            'name': name,
+            'stripe_subscription_id': stripe_subscription.id,
+            'subscription_id': subscription_id,
+            'subscription_name': subscription_name,
             'subscriber': request.user,
             'price': price,
         }
@@ -105,12 +105,7 @@ def confirm_subscription(request):
         if form.is_valid():
             subscription = form.save()
             subscription.save()
-            context = {
-                'subscription': subscription,
-                'product': product,
-            }
-
-            render(request, 'subscription/subscription_detail.html', context)
+            return redirect('view_subscriptions')
         else:
             print(form.errors)
 

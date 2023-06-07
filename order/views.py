@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from datetime import timedelta
 from django.views import generic, View
 from .models import Product, Order
-from .forms import orderForm, productForm
+from .forms import orderForm, productForm, SearchForm
 from profiles.models import Profile
 from django.http import HttpResponseRedirect
 from django.conf import settings
@@ -16,6 +16,7 @@ class order(View):
     def get(self, request):
 
         product_list = Product.objects.all()
+        search_form = SearchForm()
         cart_items = []
         total = 0
         product_count = 0
@@ -23,9 +24,6 @@ class order(View):
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         stripe_secret_key = settings.STRIPE_SECRET_KEY
         client_secret = 0
-
-        if not stripe_public_key:
-            messages.warning(request, 'No public key bud')
 
         for item_id, quantity in cart.items():
             product = get_object_or_404(Product, pk=item_id)
@@ -36,6 +34,7 @@ class order(View):
                 'quantity': quantity,
                 'product': product,
                 'total': total,
+                'product_count': product_count,
             })
 
         order_form = orderForm()
@@ -56,12 +55,14 @@ class order(View):
             'order_form': order_form,
             'stripe_public_key': stripe_public_key,
             'client_secret': client_secret,
+            'search_form': search_form,
         }
 
         return render(request, 'order/order.html', context)
 
 
 def add_to_cart(request, item_id):
+    """ allows user to add a selected item to cart """
     if request.method == 'POST':
         quantity = int(request.POST.get('quantity'))
         cart = request.session.get('cart', {})
@@ -77,6 +78,7 @@ def add_to_cart(request, item_id):
 
 
 def adjust_cart_items(request, item_id):
+    """ allows user to increase or decrease amount of selected product """
     cart = request.session.get('cart', {})
     quantity = cart.get(item_id)
 
@@ -91,6 +93,7 @@ def adjust_cart_items(request, item_id):
 
 
 def remove_from_cart(request, item_id):
+    """ removes selected item from cart """
     cart = request.session.get('cart', {})
     cart.pop(item_id)
     request.session['cart'] = cart
@@ -98,13 +101,14 @@ def remove_from_cart(request, item_id):
 
 
 def order_confirmation(request, *args, **kwargs):
-
+    """ confirms stripe payment """
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
     if request.method == 'POST':
         cart = request.session.get('cart', {})
         total = float(request.POST.get('total'))
+        
 
         form_data = {
             'customer': request.user,
@@ -113,20 +117,23 @@ def order_confirmation(request, *args, **kwargs):
             'total_cost': total,
         }
 
-        order_form = orderForm(form_data)
-        order = order_form.save()
-        for key, value in cart.items():
-            item = Product.objects.get(id=key)
-            item.quantity = int(value)
-            order.product.add(item)
-
-        order.save()
-
-        new_time = order.date + timedelta(minutes=15)
+        form = orderForm(form_data)
+        if form.is_valid:
+            order = form.save()
+            product_list = []
+            for key, value in cart.items():
+                products = {}
+                item = Product.objects.get(id=key)
+                quantity = int(value)
+                products[item] = quantity
+                product_list.append(products)
+            order.add_to_order_list(product_list)
+            order.save()
+        items = order.order_items()
 
         context = {
+            'items': items,
             'order': order,
-            'new_time': new_time,
             }
 
     return render(request, 'order/order_confirmation.html', context)
@@ -136,23 +143,24 @@ def create_product(request):
     """ A view for admin to create products """
 
     if request.method == 'POST':
-        category_id = request.POST.get('category_id')
+        category_id = int(request.POST.get('category_id'))
+        category_names = ['Regular', 'Special', 'Premium']
+        category_name = category_names[category_id - 1]
         form = productForm(data=request.POST)
 
         if form.is_valid():
-            form.save()
+            product = form.save()
+            product.category = category_name
+            product.save()
             return redirect('home_page')
         else:
-            context = {}
-            form = productForm
+            form = productForm()
             errormsg = 'data did not validate'
-            context['form'] = form
-            context['errormsg'] = errormsg
+            context = {'form': form, 'errormsg': errormsg}
             return render(request, 'product/create_product.html', context)
 
     else:
         form = productForm()
-
         context = {
             'form': form
             }
@@ -161,18 +169,25 @@ def create_product(request):
 
 
 def delete_product(request, item_id):
+    """ deletes a prduct """
     product = get_object_or_404(Product, id=item_id)
     product.delete()
     return redirect('order')
 
 
-def edit_product(request, item_id=None):
+def edit_product(request, item_id):
+    """ A view to allow superuser to edit product infomation """
     product = get_object_or_404(Product, id=item_id)
 
     if request.method == 'POST':
+        category_id = int(request.POST.get('category_id'))
+        category_names = ['Regular', 'Special', 'Premium']
+        category_name = category_names[category_id - 1]
         form = productForm(data=request.POST, instance=product)
         if form.is_valid():
-            form.save()
+            edited_product = form.save()
+            edited_product.category = category_name
+            edited_product.save()
             return redirect('order')
 
     form = productForm(instance=product)
