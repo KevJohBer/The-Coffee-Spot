@@ -8,11 +8,14 @@
   <div class="container">
     <!-- list of products -->
     <h2 class="display-4 logo-font text-white">Coffee Selection</h2>
-    <form action="{% url 'order' %}" method="POST">
+    <form action="{% url 'search_products' %}" method="POST">
       {% csrf_token %}
       {{ search_form }}
       <input type="submit" value="Search">
     </form>
+    {% if search_result %}
+      {% include "search/search_result.html" %}
+    {% endif %}
     <div class="d-flex d-flex-row">
       <div class="card-deck flex-nowrap" style="overflow-x: scroll;">
         {% for product in product_list %}

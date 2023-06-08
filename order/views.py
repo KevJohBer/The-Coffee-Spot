@@ -4,13 +4,14 @@ from django.views import generic, View
 from .models import Product, Order
 from .forms import orderForm, productForm, SearchForm
 from profiles.models import Profile
-from django.http import HttpResponseRedirect
 from django.conf import settings
+from .utils import perform_search
 import stripe
 
 # Create your views here.
 
 
+# Creating orders
 class order(View):
     """ A view for ordering coffee """
     def get(self, request):
@@ -108,8 +109,6 @@ def order_confirmation(request, *args, **kwargs):
     if request.method == 'POST':
         cart = request.session.get('cart', {})
         total = float(request.POST.get('total'))
-        
-
         form_data = {
             'customer': request.user,
             'name': request.POST['name'],
@@ -139,6 +138,7 @@ def order_confirmation(request, *args, **kwargs):
     return render(request, 'order/order_confirmation.html', context)
 
 
+# Admin product management
 def create_product(request):
     """ A view for admin to create products """
 
@@ -193,3 +193,18 @@ def edit_product(request, item_id):
     form = productForm(instance=product)
     context = {'form': form}
     return render(request, 'product/edit_product.html', context)
+
+
+# search
+def search_products(request):
+    cleaned_data = Product.objects.all()
+
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            search_result = perform_search(query)
+
+    context = {'search_result': search_result}
+
+    return render(request, 'order/order.html', context)
