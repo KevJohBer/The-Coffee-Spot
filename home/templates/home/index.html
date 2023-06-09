@@ -41,8 +41,18 @@
                 if you just want regular black coffee with or without milk and no 
                 other fancy additions then this is the subscription for you
               </p>
+            {% if user.subscriptions.exists %}
+              {% for subscription in user.subscriptions.all %}
+                {% if subscription.subscription_id == 1 %}
+                  <a href="{% if user.is_authenticated %}{% url 'subscription' 1 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">Signed</a>
+                {% else %}
+                  <a href="{% if user.is_authenticated %}{% url 'subscription' 1 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">Change Plan</a>
+                {% endif %}
+              {% endfor %}
+            {% else %}
               <a href="{% if user.is_authenticated %}{% url 'subscription' 1 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">See More</a>
-            </div>
+            {% endif %}
+          </div>
           </div>
           <div class="card rounded-0 border-light" style="background-color: #1E0E00;">
             <div class="card-body text-white">
@@ -51,8 +61,17 @@
                 If you want more options to you coffee, this subscriptions offers 
                 special warm drinks like caffe latte, cappucino or Americano
               </p>
+              {% if user.subscriptions.exists %}
+              {% for subscription in user.subscriptions.all %}
+                {% if subscription.subscription_id == 2 %}
+                  <a href="{% if user.is_authenticated %}{% url 'subscription' 2 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">Signed</a>
+                {% else %}
+                  <a href="{% if user.is_authenticated %}{% url 'subscription' 2 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">Change Plan</a>
+                {% endif %}
+              {% endfor %}
+            {% else %}
               <a href="{% if user.is_authenticated %}{% url 'subscription' 2 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">See More</a>
-            </div>
+            {% endif %}            </div>
           </div>
           <div class="card rounded-0 border-light" style="background-color: #1E0E00;">
             <div class="card-body text-white">
@@ -61,7 +80,17 @@
                 If you don’t like limitations, then premium is the subscription for you. 
                 Enjoy any drink warm or cold from our menu
               </p>
-              <a href="{% if user.is_authenticated %}{% url 'subscription' 3 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">See More</a>
+              {% if user.subscriptions.exists %}
+                {% for subscription in user.subscriptions.all %}
+                  {% if subscription.subscription_id == 3 %}
+                    <a href="{% if user.is_authenticated %}{% url 'subscription' 3 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">Signed</a>
+                  {% else %}
+                    <a href="{% if user.is_authenticated %}{% url 'subscription' 3 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">Change Plan</a>
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+                <a href="{% if user.is_authenticated %}{% url 'subscription' 3 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">See More</a>
+              {% endif %}
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from .models import Subscription
 from .forms import subscriptionForm
 from django.conf import settings
 from profiles.models import Profile
@@ -104,6 +105,11 @@ def confirm_subscription(request):
         form = subscriptionForm(form_data, request.POST)
 
         if form.is_valid():
+            if request.user.subscriptions.exists():
+                subscription_object = Subscription.objects.filter(subscriber=request.user)[0]
+                old_subscription = stripe.Subscription.retrieve(subscription_object.stripe_subscription_id)
+                subscription_object.delete()
+                old_subscription.cancel()
             subscription = form.save()
             subscription.save()
             return redirect('view_subscriptions')

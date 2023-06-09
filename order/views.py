@@ -201,18 +201,3 @@ def edit_product(request, item_id):
     form = productForm(instance=product)
     context = {'form': form}
     return render(request, 'product/edit_product.html', context)
-
-
-# search
-def search_products(request):
-    cleaned_data = Product.objects.all()
-
-    if request.method == 'POST':
-        form = SearchForm(request.POST)
-        if form.is_valid():
-            query = form.cleaned_data['query']
-            search_result = perform_search(query)
-
-    context = {'search_result': search_result}
-
-    return render(request, 'search/search_result.html', context)
