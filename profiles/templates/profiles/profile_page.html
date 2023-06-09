@@ -24,6 +24,7 @@
         </div>
     </div> 
 </div>
+<!-- view order history -->
 {% if request.resolver_match.view_name == "order_history" %}
     <div class="row w-100" style="background-color:  #1E0E00;">
         <div class="container">
@@ -53,6 +54,7 @@
         </div>
     </div>
 {% endif %}
+<!-- view subscriptions -->
 {% if request.resolver_match.view_name == "view_subscriptions" %}
     <div class="row w-100" style="background-color:  #1E0E00;">
         <div class="container">
@@ -67,10 +69,9 @@
                         <div class="d-flex flex-inline">
                             <img src="" alt="" width="300px" height="300px">
                             <div class="d-flex flex-column text-white">
-                                <p>Subscription: {{ subscription.name }}</p>
-                                <p>Name: {{ subscription.subscriber }}</p>
+                                <p>Subscription: {{ subscription.subscription_name }}</p>
                                 <p>Price: {{ subscription.price}}$</p>
-                                <p>Billing Address: {{ subscription.billing_address }}</p>
+                                <p>Billing Address: {{ subscription.address }} {{ subscription.postal_code }} {{ subscription.city }}</p>
                                 <a href="{% url 'cancel_subscription' subscription.stripe_subscription_id %}">Cancel Subscription</a>
                             </div>
                         </div>

@@ -5,7 +5,7 @@ from .models import Profile
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'subscription')
+    list_display = ('user', 'default_address', 'default_postal_code', 'default_city')
 
 
 admin.site.register(Profile, ProfileAdmin)

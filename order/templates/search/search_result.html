@@ -14,7 +14,7 @@
                 <p>rating: {{ result.rating }}</p>
               <input type="submit" class="btn btn-outline-light rounded-0" value="+">
               <input type="hidden" name="quantity" value="1">
-              <input type="hidden" name = redirect_url value="{{ request.path }}">
+              <input type="hidden" name = redirect_url value="{% url 'order' %}">
             </form>
             {% if user.is_superuser %}
               <div class="d-flex justify-content-end">

@@ -8,14 +8,15 @@
   <div class="container">
     <!-- list of products -->
     <h2 class="display-4 logo-font text-white">Coffee Selection</h2>
-    <form action="{% url 'search_products' %}" method="POST">
+    <!-- search bar -->
+    <form class="row justify-content-center" action="{% url 'order' %}" method="GET">
       {% csrf_token %}
-      {{ search_form }}
-      <input type="submit" value="Search">
+      {{ search_form.query }}
+      <button class="btn btn-outline-light rounded-0" style="height: 38px;" type="submit">Search</button>
     </form>
     {% if search_result %}
       {% include "search/search_result.html" %}
-    {% endif %}
+    {% else %}
     <div class="d-flex d-flex-row">
       <div class="card-deck flex-nowrap" style="overflow-x: scroll;">
         {% for product in product_list %}
@@ -41,6 +42,7 @@
           </div>
         {% endfor %}
       </div>
+    {% endif %}
     </div>
   </div>
 </div>
@@ -85,7 +87,7 @@
         {{ order_form.address }}
       </div>
       <div class="form-group">
-        <div class="col text-right" id="card-element"></div>
+        <div class="form-control col text-right rounded-0 border-light" id="card-element" style="background-color: #401F00;" id="card-element"></div>
       </div>
       <input type="hidden" name="total" value="{{ total }}">
       <input type="submit" value="create order" class="text-right btn btn-outline-light rounded-0 py-3">

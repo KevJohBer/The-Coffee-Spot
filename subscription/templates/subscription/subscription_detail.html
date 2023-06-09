@@ -18,11 +18,15 @@
         {% csrf_token %}
         <p>monthly cost: {{ price }}$/month</p>
         <input type="hidden" name="subscription_id" value="{{ subscription_id }}">
+        <input type="hidden" name="subscription_name" value="{{ subscription_name }}">
         <input type="hidden" name="stripe_price_id" value="{{ stripe_price_id }}">
         <input type="hidden" name="price" value="{{ price }}">
         <input type="hidden" id="email" value="{{ user.email }}">
         <input type="hidden" name="intent_id" value="{{ intent_id }}">
-        {{ form.billing_address }}
+        <h3>Billing Address</h3>
+        {{ form.address }}
+        {{ form.city }}
+        {{ form.postal_code }}
         <div class="form-group">
           <div class="form-control rounded-0 border-light" style="background-color: #703600" id="card-element"></div>
         </div>

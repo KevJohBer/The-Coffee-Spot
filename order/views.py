@@ -25,6 +25,13 @@ class order(View):
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         stripe_secret_key = settings.STRIPE_SECRET_KEY
         client_secret = 0
+        search_result = []
+
+        if 'query' in request.GET:
+            query = request.GET['query']
+            for product in product_list:
+                if query.lower() == product.name.lower():
+                    search_result.append(product)
 
         for item_id, quantity in cart.items():
             product = get_object_or_404(Product, pk=item_id)
@@ -57,6 +64,7 @@ class order(View):
             'stripe_public_key': stripe_public_key,
             'client_secret': client_secret,
             'search_form': search_form,
+            'search_result': search_result
         }
 
         return render(request, 'order/order.html', context)
@@ -207,4 +215,4 @@ def search_products(request):
 
     context = {'search_result': search_result}
 
-    return render(request, 'order/order.html', context)
+    return render(request, 'search/search_result.html', context)

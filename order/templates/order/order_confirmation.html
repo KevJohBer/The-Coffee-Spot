@@ -10,10 +10,10 @@
                 <p>Items: 
                     {% for item in items %}
                         {% for product, quantity in item.items %}
-                            {{ product.name }} x {{ quantity }} x {{ product.price }}$, 
+                            {{ product.name }} x {{ quantity }} x ${{ product.price }}, 
                         {% endfor %}
                     {% endfor %}
-                <p>Total: {{ order.total_cost }}$</p>
+                <p>Total: ${{ order.total_cost|floatformat:2 }}</p>
                 <p>Order Number: {{ order.order_number }}</p>
                 <p>Date: {{ order.date|date:"Y-m-d" }}</p>
                 <p>Selected Coffee shop: {{ order.address }}</p>

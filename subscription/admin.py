@@ -5,7 +5,7 @@ from .models import Subscription
 
 
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('subscription_id','subscription_name', 'subscriber', 'price', 'billing_address')
+    list_display = ('subscription_id','subscription_name', 'subscriber', 'price', 'address', 'city', 'postal_code', 'date')
 
 
 admin.site.register(Subscription, SubscriptionAdmin)

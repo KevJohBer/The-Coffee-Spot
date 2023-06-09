@@ -11,7 +11,6 @@ import stripe
 
 def subscription_detail(request, subscription_id):
     """ A view to display subscription details """
-
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
     customer_email = request.user.email
@@ -20,19 +19,19 @@ def subscription_detail(request, subscription_id):
         price = 20
         subscription_name = 'Regular'
         stripe_price_id = settings.STRIPE_PLAN_REGULAR
-        included_drinks = Product.objects.filter(category_id=subscription_id)
+        included_drinks = Product.objects.filter(category_id__lt=2)
         about = "if you just want regular black coffee with or without milk and no other fancy additions then this is the subscription for you"
     elif subscription_id == 2:
         price = 40
         subscription_name = 'Special'
         stripe_price_id = settings.STRIPE_PLAN_SPECIAL
-        included_drinks = Product.objects.filter(Q(category_id=1) | Q(category_id=2))
+        included_drinks = Product.objects.filter(category_id__lt=3)
         about = "If you want more options to you coffee, this subscriptions offers special warm drinks like caffe latte, cappucino or Americano"
     elif subscription_id == 3:
         price = 70
         subscription_name = 'Premium'
         stripe_price_id = settings.STRIPE_PLAN_PREMIUM
-        included_drinks = Product.objects.all
+        included_drinks = Product.objects.filter(category_id__lt=4)
         about = "If you don’t like limitations, then premium is the subscription for you. Enjoy any drink warm or cold from our menu"
 
     form = subscriptionForm()
@@ -89,18 +88,20 @@ def confirm_subscription(request):
             items=[{'price': stripe_price_id}],
         )
         subscription_id = int(request.POST.get('subscription_id'))
-        subscription_name = request.POST.get('subscription_name')
         price = float(request.POST.get('price'))
 
         form_data = {
             'stripe_subscription_id': stripe_subscription.id,
+            'subscription_name': request.POST['subscription_name'],
             'subscription_id': subscription_id,
-            'subscription_name': subscription_name,
             'subscriber': request.user,
             'price': price,
+            'address': request.POST['address'],
+            'city': request.POST['city'],
+            'postal_code': request.POST['postal_code'],
         }
 
-        form = subscriptionForm(form_data)
+        form = subscriptionForm(form_data, request.POST)
 
         if form.is_valid():
             subscription = form.save()

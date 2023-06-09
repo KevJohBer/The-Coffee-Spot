@@ -10,4 +10,7 @@ class Subscription(models.Model):
     stripe_subscription_id = models.CharField(max_length=100, blank=True, null=True)
     subscriber = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    billing_address = models.CharField(max_length=40, null=True, blank=True)
+    address = models.CharField(max_length=40, null=True, blank=True)
+    postal_code = models.IntegerField(range(10000, 99999))
+    city = models.CharField(max_length=40, null=True, blank=True)
+    date = models.DateTimeField(auto_now=True)
