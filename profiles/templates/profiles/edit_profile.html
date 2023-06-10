@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="row w-100" style="background-color: #703600;">
+    <div class="container">
+        <h1 class="display-4 logo-font text-white">Edit profile</h1>
+        <form action="{% url 'edit_profile' %}" method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit">
+        </form>
+    </div>
+</div>
+{% endblock %}

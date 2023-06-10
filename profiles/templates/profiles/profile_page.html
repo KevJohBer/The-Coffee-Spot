@@ -7,8 +7,8 @@
     <h1 class="display-4 logo-font text-white">Profile page</h1>
     <div class="col">
         <div class="d-flex">
-            <a href="#">
-            <img src="" alt="" width="300px" height="300px">
+            <a href="{% url 'edit_profile' %}">
+                <img src="" alt="" width="300px" height="300px">
             </a>
             <div    class="d-flex flex-column">
                 <h2 class="text-white">{{ user.username }}</h2>

@@ -7,4 +7,5 @@ urlpatterns = [
     path('history/', views.order_history, name='order_history'),
     path('subscriptions/', views.view_subscriptions, name='view_subscriptions'),
     path('cancel_subscription/<item_id>', views.cancel_subscription, name='cancel_subscription'),
+    path('edit/', views.edit_profile, name='edit_profile')
 ]

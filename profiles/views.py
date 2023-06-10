@@ -3,6 +3,7 @@ from order.models import Order
 from subscription.models import Subscription
 from datetime import timedelta
 from django.conf import settings
+from .forms import profileForm
 import stripe
 
 # Create your views here.
@@ -39,3 +40,16 @@ def cancel_subscription(request, item_id):
     subscription_object.delete()
     subscription.cancel()
     return redirect('view_subscriptions')
+
+
+def edit_profile(request):
+    form = profileForm()
+
+    if request.method == 'POST':
+        form = profileForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            print('uh oh something happened')
+
+    return render(request, 'profiles/edit_profile.html', {'form': form})
