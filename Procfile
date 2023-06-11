@@ -1,0 +1,1 @@
+web: gunicorn the-coffee-spot.wsgi

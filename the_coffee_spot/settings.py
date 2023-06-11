@@ -152,7 +152,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static')),
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-kevjohber-thecoffeespot-oggaxra3acm.ws-eu97.gitpod.io']
+CSRF_TRUSTED_ORIGINS = ['https://8000-kevjohber-thecoffeespot-oggaxra3acm.ws-eu97.gitpod.io', 'the-coffee-spot.herokuapp.com', 'localhost']
 
 STRIPE_CURRENCY = 'usd'
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
