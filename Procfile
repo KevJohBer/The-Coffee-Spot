@@ -1,1 +1,1 @@
-web: gunicorn the-coffee-spot.wsgi
+web: gunicorn the-coffee-spot.wsgi:application
