@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-37&cqhb)vbw&*11*q_m(p+#4#^)2o!ghi=7_q!$dg*f2rsa)la
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['8000-kevjohber-thecoffeespot-3a91v72f5hl.ws-eu99.gitpod.io', 'the-coffee-spot.herokuapp.com/']
+ALLOWED_HOSTS = ['8000-kevjohber-thecoffeespot-3a91v72f5hl.ws-eu99.gitpod.io', 'https://the-coffee-spot.herokuapp.com']
 
 
 # Application definition
@@ -152,7 +152,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static')),
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-kevjohber-thecoffeespot-oggaxra3acm.ws-eu97.gitpod.io', 'the-coffee-spot.herokuapp.com/']
+CSRF_TRUSTED_ORIGINS = ['https://8000-kevjohber-thecoffeespot-oggaxra3acm.ws-eu97.gitpod.io', 'https://the-coffee-spot.herokuapp.com']
 
 STRIPE_CURRENCY = 'usd'
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
