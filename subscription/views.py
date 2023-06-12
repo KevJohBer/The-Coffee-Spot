@@ -114,6 +114,8 @@ def confirm_subscription(request):
             subscription.save()
             return redirect('view_subscriptions')
         else:
-            print(form.errors)
+            errormsg = 'uh oh, something went wrong'
+            form = subscriptionFrom()
+            return redirect('subscription_detail')
 
     return render(request, 'subscription/subscription_detail.html')
