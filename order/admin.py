@@ -9,7 +9,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('customer', 'name', 'order_number', 'address', 'date', 'total_cost')
+    list_display = ('customer', 'name', 'order_number', 'address', 'date', 'total_cost',)
 
 
 admin.site.register(Product, ProductAdmin)

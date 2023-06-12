@@ -19,8 +19,8 @@ def order_history(request):
     context = {}
     if orders:
         for order in orders:
-            new_time = order.date + timedelta(minutes=15)
-            context['new_time'] = new_time
+            items = order.order_items()
+            context['items'] = items
 
     context['orders'] = orders
 

@@ -39,12 +39,16 @@
                             <div class="d-flex flex-inline">
                                 <img src="" alt="" width="300px" height="300px">
                                 <div class="d-flex flex-column text-white">
-                                    <p>Items: {% for item in order.product.all %}{{ item.name }} x{{ forloop.counter }} {% endfor %}</p>
+                                    <p>Items: {% for item in items %}
+                                        {% for product, quantity in item.items %}
+                                            {{ product.name }} x {{ quantity }} x ${{ product.price }}, 
+                                        {% endfor %}
+                                    {% endfor %}</p>
                                     <p>Total: {{ order.total_cost }}$</p>
                                     <p>Order Number: {{ order.order_number }}</p>
                                     <p>Date: {{ order.date|date:"Y-m-d" }}</p>
                                     <p>Pickup at: {{ order.address }}</p>
-                                    <p>Ready at: {{ new_time|time:"H:i" }}</p>
+                                    <p>Ready at: {{ order.date|time:"H:i" }}</p>
                                 </div>
                             </div>
                         {% endfor %}
