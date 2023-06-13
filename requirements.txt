@@ -1,12 +1,9 @@
 asgiref==3.7.2
-backports.zoneinfo==0.2.1
+backports.zoneinfo==0.2.1;python_version<"3.9"
 boto3==1.26.152
 botocore==1.29.152
-cloudinary==1.33.0
-dj3-cloudinary-storage==0.0.6
 Django==4.2.1
 django-allauth==0.54.0
-django-cloudinary-storage==0.3.0
 django-countries==7.5.1
 django-crispy-forms==2.0
 django-storages==1.13.2
