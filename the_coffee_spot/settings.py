@@ -153,7 +153,7 @@ MEDIA_URL = '/media/'
 
 if 'USE_AWS' in os.environ:
     # Bucket Config
-    AWS_STORAGE_BUCKET_NAME = 'the-coffee-spot'
+    AWS_STORAGE_BUCKET_NAME = 'the-coffee-spot-kev'
     AWS_S3_REGION_NAME = 'us-east-1'
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
