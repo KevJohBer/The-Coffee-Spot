@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from datetime import timedelta
 from django.views import generic, View
-from .models import Product, Order
+from .models import Product, Order, OrderLineItem
 from .forms import orderForm, productForm, SearchForm
 from profiles.models import Profile
 from django.conf import settings
@@ -116,30 +116,28 @@ def order_confirmation(request, *args, **kwargs):
 
     if request.method == 'POST':
         cart = request.session.get('cart', {})
-        total = float(request.POST.get('total'))
+
         form_data = {
             'customer': request.user,
             'name': request.POST['name'],
             'address': request.POST['address'],
-            'total_cost': total,
+            'total_cost': request.POST['total'],
         }
 
         form = orderForm(form_data)
         if form.is_valid:
             order = form.save()
-            product_list = []
-            for key, value in cart.items():
-                products = {}
-                item = Product.objects.get(id=key)
-                quantity = int(value)
-                products[item] = quantity
-                product_list.append(products)
-            order.add_to_order_list(product_list)
+            for item_id, quantity in cart.items():
+                item = Product.objects.get(id=item_id)
+                order_line_item = OrderLineItem(
+                    order=order,
+                    product=item,
+                    quantity=quantity,
+                )
+            order_line_item.save()
             order.save()
-        items = order.order_items()
 
         context = {
-            'items': items,
             'order': order,
             }
 

@@ -5,13 +5,11 @@
     <div class="container">
         <h1 class="display-4 logo-font text-white">Your order is being taken care of</h1>
         <div class="d-flex flex-inline">
-            <img src="" alt="" width="300px" height="300px">
+            <img src="{{ media 'coffee-cup.png' }}" alt="" width="300px" height="300px">
             <div class="d-flex flex-column text-white" style="padding-left: 30px;">
                 <p>Items: 
-                    {% for item in items %}
-                        {% for product, quantity in item.items %}
-                            {{ product.name }} x {{ quantity }} x ${{ product.price }}, 
-                        {% endfor %}
+                    {% for lineitem in order.lineitems.all %}
+                        {{ lineitem.product.name }} x {{ lineitem.quantity }} x ${{ lineitem.product.price }}
                     {% endfor %}
                 <p>Total: ${{ order.total_cost|floatformat:2 }}</p>
                 <p>Order Number: {{ order.order_number }}</p>

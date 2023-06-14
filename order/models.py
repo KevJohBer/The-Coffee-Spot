@@ -13,16 +13,13 @@ from profiles.models import Profile
 class Product(models.Model):
     name = models.CharField(max_length=100, default='Product')
     price = models.DecimalField(max_digits=3, decimal_places=2)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, upload_to='media/images/')
     category = models.CharField(max_length=30, null=True, blank=True)
     category_id = models.IntegerField(default=0)
     rating = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
     def __str_(self):
         return self.name
-
-    def serialize(self):
-        return self.__dict__
 
 
 class Order(models.Model):
@@ -33,8 +30,13 @@ class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     total_cost = models.DecimalField(max_digits=5, decimal_places=2, null=False, default=0)
 
-    def add_to_order_list(self, products):
-        self.order_list = products
 
-    def order_items(self):
-        return self.order_list
+class OrderLineItem(models.Model):
+    order = models.ForeignKey(Order, null=False, on_delete=models.CASCADE, related_name='lineitems')
+    product = models.ForeignKey(Product, null=False, blank=False, on_delete=models.CASCADE,)
+    quantity = models.IntegerField(null=False, blank=False, default=0)
+    lineitem_total = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False, editable=False)
+
+    def save(self, *args, **kwargs):
+        self.lineitem_total = self.product.price * self.quantity
+        super().save(*args, **kwargs)

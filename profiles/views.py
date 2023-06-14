@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from order.models import Order
+from order.models import Order, OrderLineItem
 from subscription.models import Subscription
 from datetime import timedelta
 from django.conf import settings
@@ -16,13 +16,8 @@ def profile_page(request):
 
 def order_history(request):
     orders = Order.objects.filter(customer=request.user)
-    context = {}
     if orders:
-        for order in orders:
-            items = order.order_items()
-            context['items'] = items
-
-    context['orders'] = orders
+        context = {'orders': orders}
 
     return render(request, 'profiles/profile_page.html', context)
 

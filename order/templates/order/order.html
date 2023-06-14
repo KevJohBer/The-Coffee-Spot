@@ -18,7 +18,7 @@
       {% include "search/search_result.html" %}
     {% else %}
     <div class="d-flex d-flex-row">
-      <div class="card-deck flex-nowrap" style="overflow-x: scroll;">
+      <div class="card-deck flex-nowrap" id="scrollbar" style="overflow-x: scroll;">
         {% for product in product_list %}
           <div class="card rounded-0 border-light" style="background-color: #703600; min-width: 300px;">
             <div class="card-body text-white">
