@@ -51,6 +51,9 @@
                                     <p>Date: {{ order.date|date:"Y-m-d" }}</p>
                                     <p>Pickup at: {{ order.address }}</p>
                                     <p>Ready at: {{ order.date|time:"H:i" }}</p>
+                                    {% if order.active %}
+                                        <a href="#">Cancel order</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         {% endfor %}

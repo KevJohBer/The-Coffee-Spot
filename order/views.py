@@ -3,9 +3,9 @@ from datetime import timedelta
 from django.views import generic, View
 from .models import Product, Order, OrderLineItem
 from .forms import orderForm, productForm, SearchForm
+from .utils import prep_time
 from profiles.models import Profile
 from django.conf import settings
-from .utils import perform_search
 import stripe
 
 # Create your views here.
@@ -141,7 +141,7 @@ def order_confirmation(request, *args, **kwargs):
                 )
             order_line_item.save()
             order.save()
-            order.preparation_time()
+            prep_time(order.id)
 
         context = {
             'order': order,

@@ -1,10 +1,14 @@
-from .models import Product
+from threading import Timer
+from .models import Order
 
 
-def perform_search(query):
-    results = []
-    items = Product.objects.all()
-    for item in items:
-        if query.lower() in item.name.lower():
-            results.append(item)
-    return results
+def prep_time(order_id):
+    """ Sets timer to when the coffee is ready """
+    order = Order.objects.get(id=order_id)
+
+    def done():
+        order.active = False
+        order.save()
+
+    timer = Timer(900, done)
+    timer.start()
