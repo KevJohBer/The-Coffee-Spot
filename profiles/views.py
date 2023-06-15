@@ -16,8 +16,9 @@ def profile_page(request):
 
 def order_history(request):
     orders = Order.objects.filter(customer=request.user)
+    context = {}
     if orders:
-        context = {'orders': orders}
+        context['orders'] = orders
 
     return render(request, 'profiles/profile_page.html', context)
 

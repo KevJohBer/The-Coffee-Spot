@@ -26,6 +26,7 @@ class order(View):
         stripe_secret_key = settings.STRIPE_SECRET_KEY
         client_secret = 0
         search_result = []
+        query = None
 
         if 'query' in request.GET:
             query = request.GET['query']
@@ -35,6 +36,9 @@ class order(View):
 
         for item_id, quantity in cart.items():
             product = get_object_or_404(Product, pk=item_id)
+            subscription = request.user.subscriptions.all()[0].subscription_id
+            if product.category_id <= subscription:
+                product.price = 0
             total += quantity * product.price
             product_count += quantity
             cart_items.append({
@@ -47,7 +51,7 @@ class order(View):
 
         order_form = orderForm()
 
-        if cart_items:
+        if cart_items and total >= 1:
             stripe_total = round(total * 100)
             stripe.api_key = stripe_secret_key
             intent = stripe.PaymentIntent.create(
@@ -64,7 +68,8 @@ class order(View):
             'stripe_public_key': stripe_public_key,
             'client_secret': client_secret,
             'search_form': search_form,
-            'search_result': search_result
+            'search_result': search_result,
+            'query': query,
         }
 
         return render(request, 'order/order.html', context)
