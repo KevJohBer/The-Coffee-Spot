@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block content %}
 <div class="row no-gutters" style="background-color: #703600">
     <div class="container">
         <h1 class="display-4 logo-font text-white">Your order is being taken care of</h1>
         <div class="d-flex flex-inline">
-            <img src="{{ media 'coffee-cup.png' }}" alt="" width="300px" height="300px">
+            <img src="{% static 'images/coffee-cup.png' %}" alt="" width="300px" height="300px">
             <div class="d-flex flex-column text-white" style="padding-left: 30px;">
                 <p>Items: 
                     {% for lineitem in order.lineitems.all %}
