@@ -4,6 +4,7 @@ from django.conf import settings
 from django_countries.fields import CountryField
 from django.contrib.auth.models import User
 import uuid
+import time
 
 from profiles.models import Profile
 
@@ -29,6 +30,13 @@ class Order(models.Model):
     address = models.CharField(max_length=100, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     total_cost = models.DecimalField(max_digits=5, decimal_places=2, null=False, default=0)
+    active = models.BooleanField(default=True)
+
+    def preparation_time(self):
+        countdown = time.sleep(3)
+        print('countdown done')
+        self.active = False
+        print(self.active)
 
 
 class OrderLineItem(models.Model):

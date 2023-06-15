@@ -141,6 +141,7 @@ def order_confirmation(request, *args, **kwargs):
                 )
             order_line_item.save()
             order.save()
+            order.preparation_time()
 
         context = {
             'order': order,

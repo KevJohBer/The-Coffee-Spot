@@ -55,6 +55,9 @@
             {% if user.is_authenticated %}
             <a href="{% url 'order' %}" class="nav-link text-white">
               Order
+              {% if user.profile.has_active_orders %}
+                {{ user.profile.has_active_orders.count }}
+              {% endif %}
             </a>
             {% else %}
             <a href="{% url 'account_login' %}" class="nav-link text-white">
