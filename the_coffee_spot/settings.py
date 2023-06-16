@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '8000-kevjohber-thecoffeespot-3a91v72f5hl.ws-eu99.gitpod.io',
+    '8000-kevjohber-thecoffeespot-3a91v72f5hl.ws-eu100.gitpod.io',
     'the-coffee-spot.herokuapp.com'
     ]
 

@@ -27,12 +27,18 @@ class order(View):
         client_secret = 0
         search_result = []
         query = None
+        errormsg = None
 
         if 'query' in request.GET:
             query = request.GET['query']
+            count = Product.objects.all().count()
             for product in product_list:
                 if query.lower() == product.name.lower():
                     search_result.append(product)
+                else:
+                    count -= 1
+                    if count == 0:
+                        errormsg = f'sorry, we could not find a result for "{query}"'
 
         for item_id, quantity in cart.items():
             product = get_object_or_404(Product, pk=item_id)
@@ -70,6 +76,7 @@ class order(View):
             'search_form': search_form,
             'search_result': search_result,
             'query': query,
+            'errormsg': errormsg,
         }
 
         return render(request, 'order/order.html', context)
@@ -142,6 +149,9 @@ def order_confirmation(request, *args, **kwargs):
             order_line_item.save()
             order.save()
             prep_time(order.id)
+        
+        if 'cart' in request.session:
+            del request.session['cart']
 
         context = {
             'order': order,

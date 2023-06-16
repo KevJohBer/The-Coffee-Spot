@@ -52,7 +52,7 @@
                                     <p>Pickup at: {{ order.address }}</p>
                                     <p>Ready at: {{ order.date|time:"H:i" }}</p>
                                     {% if order.active %}
-                                        <a href="#">Cancel order</a>
+                                        <a href="{% url 'cancel_order'  order.id %}">Cancel order</a>
                                     {% endif %}
                                 </div>
                             </div>

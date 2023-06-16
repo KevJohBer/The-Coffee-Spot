@@ -14,13 +14,12 @@
       {{ search_form.query }}
       <button class="btn btn-outline-light rounded-0" style="height: 38px;" type="submit">Search</button>
     </form>
-    {% if search_result %}
-      <div class="d-flex flex-inline border">
-        <p class="text-white">{{ query }}</p>
-        <button class="btn btn-outline-light rounded-0">X</button>
-      </div>
+    {% if errormsg %}
+      <strong class="text-white">{{ errormsg }}</strong>
     {% endif %}
     {% if search_result %}
+      <strong class="text-white">search tag</strong>
+      <a href="{% url 'order' %}" class="d-flex flex-inline btn btn-outline-light rounded-0 tag">{{ query }} X</a>
       {% include "search/search_result.html" %}
     {% else %}
     <div class="d-flex d-flex-row">
@@ -54,34 +53,38 @@
 </div>
 <!-- View of cart -->
 {% if cart_items %}
-<div class="row no-gutters" style="background-color: #1E0E00;">
-  <div class="container checkout" style="padding: 0px;">
-    <h2 class="text-white">items</h2>
-    <div class="d-flex d-flex-row">
-      <div class="card-deck">
-        {% for item in cart_items %}
-          <div class="card rounded-0 border-light" style="background-color: #1E0E00;">
-            <div class="card-body text-white">
-              <form class="d-flex justify-content-end" action="{% url 'remove_from_cart' item.product.id %}" method="POST">
-                {% csrf_token %}
-                <input type="submit" class="btn btn-outline-light rounded-0" value="x"></input>
-              </form>
-              <p class="py-3">{{ item.product.name }}</p>
-              <div class="row d-flex justify-content-center">
-                <form action="{% url 'adjust_cart_items' item.product.id %}" method="POST">
-                  {% csrf_token %}
-                  <input type="submit" value="+" name="increment" class="btn btn-outline-light rounded-0"></input>
-                  {{ item.quantity }}
-                  <input type="submit" value="-" name="decrement" class="btn btn-outline-light rounded-0"></input>
-                </form>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
   <div class="container checkout">
+    <h2 class="text-white">items</h2>
+    <div class="row no-gutters" style="background-color: #1E0E00;">
+        <div class="d-flex d-flex-row">
+          <div class="card-deck">
+            {% for item in cart_items %}
+              <div class="card rounded-0 border-light" style="background-color: #1E0E00; min-width: 300px;">
+                <div class="card-body text-white">
+                  <div class="d-flex flex-inline" style="justify-content: space-between;">
+                  <h4 class="card-title">{{ item.product.name }}</h4>
+                  <form class="text-right" action="{% url 'remove_from_cart' item.product.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-outline-light rounded-0" value="x"></input>
+                  </form>
+                  </div>
+                  <p>Cost: ${{ item.product.price }}</p>
+                  <p>Category: {{ item.product.category }}</p>
+                  <p>Rating: {{ item.product.rating }}</p>
+                  <div class="row d-flex justify-content-center" style="height: 38px;">
+                    <form class="form-inline" action="{% url 'adjust_cart_items' item.product.id %}" method="POST">
+                      {% csrf_token %}
+                      <input type="submit" value="+" name="increment" class="btn btn-outline-light rounded-0"></input>
+                      <p class="text-center" style="padding: 0 15px; margin: 0; border: 1px solid white; height: 100%;">{{ item.quantity }}</p>
+                      <input type="submit" value="-" name="decrement" class="btn btn-outline-light rounded-0"></input>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
     <h1 class="display-4 logo-font text-white">Checkout</h1>
     <h4 class="text-white">Total = {{ total }}$</h4>
     <form method="POST" action="{% url 'order_confirmation' %}" id="payment-form">
