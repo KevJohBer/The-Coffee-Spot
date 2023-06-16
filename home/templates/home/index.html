@@ -7,7 +7,7 @@
   <div class="container">
     <div class="row">
       <div class="col my-auto">
-        <h1 class="display-4 logo-font text-white">Special Offer!</h1>
+        <h2 class="display-4 logo-font text-white">Special Offer!</h2>
         <p class="text-white">
           Right now, we are offering a year long discount on our coffee
           subscription "Special". Get all of your favorite coffee whenever
@@ -103,16 +103,14 @@
   <div class="container">
     <div class="col my-auto">
       <h2 class="display-4 logo-font text-white" id="menu">Menu</h2>
-      <div class="container">
-        <div class="border border-light">
-          <div class="row">
-            <div class="col-md-6">
-              <ul class="text-white">
-                {% for item in menu %}
-                  <li>{{ item.name }}</li>
-                {% endfor %}
-              </ul>
-            </div>
+      <div class="border border-light">
+        <div class="row">
+          <div class="col-md-6">
+            <ul class="text-white">
+              {% for item in menu %}
+                <li>{{ item.name }}</li>
+              {% endfor %}
+            </ul>
           </div>
         </div>
       </div>

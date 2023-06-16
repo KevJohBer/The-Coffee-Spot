@@ -2,6 +2,18 @@ body {
     background-color: #1E0E00;
 }
 
+p {
+    font-size: 20px;
+}
+
+a {
+    font-size: 20px
+}
+
+h2 {
+    font-size: 80px;
+}
+
 .container {
     padding: 5% 5%;
     max-width: 100%;
