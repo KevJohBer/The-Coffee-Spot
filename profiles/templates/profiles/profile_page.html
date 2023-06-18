@@ -39,7 +39,7 @@
                     <div class="d-flex flex-column">
                         {% for order in orders %}
                             <div class="d-flex flex-inline border" style="margin-bottom: 20px;">
-                                <img src="{% static 'images/coffee-cup.png' %}" alt="coffee cup" width="200px" height="200px">
+                                <img src="{% static 'images/coffee-cup.png' %}" alt="coffee cup" style="width: 200px; height: 200px;">
                                 <div class="d-flex flex-column text-white">
                                     <p>Items:
                                         {% for lineitem in order.lineitems.all %}
@@ -76,7 +76,7 @@
                     <div class="d-flex flex-column">
                         {% for subscription in subscriptions %}
                         <div class="d-flex flex-inline">
-                            <img src="" alt="" width="300px" height="300px">
+                            <img src="{% static 'coffee-cup.png' %}" alt="subscription image" width="300px" height="300px">
                             <div class="d-flex flex-column text-white">
                                 <p>Subscription: {{ subscription.subscription_name }}</p>
                                 <p>Price: {{ subscription.price}}$</p>
@@ -91,6 +91,5 @@
         </div>
     </div>
 {% endif %}
-
 
 {% endblock %}

@@ -7,11 +7,26 @@ The Coffee Spot is an online web application that lets you order coffee from a T
 * [User Experience](#user-experience)
     * [User stories](#user-stories)
 * [Design](#design)
+    * [Color Scheme](#color-scheme)
+    * [typography](#typography)
+    * [imagery](#imagery)
 * [Features](#features)
+    * [Navbar](#navbar)
+    * [Home page](#home-page)
+    * [Subscription detail](#subscription-page)
+    * [Order page](#order-page)
+    * [Profile page](#profile-page)
+    * [Create Product](#create-product-page)
 * [Technologies Used](#technologies-used)
+    * [Languages](#languages-used)
+    * [Frameworks, libraies & programs used](#frameworks-libraries--programs-used)
 * [Deployment & Local Development](#deployment--local-development)
+    * [Initial Deployment](#initial-deployment)
+    * [Deployment](#deployment)
 * [Testing](#testing)
 * [Credits](#credits)
+    * [Code used](#code-used)
+    * [Media](#media)
 
 ## User Experience
 
@@ -72,20 +87,86 @@ By selecting one of the subscriptions on the home page by clicking "see more" yo
 
 ### Order page 
 
-The order page features a search bar that let's you search for specific drinks to make it easier for users to find what they are looking for. If they prefer to browse, they have the horizontal scroll bar that let's you browse through the drinks. 
+The order page features a search bar that let's you search for specific drinks to make it easier for users to find what they are looking for. If they prefer to browse, they have the horizontal scroll bar that let's you browse through the drinks. Once you add a drink to your order, a form will appear and you can enter your credit card information and finish your order. Once you have filled out the form and created your forum, you will be redirected to a confirmation page where you can view the details of your order. 
+
+For the admin, there is an edit and delete button on each product. The edit button will let you edit the information of all products. The delete button will let you delete the product from the database entirely. 
+
+### Profile page
+
+The Profile page can be viewed by clicking "profile" on the navbar. The profile page has your own profile image displayed along with your name and your own personalized description. Clicking your profile image will let you edit your profile. Here you can edit your default order information. Below your profile image, you have a set of links which can help you find various information. You have a link for order history, which displays your previous orders, aswell as your active orders. If the order is active, you can cancel the order with a press of a button. You can also view your subscriptions so that you always know what subscription you have active. You can even cancel the subscription in in the same view. You can view your subscription invoices with the invoices link. 
+
+### Create Product Page
+
+If you are logged in as an admin, you can view the create product page by clicking "Create Product" on the navbar. The create product page is just a form that lets you enter a name, price, category and image of whatever product you would like to add.
+
+
+### Future implementations
 
 ## Technologies Used
 
+### Languages Used
 
+* HTML
+* CSS
+* Python
+* Javascript
+
+### Frameworks, libraries & Programs Used
+
+* Django Web Framework
+* Bootstrap 5
+* Stripe
+*
 
 ## Deployment & Local Development
 
+### Initial Deployment
 
+Heroku was used to deploy the live website
+
+1. Login to Heroku
+2. In the dashboard click your already created application
+3. Click the deploy tab
+4. Click the github icon and select the corresponding github repository
+5. Enter your github credentials
+
+### deployment
+
+1. Scroll down to "Manual deploy
+2. Select "main" as the branch you want to deploy to
+3. click "Deploy Branch"
+
+### Environment Variables
+
+* AWS_ACCESS_KEY_ID
+    * Obtained from amazon webservice s3 bucket
+* AWS_SECRET_ACCESS_KEY
+    * Obtained from amazon webservice s3 bucket
+* EMAIL_HOST_PASS
+    * This can be obtained from your gmail account
+* EMAIL_HOST_USER
+    * This can be obtained from your gmail account
+* SECRET_KEY
+    * This secret key was obtained with this [secret key generator](https://djecrety.ir/)
+* STRIPE_PLAN_PREMIUM
+* STRIPE_PLAN_REGULAR
+* STRIPE_PLAN_SPECIAL
+* STRIPE_PUBLIC_KEY
+* STRIPE_SECRET_KEY
+    * Stripe variables can be obtained from your store on Stripe
 
 ## Testing
 
-
+All testing can be found [here](TESTING.md)
 
 ## Credits
+
+### Code Used
+
+The Product and Order models were inspired by the CI Boutique Ado tutorial
+
+### Media
+
+
 
 
