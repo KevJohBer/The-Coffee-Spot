@@ -19,7 +19,9 @@
                 </div>
             </div>
             <div class="d-flex flex-column">
-                <a href="{% url 'order_history' %}" class="text-white">Order History</a>
+                <a href="{% url 'order_history' %}" class="text-white">Order History {% if user.profile.has_active_orders %}
+                    ({{ user.profile.has_active_orders.count }})
+                  {% endif %}</a>
                 <a href="#" class="text-white">Settings</a>
                 <a href="{% url 'view_subscriptions' %}" class="text-white">My Subscriptions</a>
                 <a href="#" class="text-white">Invoices</a>

@@ -62,8 +62,7 @@ Responsiveness was tested using Chrome Lighthouse
 
 ### Bugs
 
-* If you enter invalid data on the subscription detail page the error message will remain even after exiting the website. 
-* If you add multiple items to your cart, all items do not appear in the confirmation or profile
+* If you enter invalid data on the subscription detail page the error message will remain even after exiting the website.
 * You cannot submit the edit profile Form
 * 404 handler is not working
 
@@ -72,6 +71,7 @@ Responsiveness was tested using Chrome Lighthouse
 * You cannot view settings or invoices in profile page
 * You cannot edit your profile on the profile page
 * The order details is supposed to show you when your coffee is ready but it is currently displaying the time the order was created.
+* You can't see your invoices because closely prior to the deadline the tempmail I was using for stripe was logged out and I do not remember the mail or password. The solution would be to create another account using one of my own emails and change the environment variables but I did not have time for this unfortunately.
 
 ### Testing Devices
 

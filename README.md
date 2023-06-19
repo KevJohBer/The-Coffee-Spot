@@ -120,6 +120,8 @@ If you are logged in as an admin, you can view the create product page by clicki
 * Automatically fill order fields with default information
 * More details on addresses. When you make an order you get to pick 3 addresses in stockholm but you it would be nice to have a visual that lets you know more about the address
 * Admin should be able to add addresses to the address list and there should be more addresses to choose from.
+* Users should have a takeaway button so the user can choose to sit at the coffee shop or take the coffee to go
+* Users should have the liberty of selecting a drink size
 
 ## Technologies Used
 
