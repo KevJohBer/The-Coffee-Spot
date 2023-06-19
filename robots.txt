@@ -1,0 +1,2 @@
+user-agent: *
+Sitemap: https://the-coffee-spot.herokuapp.com/sitemap.xml
