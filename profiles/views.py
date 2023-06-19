@@ -22,9 +22,11 @@ def edit_profile(request):
         form = profileForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('profile_page')
         else:
+            form = profileForm()
             print('uh oh something happened')
-
+            return render(request, 'profiles/edit_profile', {'form': form})
     return render(request, 'profiles/edit_profile.html', {'form': form})
 
 

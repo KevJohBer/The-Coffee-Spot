@@ -20,6 +20,7 @@ The Coffee Spot is an online web application that lets you order coffee from a T
 * [Technologies Used](#technologies-used)
     * [Languages](#languages-used)
     * [Frameworks, libraies & programs used](#frameworks-libraries--programs-used)
+    * [Database](#databases)
 * [Deployment & Local Development](#deployment--local-development)
     * [Initial Deployment](#initial-deployment)
     * [Deployment](#deployment)
@@ -41,6 +42,10 @@ The Coffee Spot is an online web application that lets you order coffee from a T
 * As a user I can view the current subscriptions that I have active by viewing my progile page.
 * As a user I can view my invoices to see how much I am paying.
 
+### User Experience Goals
+
+The goal is to create an environment for the user that is so easy to use that they could use it multiple times a day if the user so wishes. The users objective will most likely be to subscribe or order, therefor the functionality is based around just that. The user should not have to go between pages in order to complete that task, it should all be condensed in one place for simplicitys sake. 
+
 ## Design
 
 The Coffee spot has many features. alot of these features are located in the same place to make them easily accessible by the user. For example, alot of the information regarding special offers, subscriptions, menu items and general information about the page can be found right at the home page. This is all to avoid the hassle of having to go back and forth between pages in order for the user to complete a specific task. The site is minimal in its design so that it does not overstimulate the user with images and unecessary design features. The application is a tool that is meant to be used often or as frequently as the user will want the product.
@@ -50,6 +55,8 @@ The Coffee spot has many features. alot of these features are located in the sam
 The coffee spot favors brown color to remind users of coffee. The website does not focus a whole lot on images but uses different shades of brown to separate sections on the pages. The admin does have the ability to set images to the products on creation.
 
 ### Typography
+
+The coffee shop uses the bootstrap logo fonts, other than that it does not use any custom fonts.
 
 ### Imagery
 
@@ -90,7 +97,7 @@ By selecting one of the subscriptions on the home page by clicking "see more" yo
 
 ### Order page 
 
-The order page features a search bar that let's you search for specific drinks to make it easier for users to find what they are looking for. If they prefer to browse, they have the horizontal scroll bar that let's you browse through the drinks. Once you add a drink to your order, a form will appear and you can enter your credit card information and finish your order. Once you have filled out the form and created your forum, you will be redirected to a confirmation page where you can view the details of your order. 
+The order page features a search bar that let's you search for specific drinks to make it easier for users to find what they are looking for. If they prefer to browse, they have the horizontal scroll bar that let's you browse through the drinks. Once you add a drink to your order, a form will appear and you can enter your credit card information and finish your order. You can also choose which address you would like to pick up the finished coffee from. Although there are only three addresses currently. Once you have filled out the form and created your forum, you will be redirected to a confirmation page where you can view the details of your order. 
 
 For the admin, there is an edit and delete button on each product. The edit button will let you edit the information of all products. The delete button will let you delete the product from the database entirely. 
 
@@ -100,7 +107,7 @@ The Profile page can be viewed by clicking "profile" on the navbar. The profile 
 
 ### Create Product Page
 
-If you are logged in as an admin, you can view the create product page by clicking "Create Product" on the navbar. The create product page is just a form that lets you enter a name, price, category and image of whatever product you would like to add.
+If you are logged in as an admin, you can view the create product page by clicking "Create Product" on the navbar. The create product page is just a form that lets you enter a name, price, category and image of whatever product you would like to add. The products will automatically appear on the menu on the home page and will also appear in the coffee selection on the order page. 
 
 
 ### Future implementations
@@ -111,7 +118,8 @@ If you are logged in as an admin, you can view the create product page by clicki
 * Customized confirmation. Confirmations are the standard browser confirmations, these ruin the experience for users.
 * Customizable profiles. Users should be able to personalize their profiles
 * Automatically fill order fields with default information
-* 
+* More details on addresses. When you make an order you get to pick 3 addresses in stockholm but you it would be nice to have a visual that lets you know more about the address
+* Admin should be able to add addresses to the address list and there should be more addresses to choose from.
 
 ## Technologies Used
 
@@ -146,6 +154,9 @@ If you are logged in as an admin, you can view the create product page by clicki
 * jQuery
 
 Here is a link to [requirements](requirements.txt)
+
+### Databases
+The data base is stored using ElephantSQL instance.
 
 ## Deployment & Local Development
 
@@ -194,12 +205,12 @@ All testing can be found [here](TESTING.md)
 
 ### Code Used
 
-The Product and Order models were inspired by the CI Boutique Ado tutorial
+The Product and Order models were inspired by the CI Boutique Ado project
 
+The subscriptions were made with help of this [tutorial](https://www.youtube.com/watch?v=Bq5lR5WQNOw)
 
+Having profile models with default information was also inspired by the CI Boutique Ado project
 
 ### Media
 
-
-
-
+Coffee cup image was taken from [cityPNG](https://www.citypng.com/photo/21638/coffee-cup-tea-white-silhouette-icon-transparent-png)

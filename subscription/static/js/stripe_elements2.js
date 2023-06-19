@@ -27,10 +27,10 @@ var form = document.getElementById('payment-form');
 form.addEventListener('submit', function(ev) {
     ev.preventDefault();
 
-    customer_email = document.getElementById('email').value
+    customer_email = document.getElementById('email').value;
 
     stripe.createToken(card).then(function(result) {
-        var token = result.token.id
+        var token = result.token.id;
         var hiddenInputTwo = document.createElement('input');
             hiddenInputTwo.setAttribute('type', 'hidden');
             hiddenInputTwo.setAttribute('name', 'token');
@@ -43,13 +43,13 @@ form.addEventListener('submit', function(ev) {
             },
         }).then(function(payment_method_result){
             var hiddenInput = document.createElement('input');
-            hiddenInput.setAttribute('type', 'hidden')
-            hiddenInput.setAttribute('name', 'payment_method_id')
-            hiddenInput.setAttribute('value', payment_method_result.paymentMethod.id)
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'payment_method_id');
+            hiddenInput.setAttribute('value', payment_method_result.paymentMethod.id);
 
-            form.appendChild(hiddenInput)
-            form.appendChild(hiddenInputTwo)
-            form.submit()
+            form.appendChild(hiddenInput);
+            form.appendChild(hiddenInputTwo);
+            form.submit();
         });
-    })
-})
+    });
+});

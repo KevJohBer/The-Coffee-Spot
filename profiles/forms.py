@@ -6,13 +6,8 @@ from django import forms
 class profileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['user', 'default_address', 'default_postal_code', 'default_city']
+        fields = ['default_address', 'default_postal_code', 'default_city']
         widgets = {
-            'user': forms.TextInput(attrs={
-                'class': "form-control rounded-0 border-light text-white",
-                'style': 'background-color: #1E0E00',
-                'placeholder': 'Username',
-            }),
             'default_address': forms.TextInput(attrs={
                 'class': "form-control rounded-0 border-light text-white",
                 'style': 'background-color: #1E0E00',

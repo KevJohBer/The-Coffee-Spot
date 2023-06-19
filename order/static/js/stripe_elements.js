@@ -29,7 +29,7 @@ if (total > 0) {
     form.addEventListener('submit', function(ev) {
         ev.preventDefault();
         card.update({'disabled': true});
-        $('#submit-button').attr('disabled', true)
+        $('#submit-button').attr('disabled', true);
         stripe.confirmCardPayment(clientSecret, {
             payment_method: {
                 card: card,
@@ -46,7 +46,7 @@ if (total > 0) {
                 card.update({'disabled': false});
             } else {
                 if (result.paymentIntent.status === 'succeeded') {
-                    form.submit()
+                    form.submit();
                 }
             }
         });

@@ -20,6 +20,11 @@ CSS was validated using W3C Jigsaw
 
 ![W3C CSS validation (CSS)](static/testing/css-check.png)
 
+Javascript was tested using jshint
+![jshint validation (Order)](static/testing/order-js-check.png)
+
+![jshint validation (Subscription)](static/testing/subscription-js-check.png)
+
 Responsiveness was tested using Chrome Lighthouse
 
 ![Responsiveness testing](static/testing/responsive-test.png)
@@ -54,12 +59,32 @@ Responsiveness was tested using Chrome Lighthouse
 | Admins should be able to create new products | This is acheived by clicking "create product" on the navbar | yes |
 | Admins should be able to edit products | This is acheived by clicking "edit" on any product on the order page | yes |
 | Admins should be able to delete proudcts | This is acheived by clicking "delete" on any product on the order page | yes |
-|  |  |  |
-|  |  |  |
-|  |  |  |
 
-
-Bugs
+### Bugs
 
 * If you enter invalid data on the subscription detail page the error message will remain even after exiting the website. 
-* 
+* If you add multiple items to your cart, all items do not appear in the confirmation or profile
+* You cannot submit the edit profile Form
+* 404 handler is not working
+
+### Unfinished Features
+
+* You cannot view settings or invoices in profile page
+* You cannot edit your profile on the profile page
+* The order details is supposed to show you when your coffee is ready but it is currently displaying the time the order was created.
+
+### Testing Devices
+
+Testing was performed with the following devices:
+
+* Personal Computer
+    * Acer Predator PO3-620
+    * MacBook Pro 2020
+* Mobile device
+    * Iphone SE (2022)
+
+Tests were done using the following browsers:
+
+* Microsoft Edge
+* Google Chrome
+* Safari
