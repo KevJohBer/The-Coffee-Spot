@@ -53,6 +53,8 @@ The coffee spot favors brown color to remind users of coffee. The website does n
 
 ### Imagery
 
+The coffee spot does not use a lot of images, it uses a a image of a coffee cup image on order items and subscriptions to further push the coffee narative. 
+
 ### Order page
 
 Order page has a unique design choice inspired by streaming websites (oddly enough) that allows users to scroll horizontally to view products. They also have the option to search. The idea is to not display the checkout part of the page until the user has chosen their products. It is supposed to function as an all in one solution so that you don't have your store and cart separate. 
@@ -113,6 +115,12 @@ If you are logged in as an admin, you can view the create product page by clicki
 
 ## Technologies Used
 
+### Development
+
+* Gitpod, VScode and CodeAnywhere was used to write and test the code.
+* The website was debugged using chrome devtools
+* Source code is in a Github repository
+
 ### Languages Used
 
 * HTML
@@ -125,6 +133,19 @@ If you are logged in as an admin, you can view the create product page by clicki
 * Django Web Framework
 * Bootstrap 5
 * Stripe
+* Stripe.js
+* pylint
+* Django-allauth
+* Pillow
+* Boto3
+* Djago-storages
+* gunicorn
+* Django-cirspy-forms
+* Dj-database-url
+* Psycopg2-binary
+* jQuery
+
+Here is a link to [requirements](requirements.txt)
 
 ## Deployment & Local Development
 
@@ -174,6 +195,8 @@ All testing can be found [here](TESTING.md)
 ### Code Used
 
 The Product and Order models were inspired by the CI Boutique Ado tutorial
+
+
 
 ### Media
 
