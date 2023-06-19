@@ -17,7 +17,7 @@
       </div>
       <div class="col-7 col-md-6 my-auto">
         <div class="my-5 text-right">
-          <a href="{% if user.is_authenticated %}{% url 'subscription' 2 %}{% else %}{% url 'account_login' %}{% endif %}" class=" btnbtn-outline-light rounded-0 py-3">Go To Offer</a>
+          <a href="{% if user.is_authenticated %}{% url 'subscription' 2 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">Go To Offer</a>
         </div>
       </div>
     </div>
@@ -128,6 +128,7 @@
         of coffee. Since then the company has grown a substantial amount and is now among the most popular 
         coffee shops in Sweden. 
       </p>
+      <a href="{% static 'images/facebook.png' %}">Check out our facebook!</a>
     </div>
   </div>
 </div>
