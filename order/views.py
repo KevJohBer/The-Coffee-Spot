@@ -42,9 +42,10 @@ class order(View):
 
         for item_id, quantity in cart.items():
             product = get_object_or_404(Product, pk=item_id)
-            subscription = request.user.subscriptions.all()[0].subscription_id
-            if product.category_id <= subscription:
-                product.price = 0
+            if request.user.subscriptions.exists():
+                subscription = request.user.subscriptions.all()[0].subscription_id
+                if product.category_id <= subscription:
+                    product.price = 0
             total += quantity * product.price
             product_count += quantity
             cart_items.append({

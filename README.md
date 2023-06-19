@@ -23,6 +23,7 @@ The Coffee Spot is an online web application that lets you order coffee from a T
 * [Deployment & Local Development](#deployment--local-development)
     * [Initial Deployment](#initial-deployment)
     * [Deployment](#deployment)
+    * [Environment Variables](#environment-variables)
 * [Testing](#testing)
 * [Credits](#credits)
     * [Code used](#code-used)
@@ -102,6 +103,14 @@ If you are logged in as an admin, you can view the create product page by clicki
 
 ### Future implementations
 
+* Editable subscriptions, admin should have the ability to change subscriptions to add discounts and let it include other drinks
+* Advanced search logic. Users should be able to search for products and get results despite spelling mistakes
+* Advanced form handling. Users should not be able to have accounts with fake or inappropriate information
+* Customized confirmation. Confirmations are the standard browser confirmations, these ruin the experience for users.
+* Customizable profiles. Users should be able to personalize their profiles
+* Automatically fill order fields with default information
+* 
+
 ## Technologies Used
 
 ### Languages Used
@@ -116,7 +125,6 @@ If you are logged in as an admin, you can view the create product page by clicki
 * Django Web Framework
 * Bootstrap 5
 * Stripe
-*
 
 ## Deployment & Local Development
 
@@ -154,6 +162,8 @@ Heroku was used to deploy the live website
 * STRIPE_PUBLIC_KEY
 * STRIPE_SECRET_KEY
     * Stripe variables can be obtained from your store on Stripe
+* DATABASE_URL
+    * This variable can be found by creating a database with ElephantSQL
 
 ## Testing
 

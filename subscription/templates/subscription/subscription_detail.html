@@ -26,10 +26,13 @@
         <input type="hidden" name="price" value="{{ price }}">
         <input type="hidden" id="email" value="{{ user.email }}">
         <input type="hidden" name="intent_id" value="{{ intent_id }}">
+        {% if errormsg %}
+          <p style="color: red;">{{ errormsg }}</p>
+        {% endif %}
         <h3>Billing Address</h3>
-        {{ form.address }}
-        {{ form.city }}
-        {{ form.postal_code }}
+          {{ form.address }}
+          {{ form.city }}
+          {{ form.postal_code }}
         <div class="form-group">
           <div class="form-control rounded-0 border-light" style="background-color: #703600" id="card-element"></div>
         </div>

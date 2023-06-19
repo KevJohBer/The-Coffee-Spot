@@ -33,6 +33,7 @@ def edit_profile(request):
 def order_history(request):
     """ Shows users order history """
     orders = Order.objects.filter(customer=request.user)
+    orders = orders.order_by('-date')
     context = {}
     if orders:
         context['orders'] = orders

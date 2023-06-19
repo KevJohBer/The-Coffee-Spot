@@ -37,26 +37,27 @@
             <div class="row">
                 <div class="col">
                     <div class="d-flex flex-column">
-                        {% for order in orders %}
-                            <div class="d-flex flex-inline border" style="margin-bottom: 20px;">
-                                <img src="{% static 'images/coffee-cup.png' %}" alt="coffee cup" style="width: 200px; height: 200px;">
-                                <div class="d-flex flex-column text-white">
-                                    <p>Items:
-                                        {% for lineitem in order.lineitems.all %}
-                                            {{ lineitem.product.name }} x {{ lineitem.quantity }} x ${{ lineitem.product.price }}
-                                        {% endfor %}
-                                    </p>
-                                    <p>Total: ${{ order.total_cost }}</p>
-                                    <p>Order Number: {{ order.order_number }}</p>
-                                    <p>Date: {{ order.date|date:"Y-m-d" }}</p>
-                                    <p>Pickup at: {{ order.address }}</p>
-                                    <p>Ready at: {{ order.date|time:"H:i" }}</p>
-                                    {% if order.active %}
-                                        <a href="{% url 'cancel_order'  order.id %}">Cancel order</a>
-                                    {% endif %}
+                        <div class="d-flex flex-column">
+                            {% for order in orders %}
+                                <div class="d-flex flex-inline border" style="margin-bottom: 20px;">
+                                    <img src="{% static 'images/coffee-cup.png' %}" alt="coffee cup" style="width: 200px; height: 200px;">
+                                    <div class="d-flex flex-column text-white">
+                                        <p>Items:
+                                            {% for lineitem in order.lineitems.all %}
+                                                {{ lineitem.product.name }} x {{ lineitem.quantity }} x ${{ lineitem.product.price }}
+                                            {% endfor %}
+                                        </p>
+                                        <p>Total: ${{ order.total_cost }}</p>
+                                        <p>Order Number: {{ order.order_number }}</p>
+                                        <p>Date: {{ order.date|date:"Y-m-d" }}</p>
+                                        <p>Pickup at: {{ order.address }}</p>
+                                        <p>Ready at: {{ order.date|time:"H:i" }}</p>
+                                        {% if order.active %}
+                                            <a href="{% url 'cancel_order'  order.id %}" onclick="return confirmDeleteOrder();">Cancel order</a>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
                     </div>
                 </div>
             </div>
@@ -76,12 +77,12 @@
                     <div class="d-flex flex-column">
                         {% for subscription in subscriptions %}
                         <div class="d-flex flex-inline">
-                            <img src="{% static 'coffee-cup.png' %}" alt="subscription image" width="300px" height="300px">
+                            <img src="{% static 'images/coffee-cup.png' %}" alt="subscription image" width="300px" height="300px">
                             <div class="d-flex flex-column text-white">
                                 <p>Subscription: {{ subscription.subscription_name }}</p>
                                 <p>Price: {{ subscription.price}}$</p>
                                 <p>Billing Address: {{ subscription.address }} {{ subscription.postal_code }} {{ subscription.city }}</p>
-                                <a href="{% url 'cancel_subscription' subscription.stripe_subscription_id %}">Cancel Subscription</a>
+                                <a href="{% url 'cancel_subscription' subscription.stripe_subscription_id %}" onclick="return confirmDeleteSubscription();">Cancel Subscription</a>
                             </div>
                         </div>
                         {% endfor %}
@@ -92,4 +93,8 @@
     </div>
 {% endif %}
 
+{% endblock %}
+
+{% block postloadjs %}
+    <script src="{% static 'js/confirmation.js' %}"></script>
 {% endblock %}

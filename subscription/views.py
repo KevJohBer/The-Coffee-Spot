@@ -16,6 +16,7 @@ def subscription_detail(request, subscription_id):
     stripe_secret_key = settings.STRIPE_SECRET_KEY
     customer_email = request.user.email
     subscription_id = int(subscription_id)
+    errormsg = None
     if subscription_id == 1:
         price = 20
         subscription_name = 'Regular'
@@ -46,6 +47,9 @@ def subscription_detail(request, subscription_id):
     )
     client_secret = intent.client_secret
 
+    if 'errormsg' in request.session:
+        errormsg = request.session['errormsg']
+
     context = {
         'price': price,
         'about': about,
@@ -58,6 +62,7 @@ def subscription_detail(request, subscription_id):
         'customer_email': customer_email,
         'intent_id': intent.id,
         'subscription_name': subscription_name,
+        'errormsg': errormsg,
         }
 
     return render(request, 'subscription/subscription_detail.html', context)
@@ -114,8 +119,7 @@ def confirm_subscription(request):
             subscription.save()
             return redirect('view_subscriptions')
         else:
-            errormsg = 'uh oh, something went wrong'
-            form = subscriptionFrom()
-            return redirect('subscription_detail')
+            errormsg = 'Whoa! Something went wrong, data did not validate, check your information and try again'
+            request.session['errormsg'] = errormsg
 
-    return render(request, 'subscription/subscription_detail.html')
+    return redirect('subscription', subscription_id=subscription_id)

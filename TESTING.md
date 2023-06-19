@@ -61,4 +61,5 @@ Responsiveness was tested using Chrome Lighthouse
 
 Bugs
 
+* If you enter invalid data on the subscription detail page the error message will remain even after exiting the website. 
 * 
