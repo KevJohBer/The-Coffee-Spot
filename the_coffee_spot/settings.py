@@ -30,7 +30,8 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     '8000-kevjohber-thecoffeespot-3a91v72f5hl.ws-eu100.gitpod.io',
-    'the-coffee-spot.herokuapp.com'
+    'the-coffee-spot.herokuapp.com',
+    '8000-kevjohber-thecoffeespot-ple57maej6k.ws-eu101.gitpod.io'
     ]
 
 

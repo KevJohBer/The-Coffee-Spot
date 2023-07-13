@@ -1,4 +1,4 @@
-{% extends base.html %}
+{% extends 'base.html' %}
 
 {% load static %}
 
@@ -6,7 +6,7 @@
     <div class="row no-gutters" style="background-color: #703600">
         <div class="container">
             <h1 class="display-4 logo-font text-white">Page not found 404</h1>
-            <a href="{% url 'home-page' %}" class="btn btn-outline-light rounded-0 py-3">Head back home</a>
+            <a href="{% url 'home_page' %}" class="btn btn-outline-light rounded-0 py-3">Head back home</a>
         </div>
     </div>
 {% endblock %}
