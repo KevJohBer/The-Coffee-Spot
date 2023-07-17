@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.contrib.auth.decorators import user_passes_test
 from datetime import timedelta
 from django.views import generic, View
 from .models import Product, Order, OrderLineItem
@@ -14,6 +15,7 @@ import stripe
 # Creating orders
 class order(View):
     """ A view for ordering coffee """
+    @user_passes_test(lambda u: u.is_authenticated)
     def get(self, request):
 
         product_list = Product.objects.all()
@@ -82,7 +84,6 @@ class order(View):
 
         return render(request, 'order/order.html', context)
 
-
 def add_to_cart(request, item_id):
     """ allows user to add a selected item to cart """
     if request.method == 'POST':
@@ -98,7 +99,6 @@ def add_to_cart(request, item_id):
         request.session['cart'] = cart
         return redirect(redirect_url)
 
-
 def adjust_cart_items(request, item_id):
     """ allows user to increase or decrease amount of selected product """
     cart = request.session.get('cart', {})
@@ -113,14 +113,12 @@ def adjust_cart_items(request, item_id):
     request.session['cart'] = cart
     return redirect('order')
 
-
 def remove_from_cart(request, item_id):
     """ removes selected item from cart """
     cart = request.session.get('cart', {})
     cart.pop(item_id)
     request.session['cart'] = cart
     return redirect('order')
-
 
 def order_confirmation(request, *args, **kwargs):
     """ confirms stripe payment """
@@ -150,7 +148,7 @@ def order_confirmation(request, *args, **kwargs):
                 order_line_item.save()
             order.save()
             prep_time(order.id)
-        
+
         if 'cart' in request.session:
             del request.session['cart']
 
@@ -162,6 +160,7 @@ def order_confirmation(request, *args, **kwargs):
 
 
 # Admin product management
+@user_passes_test(lambda u: u.is_superuser)
 def create_product(request):
     """ A view for admin to create products """
 
@@ -190,14 +189,14 @@ def create_product(request):
 
         return render(request, 'product/create_product.html', context)
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def delete_product(request, item_id):
     """ deletes a prduct """
     product = get_object_or_404(Product, id=item_id)
     product.delete()
     return redirect('order')
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def edit_product(request, item_id):
     """ A view to allow superuser to edit product infomation """
     product = get_object_or_404(Product, id=item_id)
