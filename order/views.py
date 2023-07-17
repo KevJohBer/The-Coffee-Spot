@@ -15,7 +15,6 @@ import stripe
 # Creating orders
 class order(View):
     """ A view for ordering coffee """
-    @user_passes_test(lambda u: u.is_authenticated)
     def get(self, request):
 
         product_list = Product.objects.all()
