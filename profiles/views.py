@@ -3,7 +3,7 @@ from order.models import Order, OrderLineItem
 from subscription.models import Subscription
 from datetime import timedelta
 from django.conf import settings
-from .forms import profileForm
+from .forms import profileForm, InfoForm
 import stripe
 
 # Profile page
@@ -16,17 +16,17 @@ def profile_page(request):
 
 def edit_profile(request):
     """ Allows user to edit their profile """
-    form = profileForm()
+    form = profileForm(instance=request.user.profile)
 
     if request.method == 'POST':
-        form = profileForm(request.POST)
+        form = profileForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
             return redirect('profile_page')
         else:
             form = profileForm()
-            print('uh oh something happened')
-            return render(request, 'profiles/edit_profile', {'form': form})
+            errormsg = 'Whoa! Something went wrong, data did not validate, check your information and try again'
+            return render(request, 'profiles/edit_profile.html', {'form': form, 'errormsg': errormsg})
     return render(request, 'profiles/edit_profile.html', {'form': form})
 
 
@@ -67,3 +67,8 @@ def cancel_subscription(request, item_id):
     subscription_object.delete()
     subscription.cancel()
     return redirect('view_subscriptions')
+
+
+def settings(request):
+    """ A view to let users change settings on their experience """
+    return render(request, "profiles/profile_page.html")

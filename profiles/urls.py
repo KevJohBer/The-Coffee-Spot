@@ -12,4 +12,6 @@ urlpatterns = [
     # subscriptions
     path('subscriptions/', views.view_subscriptions, name='view_subscriptions'),
     path('cancel_subscription/<item_id>', views.cancel_subscription, name='cancel_subscription'),
+    # settings
+    path('settings/', views.settings, name='settings')
 ]

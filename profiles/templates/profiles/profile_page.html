@@ -10,19 +10,23 @@
         <div class="col">
             <div class="d-flex">
                 <a href="{% url 'edit_profile' %}">
-                    <img src="#" alt="" width="300px" height="300px">
+                    <img src="{{ user.profile.avatar.url }}" alt="your profile picture" width="300px" height="300px">
                 </a>
                 <div class="d-flex flex-column">
                     <h2 class="text-white">{{ user.username }}</h2>
-                    <h3 class="text-white">Full name</h3>
-                    <p class="text-white">Description</p>
+                    {% if user.profile.first_name %}
+                        <h3 class="text-white">{{ user.profile.first_name}} {{ user.profile.last_name }}</h3>
+                    {% else %}
+                        <h3 class="text-white">Full name</h3>
+                    {% endif %}
+                    <p class="text-white">{{ user.profile.description }}</p>
                 </div>
             </div>
             <div class="d-flex flex-column">
                 <a href="{% url 'order_history' %}" class="text-white">Order History {% if user.profile.has_active_orders %}
                     ({{ user.profile.has_active_orders.count }})
                   {% endif %}</a>
-                <a href="#" class="text-white">Settings</a>
+                <a href="{% url 'settings' %}" class="text-white">Settings</a>
                 <a href="{% url 'view_subscriptions' %}" class="text-white">My Subscriptions</a>
                 <a href="#" class="text-white">Invoices</a>
             </div>
@@ -63,6 +67,15 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+{% endif %}
+{% if request.resolver_match.view_name == "settings" %}
+    <div class="row no-gutters w-100" style="background-color: #1E0E00;">
+        <div class="container">
+            <h2 class="display-4 logo-fon text-white">
+                Settings
+            </h2>
         </div>
     </div>
 {% endif %}
