@@ -73,9 +73,13 @@
 {% if request.resolver_match.view_name == "settings" %}
     <div class="row no-gutters w-100" style="background-color: #1E0E00;">
         <div class="container">
-            <h2 class="display-4 logo-fon text-white">
-                Settings
-            </h2>
+            <h2 class="display-4 logo-font text-white">Settings</h2>
+            {% if errormsg %}{{ errormsg }}{% endif %}
+            <form action="{% url 'settings' %}" method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <input class="btn btn-outline-light rounded-0 py-3" type="submit">
+            </form>
         </div>
     </div>
 {% endif %}

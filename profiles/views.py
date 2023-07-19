@@ -71,4 +71,14 @@ def cancel_subscription(request, item_id):
 
 def settings(request):
     """ A view to let users change settings on their experience """
-    return render(request, "profiles/profile_page.html")
+    form = InfoForm(instance=request.user.user_info)
+    if request.method == 'POST':
+        form = InfoForm(request.POST, instance=request.user.user_info)
+        if form.is_valid():
+            form.save()
+            return redirect('settings')
+        else:
+            form = InfoForm()
+            errormsg = 'Whoa! Something went wrong, data did not validate, check your information and try again'
+            return render(request, "profiles/profile_page.html", {'form': form, 'errormsg': errormsg})
+    return render(request, "profiles/profile_page.html", {'form': form})

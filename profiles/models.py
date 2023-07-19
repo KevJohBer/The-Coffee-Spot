@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 
 class UserDefaultInfo(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_info')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_info')
     default_address = models.CharField(max_length=40, null=True, blank=True)
     default_postal_code = models.IntegerField(range(10000, 99999), null=True)
     default_city = models.CharField(max_length=40, null=True, blank=True)
