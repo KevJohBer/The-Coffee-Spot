@@ -69,7 +69,7 @@ def cancel_subscription(request, item_id):
     return redirect('view_subscriptions')
 
 
-def settings(request):
+def user_settings(request):
     """ A view to let users change settings on their experience """
     form = InfoForm(instance=request.user.user_info)
     if request.method == 'POST':

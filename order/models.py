@@ -3,23 +3,12 @@ from django.db.models import Sum
 from django.conf import settings
 from django_countries.fields import CountryField
 from django.contrib.auth.models import User
+from products.models import Product
 import uuid
 
 from profiles.models import Profile
 
 # Create your models here.
-
-
-class Product(models.Model):
-    name = models.CharField(max_length=100, default='Product')
-    price = models.DecimalField(max_digits=3, decimal_places=2)
-    image = models.ImageField(null=True, blank=True, upload_to='media/images/')
-    category = models.CharField(max_length=30, null=True, blank=True)
-    category_id = models.IntegerField(default=0)
-    rating = models.DecimalField(max_digits=6, decimal_places=2, default=0)
-
-    def __str_(self):
-        return self.name
 
 
 class Order(models.Model):

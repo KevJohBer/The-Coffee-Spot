@@ -17,7 +17,7 @@ def save_profile(sender, instance, **kwargs):
 
 
 @receiver(post_save, sender=User)
-def create_user_info(sender, instance, **kwargs):
+def create_user_info(sender, instance, created, *args, **kwargs):
     if created:
         UserDefaultInfo.objects.create(user=instance)
 

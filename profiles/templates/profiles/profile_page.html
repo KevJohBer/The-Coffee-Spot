@@ -26,7 +26,7 @@
                 <a href="{% url 'order_history' %}" class="text-white">Order History {% if user.profile.has_active_orders %}
                     ({{ user.profile.has_active_orders.count }})
                   {% endif %}</a>
-                <a href="{% url 'settings' %}" class="text-white">Settings</a>
+                <a href="{% url 'user_settings' %}" class="text-white">Settings</a>
                 <a href="{% url 'view_subscriptions' %}" class="text-white">My Subscriptions</a>
                 <a href="#" class="text-white">Invoices</a>
             </div>
@@ -58,6 +58,9 @@
                                         <p>Date: {{ order.date|date:"Y-m-d" }}</p>
                                         <p>Pickup at: {{ order.address }}</p>
                                         <p>Ready at: {{ order.date|time:"H:i" }}</p>
+                                        <div class="d-inline">
+                                        <i class="fa-regular fa-star rating"></i><i class="fa-regular fa-star rating"></i><i class="fa-regular fa-star rating"></i>
+                                        </div>
                                         {% if order.active %}
                                             <a href="{% url 'cancel_order'  order.id %}" onclick="return confirmDeleteOrder();">Cancel order</a>
                                         {% endif %}
@@ -70,12 +73,12 @@
         </div>
     </div>
 {% endif %}
-{% if request.resolver_match.view_name == "settings" %}
+{% if request.resolver_match.view_name == "user_settings" %}
     <div class="row no-gutters w-100" style="background-color: #1E0E00;">
         <div class="container">
             <h2 class="display-4 logo-font text-white">Settings</h2>
             {% if errormsg %}{{ errormsg }}{% endif %}
-            <form action="{% url 'settings' %}" method="POST">
+            <form action="{% url 'user_settings' %}" method="POST">
                 {% csrf_token %}
                 {{ form }}
                 <input class="btn btn-outline-light rounded-0 py-3" type="submit">
