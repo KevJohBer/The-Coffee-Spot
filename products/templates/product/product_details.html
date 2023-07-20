@@ -3,5 +3,38 @@
 {% load static %}
 
 {% block content %}
-    <h2 class="text-white">Product details</h2>
+  <div class="container" style="background-color: #703600">
+    <div class="row no-gutters text-white">
+        <div class="col">
+            <img src="{% static 'images/coffee-cup.png' %}" alt="coffee cup" style="width: 300px; height: 300px;">
+            <h2 class="display-4 logo-font text-white">{{ product.name }} details</h2>
+            <p>Category: {{ product.category }}</p>
+            <p>Price: ${{ product.price }}</p>
+            <p>Description: {{ product.description }}</p>
+            <p>Ingredients: {{ product.ingredients }}</p>
+            <p>Rating: {{ product.rating }}</p>
+        </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row no-gutters text-white">
+        <div class="col">
+            <h2 class="display-4 logo-font text-white">Customize your favorite</h2>
+            <p>Customize your own {{ product.name }} so we know how to make it for you</p>
+            <h3 class="display-4 logo-font text-white">Size</h3>
+            <button class="btn btn-outline-light rounded-0">Standard</button>
+            <button class="btn btn-outline-light rounded-0">Small</button>
+            <h3 class="display-4 logo-font text-white">Milk</h3>
+            <button class="btn btn-outline-light rounded-0">Milk</button>
+            <button class="btn btn-outline-light rounded-0">Non Lactose Milk</button>
+            <button class="btn btn-outline-light rounded-0">Oat Milk</button>
+            <button class="btn btn-outline-light rounded-0">Soy Milk</button>
+            <button class="btn btn-outline-light rounded-0">Coconut Milk</button>
+            <h3 class="display-4 logo-font text-white">Addition</h3>
+            <button class="btn btn-outline-light rounded-0">Extra Espresso Shot</button>
+            <button class="btn btn-outline-light rounded-0">Flavored syrup</button>
+
+        </div>
+    </div>
+  </div>
 {% endblock %}

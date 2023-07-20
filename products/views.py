@@ -66,7 +66,9 @@ def edit_product(request, item_id):
 
 def product_details(request, item_id):
     """ A view to get more information about the product """
-    return render(request, 'product/product_details.html')
+    product = get_object_or_404(Product, id=item_id)
+    context = {'product': product}
+    return render(request, 'product/product_details.html', context)
 
 
 def customize_product(request, item_id):
