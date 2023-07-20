@@ -6,7 +6,6 @@
 
 <div class="row no-gutters" style="background-color: #703600">
   <div class="container">
-    <!-- list of products -->
     <h2 class="display-4 logo-font text-white">Coffee Selection</h2>
     <!-- search bar -->
     <form class="row justify-content-center" action="{% url 'order' %}" method="GET">
@@ -22,6 +21,7 @@
       <a href="{% url 'order' %}" class="d-flex flex-inline btn btn-outline-light rounded-0 tag">{{ query }} X</a>
       {% include "search/search_result.html" %}
     {% else %}
+    <!-- list of products -->
     <div class="d-flex d-flex-row">
       <div class="card-deck flex-nowrap" id="scrollbar" style="overflow-x: scroll;">
         {% for product in product_list %}
@@ -43,6 +43,10 @@
                   <a href="{% url 'edit_product' product.id %}" class="btn btn-outline-light rounded-0">Edit</a>
                 </div>
               {% endif %}
+              <div class="d-flex justify-content-end">
+                <a href="{% url 'customize_product' product.id %}" class="btn btn-outline-light rounded-0">Customize</a>
+                <a href="{% url 'product_details' product.id %}" class="btn btn-outline-light rounded-0">Details</a>
+              </div>
             </div>
           </div>
         {% endfor %}

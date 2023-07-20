@@ -62,3 +62,13 @@ def edit_product(request, item_id):
     form = productForm(instance=product)
     context = {'form': form}
     return render(request, 'product/edit_product.html', context)
+
+
+def product_details(request, item_id):
+    """ A view to get more information about the product """
+    return render(request, 'product/product_details.html')
+
+
+def customize_product(request, item_id):
+    """ a view to let user customize products in their order """
+    return render(request, 'product/customize_product.html')
