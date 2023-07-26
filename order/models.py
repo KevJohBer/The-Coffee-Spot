@@ -19,6 +19,7 @@ class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     total_cost = models.DecimalField(max_digits=5, decimal_places=2, null=False, default=0)
     active = models.BooleanField(default=True)
+    to_go = models.BooleanField(default=True)
 
 
 class OrderLineItem(models.Model):
@@ -26,6 +27,8 @@ class OrderLineItem(models.Model):
     product = models.ForeignKey(Product, null=False, blank=False, on_delete=models.CASCADE,)
     quantity = models.IntegerField(null=False, blank=False, default=0)
     lineitem_total = models.DecimalField(max_digits=6, decimal_places=2, null=False, blank=False, editable=False)
+    size = models.CharField(max_length=10, default='Standard', blank=True, null=True)
+    milk_type = models.CharField(max_length=30, null=True, blank=True, default='Milk')
 
     def save(self, *args, **kwargs):
         self.lineitem_total = self.product.price * self.quantity

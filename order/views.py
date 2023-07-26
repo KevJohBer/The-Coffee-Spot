@@ -9,6 +9,7 @@ from .utils import prep_time
 from profiles.models import Profile
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .contexts import cart_contents
 import stripe
 
 # Create your views here.
@@ -21,10 +22,8 @@ class order(LoginRequiredMixin, View):
     def get(self, request):
         product_list = Product.objects.all()
         search_form = SearchForm()
-        cart_items = []
-        total = 0
-        product_count = 0
         cart = request.session.get('cart', {})
+        current_cart = cart_contents(request)
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         stripe_secret_key = settings.STRIPE_SECRET_KEY
         client_secret = 0
@@ -34,34 +33,16 @@ class order(LoginRequiredMixin, View):
 
         if 'query' in request.GET:
             query = request.GET['query']
-            count = Product.objects.all().count()
-            for product in product_list:
-                if query.lower() == product.name.lower():
-                    search_result.append(product)
-                else:
-                    count -= 1
-                    if count == 0:
-                        errormsg = f'sorry, we could not find a result for "{query}"'
-
-        for item_id, quantity in cart.items():
-            product = get_object_or_404(Product, pk=item_id)
-            if request.user.subscriptions.exists():
-                subscription = request.user.subscriptions.all()[0].subscription_id
-                if product.category_id <= subscription:
-                    product.price = 0
-            total += quantity * product.price
-            product_count += quantity
-            cart_items.append({
-                'item_id': item_id,
-                'quantity': quantity,
-                'product': product,
-                'total': total,
-                'product_count': product_count,
-            })
+            if product_list.filter(name=query).exists():
+                product = get_object_or_404(Product, name=query)
+                search_result.append(product)
+            else:
+                errormsg = f'sorry, we could not find a result for "{query}"'
 
         order_form = orderForm()
 
-        if cart_items and total >= 1:
+        if current_cart:
+            total = current_cart['total']
             stripe_total = round(total * 100)
             stripe.api_key = stripe_secret_key
             intent = stripe.PaymentIntent.create(
@@ -72,8 +53,7 @@ class order(LoginRequiredMixin, View):
 
         context = {
             'product_list': product_list,
-            'cart_items': cart_items,
-            'total': total,
+            'current_cart': current_cart,
             'order_form': order_form,
             'stripe_public_key': stripe_public_key,
             'client_secret': client_secret,
@@ -85,41 +65,58 @@ class order(LoginRequiredMixin, View):
 
         return render(request, 'order/order.html', context)
 
+
 def add_to_cart(request, item_id):
     """ allows user to add a selected item to cart """
     if request.method == 'POST':
+        product = get_object_or_404(Product, id=item_id)
         quantity = int(request.POST.get('quantity'))
         cart = request.session.get('cart', {})
-        redirect_url = request.POST.get('redirect_url')
+        size = request.POST['size']
+        milk_type = request.POST['milk_type']
 
         if item_id in list(cart.keys()):
-            cart[item_id] += quantity
-        else:
-            cart[item_id] = quantity
+            quantity += quantity
+
+        cart[str(product.name)] = {
+            'item_id': item_id,
+            'quantity': quantity,
+            'size': size,
+            'milk_type': milk_type
+        }
 
         request.session['cart'] = cart
-        return redirect(redirect_url)
+        return redirect('order')
+
 
 def adjust_cart_items(request, item_id):
     """ allows user to increase or decrease amount of selected product """
+    product = get_object_or_404(Product, id=item_id)
     cart = request.session.get('cart', {})
-    quantity = cart.get(item_id)
+    item = cart[str(product.name)]
+    quantity = item['quantity']
 
     if request.method == 'POST':
         if request.POST.get('increment'):
-            cart[item_id] = quantity + 1
+            item['quantity'] = quantity + 1
         elif request.POST.get('decrement'):
-            cart[item_id] = quantity - 1
+            if quantity < 1:
+                item['quantity'] = quantity - 1
+            else:
+                cart.pop(str(product.name))
 
     request.session['cart'] = cart
     return redirect('order')
+
 
 def remove_from_cart(request, item_id):
     """ removes selected item from cart """
+    product = get_object_or_404(Product, id=item_id)
     cart = request.session.get('cart', {})
-    cart.pop(item_id)
+    cart.pop(str(product.name))
     request.session['cart'] = cart
     return redirect('order')
+
 
 def order_confirmation(request, *args, **kwargs):
     """ confirms stripe payment """
@@ -158,4 +155,3 @@ def order_confirmation(request, *args, **kwargs):
             }
 
     return render(request, 'order/order_confirmation.html', context)
-

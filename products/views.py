@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 from .models import Product
 from .forms import productForm
+from order.forms import customLineItemForm
 
 # Create your views here.
 
@@ -36,12 +37,14 @@ def create_product(request):
 
         return render(request, 'product/create_product.html', context)
 
+
 @user_passes_test(lambda u: u.is_superuser)
 def delete_product(request, item_id):
     """ deletes a prduct """
     product = get_object_or_404(Product, id=item_id)
     product.delete()
     return redirect('order')
+
 
 @user_passes_test(lambda u: u.is_superuser)
 def edit_product(request, item_id):
@@ -67,10 +70,25 @@ def edit_product(request, item_id):
 def product_details(request, item_id):
     """ A view to get more information about the product """
     product = get_object_or_404(Product, id=item_id)
-    context = {'product': product}
-    return render(request, 'product/product_details.html', context)
+    return render(request, 'product/product_details.html', {'product': product})
 
 
 def customize_product(request, item_id):
     """ a view to let user customize products in their order """
-    return render(request, 'product/customize_product.html')
+    product = get_object_or_404(Product, id=item_id)
+    form = customLineItemForm(instance=request.user)
+
+    if request.method == 'POST':
+        form = customLineItemForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('order')
+        else:
+            form = customLineItemForm()
+            return redirect('customize_product')
+
+    context = {
+        'product': product,
+        'form': form
+        }
+    return render(request, 'product/customize_product.html', context)

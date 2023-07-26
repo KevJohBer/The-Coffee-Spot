@@ -4,6 +4,34 @@
 
 {% block content %}
 
-<h2>Customize your drink</h2>
+<div class="container" style="background-color: #703600">
+    <div class="row no-gutters text-white">
+        <div class="col">
+            <h2 class="display-4 logo-font text-white">Customize your Drink</h2>
+            <p>Customize your own {{ product.name }} so we know how to make it for you</p>
+            <form action="{% url 'add_to_cart' product.id %}" method="POST">
+                {% csrf_token %}
+                <div style="display: flex; flex-direction: column;">
+                    <h3>Size</h3>
+                    <div style="display: inline;">
+                        {{ form.size }}
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <h3>Milk</h3>
+                    {{ form.milk_type }}
+                    <input type="submit" class="btn btn-outline-light rounded-0" value="Add to Order">
+                    <input type="hidden" name="quantity" value="1">
+                </div>
+            </form>
+            <h3 class="display-4 logo-font text-white">Addition</h3>
+            <button class="btn btn-outline-light rounded-0">Extra Espresso Shot</button>
+            <button class="btn btn-outline-light rounded-0">Vanilla syrup</button>
+            <button class="btn btn-outline-light rounded-0">Caramel syrup</button>
+            <h3 class="display-4 logo-font text-white">Confirmation</h3>
+            <button class="btn btn-outline-light rounded-0">Add to order</button>
+        </div>
+    </div>
+  </div>
 
 {% endblock %}

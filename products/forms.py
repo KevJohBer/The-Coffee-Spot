@@ -1,4 +1,4 @@
-from .models import Product
+from .models import Product, Additions
 from django.forms import ModelForm, TextInput, ImageField, ChoiceField
 from django import forms
 
@@ -38,3 +38,7 @@ class productForm(forms.ModelForm):
                 'class': 'text-right btn btn-outline-light rounded-0 py-3'
             }),
         }
+
+
+class additionForm(forms.ModelForm):
+    model = Additions

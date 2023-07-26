@@ -13,7 +13,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 class OrderLineItemAdmin(admin.ModelAdmin):
-    list_display = ('order', 'product', 'quantity', 'lineitem_total')
+    list_display = ('order', 'product', 'quantity', 'size', 'milk_type', 'lineitem_total')
 
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Order, OrderAdmin)

@@ -1,4 +1,4 @@
-from .models import Order
+from .models import Order, OrderLineItem
 from django.forms import ModelForm, TextInput, ImageField, ChoiceField
 from django import forms
 
@@ -39,3 +39,28 @@ class SearchForm(forms.Form):
         'placeholder': 'Search for drinks',
         })
     )
+
+
+class customLineItemForm(forms.ModelForm):
+    OPTIONS1 = (
+        ('Standard', 'Standard'),
+        ('Small', 'Small'),
+    )
+    size = forms.ChoiceField(choices=OPTIONS1, widget=forms.RadioSelect(attrs={
+        'style': 'background-color:  #703600; width: 50%;',
+        })
+    )
+    OPTIONS2 = (
+        ('Milk', 'Milk'),
+        ('Non Lactose Milk', 'Non Lactose Milk'),
+        ('Oat Milk', 'Oat Milk'),
+        ('Soy Milk', 'Soy Milk'),
+        ('Coconut Milk', 'Coconut Milk'),
+    )
+    milk_type = forms.ChoiceField(choices=OPTIONS2, widget=forms.RadioSelect(attrs={
+        'style': 'background-color:  #703600; width: 50%; display: inline;'
+    }))
+
+    class Meta:
+        model = OrderLineItem
+        fields = ['size', 'milk_type']
