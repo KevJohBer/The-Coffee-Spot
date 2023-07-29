@@ -43,13 +43,14 @@ class order(LoginRequiredMixin, View):
 
         if current_cart:
             total = current_cart['total']
-            stripe_total = round(total * 100)
-            stripe.api_key = stripe_secret_key
-            intent = stripe.PaymentIntent.create(
-                amount=stripe_total,
-                currency=settings.STRIPE_CURRENCY,
-            )
-            client_secret = intent.client_secret
+            if total > 0:
+                stripe_total = round(total * 100)
+                stripe.api_key = stripe_secret_key
+                intent = stripe.PaymentIntent.create(
+                    amount=stripe_total,
+                    currency=settings.STRIPE_CURRENCY,
+                )
+                client_secret = intent.client_secret
 
         context = {
             'product_list': product_list,
@@ -66,7 +67,7 @@ class order(LoginRequiredMixin, View):
         return render(request, 'order/order.html', context)
 
 
-def add_to_cart(request, item_id):
+def add_to_cart(request, item_id, *args, **kwargs):
     """ allows user to add a selected item to cart """
     if request.method == 'POST':
         product = get_object_or_404(Product, id=item_id)
@@ -74,6 +75,7 @@ def add_to_cart(request, item_id):
         cart = request.session.get('cart', {})
         size = request.POST['size']
         milk_type = request.POST['milk_type']
+        addition = request.POST['addition_dict']
 
         if item_id in list(cart.keys()):
             quantity += quantity
@@ -82,8 +84,11 @@ def add_to_cart(request, item_id):
             'item_id': item_id,
             'quantity': quantity,
             'size': size,
-            'milk_type': milk_type
+            'milk_type': milk_type,
+            'addition': addition,
         }
+
+        print(cart)
 
         request.session['cart'] = cart
         return redirect('order')
@@ -136,12 +141,14 @@ def order_confirmation(request, *args, **kwargs):
         form = orderForm(form_data)
         if form.is_valid:
             order = form.save()
-            for item_id, quantity in cart.items():
-                item = Product.objects.get(id=item_id)
+            for item in cart.values():
+                product = Product.objects.get(id=item['item_id'])
                 order_line_item = OrderLineItem(
                     order=order,
-                    product=item,
-                    quantity=quantity,
+                    product=product,
+                    quantity=item['quantity'],
+                    size=item['size'],
+                    milk_type=item['milk_type']
                 )
                 order_line_item.save()
             order.save()

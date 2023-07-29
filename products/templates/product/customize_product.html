@@ -8,7 +8,7 @@
     <div class="row no-gutters text-white">
         <div class="col">
             <h2 class="display-4 logo-font text-white">Customize your Drink</h2>
-            <p>Customize your own {{ product.name }} so we know how to make it for you</p>
+            <p>Customize your own "{{ product.name }}" so we know how to make it for you</p>
             <form action="{% url 'add_to_cart' product.id %}" method="POST">
                 {% csrf_token %}
                 <div style="display: flex; flex-direction: column;">
@@ -17,19 +17,31 @@
                         {{ form.size }}
                     </div>
                 </div>
-                <div style="display: flex; flex-direction: column;">
-                    <h3>Milk</h3>
-                    {{ form.milk_type }}
-                    <input type="submit" class="btn btn-outline-light rounded-0" value="Add to Order">
-                    <input type="hidden" name="quantity" value="1">
-                </div>
+                {% if product.has_milk %}
+                    <div style="display: flex; flex-direction: column;">
+                        <h3>Milk</h3>
+                        {{ form.milk_type }}
+                        <input type="submit" class="btn btn-outline-light rounded-0" value="Add to Order">
+                        <input type="hidden" name="quantity" value="1">
+                    </div>
+                {% endif %}
             </form>
             <h3 class="display-4 logo-font text-white">Addition</h3>
-            <button class="btn btn-outline-light rounded-0">Extra Espresso Shot</button>
-            <button class="btn btn-outline-light rounded-0">Vanilla syrup</button>
-            <button class="btn btn-outline-light rounded-0">Caramel syrup</button>
+            {% for item in addition_list %}
+                <a href="{% url 'addition' item.id %}" class="btn btn-outline-light rounded-0">{{ item.name }}</a>
+            {% endfor %}
+            {% for addition in additions %}
+                {{ addition.name }}
             <h3 class="display-4 logo-font text-white">Confirmation</h3>
-            <button class="btn btn-outline-light rounded-0">Add to order</button>
+            <form action="{% url 'add_to_cart' product.id %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-outline-light rounded-0" value="Add to order"></input>
+                <input type="hidden" name="quantity" value="1">
+                <input type="hidden" name="size" value="Standard">
+                <input type="hidden" name="milk_type" value="Milk">
+                <input type="hidden" value="{{ addition_dict }}" name="addition_dict">
+            </form>
+            {% endfor %}
         </div>
     </div>
   </div>

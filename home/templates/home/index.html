@@ -34,14 +34,15 @@
         suits you and start enjoying coffee knowing that the expenses are already set.
       </p>
       <div class="d-flex d-flex-row">
-        <div class="card-deck">
-          <div class="card rounded-0 border-light" style="background-color: #1E0E00;">
+        <div class="card-deck text-center">
+          <div class="card rounded-0 border-light" style="background-color: #1E0E00; padding: 0 50px;">
             <div class="card-body text-white">
               <h3>Regular</h3>
               <p>
                 if you just want regular black coffee with or without milk and no 
                 other fancy additions then this is the subscription for you
               </p>
+              <h4>$20/month</h4>
             {% if user.subscriptions.exists %}
               {% for subscription in user.subscriptions.all %}
                 {% if subscription.subscription_id == 1 %}
@@ -55,13 +56,14 @@
             {% endif %}
           </div>
           </div>
-          <div class="card rounded-0 border-light" style="background-color: #1E0E00;">
+          <div class="card rounded-0 border-light" style="background-color: #1E0E00; padding: 0 50px;">
             <div class="card-body text-white">
               <h3>Special</h3>
               <p>
                 If you want more options to you coffee, this subscriptions offers 
                 special warm drinks like caffe latte, cappucino or Americano
               </p>
+              <h4>$40/month</h4>
               {% if user.subscriptions.exists %}
               {% for subscription in user.subscriptions.all %}
                 {% if subscription.subscription_id == 2 %}
@@ -74,13 +76,14 @@
               <a href="{% if user.is_authenticated %}{% url 'subscription' 2 %}{% else %}{% url 'account_login' %}{% endif %}" class="btn btn-outline-light rounded-0 py-3">See More</a>
             {% endif %}            </div>
           </div>
-          <div class="card rounded-0 border-light" style="background-color: #1E0E00;">
+          <div class="card rounded-0 border-light" style="background-color: #1E0E00; padding: 0 50px;">
             <div class="card-body text-white">
               <h3>Premium</h3>
               <p>
                 If you don’t like limitations, then premium is the subscription for you. 
                 Enjoy any drink warm or cold from our menu
               </p>
+              <h4>$70/month</h4>
               {% if user.subscriptions.exists %}
                 {% for subscription in user.subscriptions.all %}
                   {% if subscription.subscription_id == 3 %}

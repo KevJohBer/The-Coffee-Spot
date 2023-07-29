@@ -30,7 +30,7 @@
                 <form action="{% url 'add_to_cart' product.id %}" method="POST">
                   {% csrf_token %}
                   <h4 class="card-title">{{ product.name }}</h4>
-                  <p>cost: {{ product.price }}$</p>
+                  <p>cost: ${{ product.price }}</p>
                   <p>category: {{ product.category }}</p>
                   <p>rating: {{ product.rating }}</p>
                 <input type="submit" class="btn btn-outline-light rounded-0" value="+">

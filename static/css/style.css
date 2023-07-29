@@ -2,6 +2,15 @@ body {
     background-color: #1E0E00;
 }
 
+h1, h2, h3, h4 {
+    font-family: 'pacifico', cursive;
+}
+
+.navbar-brand {
+    font-family: 'pacifico', cursive;
+    font-size: 30px;
+}
+
 p {
     font-size: 20px;
 }

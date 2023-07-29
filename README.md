@@ -6,6 +6,9 @@ The Coffee Spot is an online web application that lets you order coffee from a T
 
 * [User Experience](#user-experience)
     * [User stories](#user-stories)
+* [Business Model](#business-model)
+* [Marketing](#marketing)
+* [Agile Methods](#agile-methods)
 * [Design](#design)
     * [Color Scheme](#color-scheme)
     * [typography](#typography)
@@ -65,6 +68,28 @@ The coffee spot does not use a lot of images, it uses a a image of a coffee cup 
 ### Order page
 
 Order page has a unique design choice inspired by streaming websites (oddly enough) that allows users to scroll horizontally to view products. They also have the option to search. The idea is to not display the checkout part of the page until the user has chosen their products. It is supposed to function as an all in one solution so that you don't have your store and cart separate. 
+
+## Business Model
+
+The coffee spot uses a mix of B2C and subscription based business model.
+
+The website is intended to be used by individuals and not companies. The consumer uses the website to place an order for a drink beforehand so that the product is ready when the consumer arrives at the cafe.
+
+The consumer can also choose to sign up for a subscription. In the subscriptions certain products are included in a monthly cost depending on what subscription you sign up for. For instance, subscription "regular" lets you order drinks that fall under the category "regular" free of charge since they are included in the monthly cost. 
+
+The shop allows users to select between a variety of warm and cold drinks with three different subscription categories, regular, special and premium
+
+## Marketing
+
+The coffee shop has its own Facebook page which is intended to be used as a marketing strategy. Here we can post news, promote campaigns, and let users interact and share their experiences with others. By keeping customers in the loop we hope to inscentivise customers return but also get noticed by potential new customers aswell
+
+![The coffee spot facebook mock-up](static/testing/the-coffee-spot-facebook-mockup.png)
+
+## Agile Methods
+
+Agile methods were used to create this project. The implementation of user stories were recorded using githubs "projects" section and githubs own kanban board. Each user story was created in the "todo" section. When a user story was being worked on, it was moved to the "in progress" section. When a user story was finished it was moved to the "done" section.
+
+[link to kanban board](https://github.com/users/KevJohBer/projects/6/views/1)
 
 ## Features
 

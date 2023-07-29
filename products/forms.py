@@ -14,10 +14,18 @@ class productForm(forms.ModelForm):
         'style': 'background-color:  #703600',
         })
     )
+    HAS_MILK = (
+        ('True', 'Milk'),
+        ('False', 'No Milk')
+    )
+    has_milk = forms.ChoiceField(choices=HAS_MILK, widget=forms.Select(attrs={
+        'class': "form-control rounded-0 border-light text-white",
+        'style': 'background-color:  #703600',
+    }))
 
     class Meta:
         model = Product
-        fields = ['name', 'price', 'image', 'category', 'category_id']
+        fields = ['name', 'price', 'image', 'category', 'category_id', 'has_milk']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': "form-control rounded-0 border-light text-white",
@@ -37,8 +45,9 @@ class productForm(forms.ModelForm):
             'image': forms.FileInput(attrs={
                 'class': 'text-right btn btn-outline-light rounded-0 py-3'
             }),
+            'has_milk': forms.Select(attrs={
+                'class': "form-control rounded-0 border-light text-white",
+                'style': 'background-color:  #703600',
+                'placeholder': 'Has Milk',
+            }),
         }
-
-
-class additionForm(forms.ModelForm):
-    model = Additions

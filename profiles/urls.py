@@ -14,5 +14,4 @@ urlpatterns = [
     path('cancel_subscription/<item_id>', views.cancel_subscription, name='cancel_subscription'),
     # settings
     path('settings/', views.user_settings, name='user_settings')
-    # 
 ]

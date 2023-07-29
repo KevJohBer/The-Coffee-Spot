@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
-from .models import Product
+from .models import Product, Additions
 from .forms import productForm
 from order.forms import customLineItemForm
 
@@ -76,6 +76,7 @@ def product_details(request, item_id):
 def customize_product(request, item_id):
     """ a view to let user customize products in their order """
     product = get_object_or_404(Product, id=item_id)
+    addition_list = Additions.objects.all()
     form = customLineItemForm(instance=request.user)
 
     if request.method == 'POST':
@@ -88,7 +89,31 @@ def customize_product(request, item_id):
             return redirect('customize_product')
 
     context = {
+        'addition_list': addition_list,
         'product': product,
         'form': form
         }
+    return render(request, 'product/customize_product.html', context)
+
+
+def addition(request, item_id):
+    cart = request.session.get('cart', {})
+    addition = get_object_or_404(Additions, id=item_id)
+    additions = []
+    addition_dict = {}
+    quantity = 1
+
+    additions.append(addition)
+
+    addition_dict[str(addition.name)] = {
+        'addition_id': addition.id,
+        'addition_name': addition.name,
+        'quantity': quantity,
+    }
+
+    context = {
+        'additions': additions,
+        'addition_dict': addition_dict,
+    }
+
     return render(request, 'product/customize_product.html', context)
