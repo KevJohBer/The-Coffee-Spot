@@ -81,7 +81,9 @@ def customize_product(request, item_id):
     product = get_object_or_404(Product, id=item_id)
     addition_list = Additions.objects.all()
     form = customLineItemForm(instance=request.user)
-    current_additions = additions_contents(request)
+    additiones = additions_contents(request)
+    current_additions = additiones['additions']
+    additions_total = additiones['total']
 
     if request.method == 'POST':
         form = customLineItemForm(request.POST, instance=product)
@@ -100,6 +102,7 @@ def customize_product(request, item_id):
         'product': product,
         'form': form,
         'current_additions': current_additions,
+        'additions_total': additions_total,
         }
     return render(request, 'product/customize_product.html', context)
 

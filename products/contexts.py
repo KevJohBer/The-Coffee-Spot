@@ -27,4 +27,8 @@ def additions_contents(request):
             'count': count
         })
 
-    return additions
+    context = {
+        'additions': additions,
+        'total': total
+    }
+    return context

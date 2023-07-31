@@ -111,7 +111,6 @@ def adjust_cart_items(request, item_id):
                 cart.pop(str(product.name))
             else:
                 item['quantity'] = quantity - 1
-                
 
     request.session['cart'] = cart
     return redirect('order')
