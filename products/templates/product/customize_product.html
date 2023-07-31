@@ -27,11 +27,35 @@
                 {% endif %}
             </form>
             <h3 class="display-4 logo-font text-white">Addition</h3>
-            {% for item in addition_list %}
-                <a href="{% url 'addition' item.id %}" class="btn btn-outline-light rounded-0">{{ item.name }}</a>
+                <div class="d-flex">
+                    {% for item in addition_list %}
+                        <div style="padding-right: 10px">
+                            <form action="{% url 'addition' product.id item.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" class="btn btn-outline-light rounded-0" value="{{ item.name }}">
+                                <input type="hidden" name="quantity" value="1">
+                                <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% for addition in current_additions %}
+                <div class="row d-flex flex-nowrap justify-content-space-between" style="height: 38px; margin: 10px 0">
+                    <p>{{ addition.addition_name }} x ${{ addition.total }}</p>
+                    <form class="form-inline" action="{% url 'adjust_addition' addition.addition_id %}" method="POST" style="margin: 0 10px">
+                        {% csrf_token %}
+                        <input type="submit" value="+" name="increment" class="btn btn-outline-light rounded-0">
+                        <p class="text-center" style="padding: 0 15px; margin: 0; border: 1px solid white; height: 100%;">{{ addition.quantity }}</p>
+                        <input type="submit" value="-" name="decrement" class="btn btn-outline-light rounded-0">
+                        <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                    </form>
+                    <form action="{% url 'delete_addition' addition.addition_id %}" method="POST" style="margin: 0 10px">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-outline-light rounded-0" value="x">
+                        <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                    </form>
+                </div>
             {% endfor %}
-            {% for addition in additions %}
-                {{ addition.name }}
             <h3 class="display-4 logo-font text-white">Confirmation</h3>
             <form action="{% url 'add_to_cart' product.id %}" method="POST">
                 {% csrf_token %}
@@ -39,9 +63,8 @@
                 <input type="hidden" name="quantity" value="1">
                 <input type="hidden" name="size" value="Standard">
                 <input type="hidden" name="milk_type" value="Milk">
-                <input type="hidden" value="{{ addition_dict }}" name="addition_dict">
+                <input type="hidden" value="{{ current_additions }}" name="current_additions">
             </form>
-            {% endfor %}
         </div>
     </div>
   </div>

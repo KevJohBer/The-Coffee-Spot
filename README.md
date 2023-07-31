@@ -10,6 +10,7 @@ The Coffee Spot is an online web application that lets you order coffee from a T
 * [Marketing](#marketing)
 * [Agile Methods](#agile-methods)
 * [Design](#design)
+    * [Early Stage(wireframe)](#early-stage)
     * [Color Scheme](#color-scheme)
     * [typography](#typography)
     * [imagery](#imagery)
@@ -52,6 +53,12 @@ The goal is to create an environment for the user that is so easy to use that th
 ## Design
 
 The Coffee spot has many features. alot of these features are located in the same place to make them easily accessible by the user. For example, alot of the information regarding special offers, subscriptions, menu items and general information about the page can be found right at the home page. This is all to avoid the hassle of having to go back and forth between pages in order for the user to complete a specific task. The site is minimal in its design so that it does not overstimulate the user with images and unecessary design features. The application is a tool that is meant to be used often or as frequently as the user will want the product.
+
+### Early Stage
+
+The early blueprints of the coffee spot was made using [Figma](https://www.figma.com/).
+
+![the-coffee-spot-wireframe](static/testing/the-coffee-spot-wireframe.png)
 
 ### Color Scheme
 

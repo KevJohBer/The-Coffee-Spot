@@ -10,6 +10,7 @@ from profiles.models import Profile
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .contexts import cart_contents
+from products.contexts import additions_contents
 import stripe
 
 # Create your views here.
@@ -75,7 +76,9 @@ def add_to_cart(request, item_id, *args, **kwargs):
         cart = request.session.get('cart', {})
         size = request.POST['size']
         milk_type = request.POST['milk_type']
-        addition = request.POST['addition_dict']
+
+        if 'addition_dict' in request.session:
+            addition = request.session.get('addition_dict')
 
         if item_id in list(cart.keys()):
             quantity += quantity
@@ -88,9 +91,8 @@ def add_to_cart(request, item_id, *args, **kwargs):
             'addition': addition,
         }
 
-        print(cart)
-
         request.session['cart'] = cart
+        print(cart)
         return redirect('order')
 
 
@@ -105,10 +107,11 @@ def adjust_cart_items(request, item_id):
         if request.POST.get('increment'):
             item['quantity'] = quantity + 1
         elif request.POST.get('decrement'):
-            if quantity < 1:
-                item['quantity'] = quantity - 1
-            else:
+            if quantity == 1:
                 cart.pop(str(product.name))
+            else:
+                item['quantity'] = quantity - 1
+                
 
     request.session['cart'] = cart
     return redirect('order')
