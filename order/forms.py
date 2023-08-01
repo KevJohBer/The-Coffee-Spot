@@ -46,10 +46,8 @@ class customLineItemForm(forms.ModelForm):
         ('Standard', 'Standard'),
         ('Small', 'Small'),
     )
-    size = forms.ChoiceField(choices=OPTIONS1, widget=forms.RadioSelect(attrs={
-        'style': 'background-color:  #703600; width: 50%;',
-        })
-    )
+    size = forms.ChoiceField(choices=OPTIONS1, widget=forms.RadioSelect())
+
     OPTIONS2 = (
         ('Milk', 'Milk'),
         ('Non Lactose Milk', 'Non Lactose Milk'),
@@ -58,7 +56,7 @@ class customLineItemForm(forms.ModelForm):
         ('Coconut Milk', 'Coconut Milk'),
     )
     milk_type = forms.ChoiceField(choices=OPTIONS2, widget=forms.RadioSelect(attrs={
-        'style': 'background-color:  #703600; width: 50%; display: inline;'
+        'style': 'background-color:  #703600; width: 50%;'
     }))
 
     class Meta:

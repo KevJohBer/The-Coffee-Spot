@@ -13,7 +13,7 @@
                 {% csrf_token %}
                 <div style="display: flex; flex-direction: column;">
                     <h3>Size</h3>
-                    <div style="display: inline;">
+                    <div class="d-flex flex-direction-row">
                         {{ form.size }}
                     </div>
                 </div>
@@ -70,4 +70,36 @@
     </div>
   </div>
 
+{% endblock %}
+
+{% block postloadjs %}
+  <script>
+    size_radios = document.getElementsByName('size')
+    milk_type_radios = document.getElementsByName('milk_type')
+    for (let radio of size_radios) {
+        radio.addEventListener('click', ()=> {
+            for (let input of size_radios)
+                if (input.checked) {
+                    input.parentElement.style.backgroundColor = "white"
+                    input.parentElement.style.color = "black"
+                } else {
+                    input.parentElement.style.backgroundColor = "transparent"
+                    input.parentElement.style.color = "white"
+                }
+        })
+    };
+    for (let radio of milk_type_radios) {
+        radio.addEventListener('click', ()=> {
+            for (let input of milk_type_radios)
+                if (input.checked) {
+                    input.parentElement.style.backgroundColor = "white"
+                    input.parentElement.style.color = "black"
+                } else {
+                    input.parentElement.style.backgroundColor = "transparent"
+                    input.parentElement.style.color = "white"
+                }
+        })
+    };
+  </script>
+  
 {% endblock %}
