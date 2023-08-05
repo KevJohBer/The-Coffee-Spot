@@ -17,7 +17,7 @@ class Order(models.Model):
     order_number = models.UUIDField(default=uuid.uuid4, unique=True, db_index=True, editable=False)
     address = models.CharField(max_length=100, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
-    total_cost = models.DecimalField(max_digits=5, decimal_places=2, null=False, default=0)
+    total_cost = models.DecimalField(max_digits=5, decimal_places=2, null=False)
     active = models.BooleanField(default=True)
     to_go = models.BooleanField(default=True)
 

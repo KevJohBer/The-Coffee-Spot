@@ -1,15 +1,15 @@
-{% extends "account/base.html" %}
+{% extends "base.html" %}
 
-{% load i18n %}
+{% load static %}
 
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block head_title %}Signup{% endblock %}
 
 {% block content %}
   <div class="row" style="background-color: #703600">
     <div class="container">
-      <h1 class="text-white">{% trans "Sign Up" %}</h1>
+      <h1 class="text-white">Sign Up</h1>
 
-      <p class="text-white">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+      <p class="text-white">Already have an account? Then please <a href="{{ login_url }}">sign in</a></p>
 
       <form class="signup text-white" id="signup_form" method="post" action="{% url 'account_signup' %}">
         {% csrf_token %}
@@ -17,7 +17,7 @@
         {% if redirect_field_value %}
         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
         {% endif %}
-        <button class="btn btn-outline-light rounded-0" type="submit">{% trans "Sign Up" %} &raquo;</button>
+        <button class="btn btn-outline-light rounded-0" type="submit">Sign Up &raquo;</button>
       </form>
       <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/9e9f56b53d7c56f62483a012d/3578e270e2d54d9317bb1b224.js");</script>
     </div>

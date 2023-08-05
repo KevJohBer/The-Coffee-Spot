@@ -17,7 +17,7 @@ class orderForm(forms.ModelForm):
 
     class Meta:
         model = Order
-        fields = ["customer", "name", "address", "to_go"]
+        fields = ["customer", "name", "address", "total_cost", "to_go"]
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': "form-control rounded-0 border-light text-white",

@@ -68,19 +68,22 @@
                 <div class="card-body text-white">
                   <div class="d-flex flex-inline" style="justify-content: space-between;">
                   <h4 class="card-title">{{ item.product.name }}</h4>
-                  <form class="text-right" action="{% url 'remove_from_cart' item.item_id %}" method="POST">
+                  <form class="text-right" action="{% url 'remove_from_cart' %}" method="POST">
                     {% csrf_token %}
                     <input type="submit" class="btn btn-outline-light rounded-0" value="x">
+                    <input type="hidden" name="index" value="{{ item.index }}">
                   </form>
                   </div>
                   <p>Cost: ${{ item.product.price }}</p>
                   <p>Category: {{ item.product.category }}</p>
+                  <p>Size: {{ item.size }}</p>
                   <div class="row d-flex justify-content-center" style="height: 38px;">
-                    <form class="form-inline" action="{% url 'adjust_cart_items' item.product.id %}" method="POST">
+                    <form class="form-inline" action="{% url 'adjust_cart_items' %}" method="POST">
                       {% csrf_token %}
                       <input type="submit" value="+" name="increment" class="btn btn-outline-light rounded-0">
                       <p class="text-center" style="padding: 0 15px; margin: 0; border: 1px solid white; height: 100%;">{{ item.quantity }}</p>
                       <input type="submit" value="-" name="decrement" class="btn btn-outline-light rounded-0">
+                      <input type="hidden" name="index" value="{{ item.index }}">
                     </form>
                   </div>
                 </div>
@@ -102,9 +105,10 @@
         <div class="form-group">
           <div class="form-control col text-right rounded-0 border-light" id="card-element" style="background-color: #401F00;"></div>
         </div>
-        <input type="hidden" id="total" name="total" value="{{ current_cart.total }}">
         <h4 class="text-white">Total = {{ current_cart.total }}$</h4>
+        <input type="button" name="togo" value="To-go">
         <input type="submit" value="create order" class="text-right btn btn-outline-light rounded-0 py-3">
+        <input type="hidden" id="total" name="total_cost" value="{{ current_cart.total }}">
       </form>
     </div>
   </div>

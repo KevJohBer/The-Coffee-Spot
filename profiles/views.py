@@ -19,7 +19,7 @@ def edit_profile(request):
     form = profileForm(instance=request.user.profile)
 
     if request.method == 'POST':
-        form = profileForm(request.POST, instance=request.user.profile)
+        form = profileForm(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
             form.save()
             return redirect('profile_page')

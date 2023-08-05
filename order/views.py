@@ -74,33 +74,45 @@ def add_to_cart(request, item_id, *args, **kwargs):
         product = get_object_or_404(Product, id=item_id)
         quantity = int(request.POST.get('quantity'))
         cart = request.session.get('cart', {})
+        cart_keys = list(cart.keys())
         size = request.POST['size']
         milk_type = request.POST['milk_type']
-
         if 'addition_dict' in request.session:
-            addition = request.session.get('addition_dict')
+            additions = request.session.get('addition_dict')
+        else:
+            additions = None
 
-        if item_id in list(cart.keys()):
-            quantity += quantity
-
-        cart[str(product.name)] = {
-            'item_id': item_id,
-            'quantity': quantity,
+        contents = {
+            'name': product.name,
+            'item_id': product.id,
             'size': size,
-            'milk_type': milk_type,
-            'addition': addition,
+            'milk': milk_type,
+            'additions': additions,
+            'quantity': quantity,
         }
 
+        for key in range(1, 50):
+            if str(key) not in cart_keys:
+                index = key
+
+        if len(cart) != 0:
+            for key in cart_keys:
+                if list(cart[key].values())[:5] == list(contents.values())[:5]:
+                    cart[key]['quantity'] += 1
+                else:
+                    cart[index] = contents
+        else:
+            cart[index] = contents
+
         request.session['cart'] = cart
-        print(cart)
         return redirect('order')
 
 
-def adjust_cart_items(request, item_id):
+def adjust_cart_items(request):
     """ allows user to increase or decrease amount of selected product """
-    product = get_object_or_404(Product, id=item_id)
+    index = request.POST.get('index')
     cart = request.session.get('cart', {})
-    item = cart[str(product.name)]
+    item = cart[index]
     quantity = item['quantity']
 
     if request.method == 'POST':
@@ -116,11 +128,11 @@ def adjust_cart_items(request, item_id):
     return redirect('order')
 
 
-def remove_from_cart(request, item_id):
+def remove_from_cart(request):
     """ removes selected item from cart """
-    product = get_object_or_404(Product, id=item_id)
     cart = request.session.get('cart', {})
-    cart.pop(str(product.name))
+    index = request.POST['index']
+    cart.pop(index)
     request.session['cart'] = cart
     return redirect('order')
 
@@ -130,8 +142,12 @@ def order_confirmation(request, *args, **kwargs):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
 
-    if request.method == 'POST':
+    if 'cart' in request.session:
         cart = request.session.get('cart', {})
+    else:
+        return redirect('order')
+
+    if request.method == 'POST':
 
         form_data = {
             'customer': request.user,
@@ -141,7 +157,7 @@ def order_confirmation(request, *args, **kwargs):
         }
 
         form = orderForm(form_data)
-        if form.is_valid:
+        if form.is_valid():
             order = form.save()
             for item in cart.values():
                 product = Product.objects.get(id=item['item_id'])
@@ -150,7 +166,7 @@ def order_confirmation(request, *args, **kwargs):
                     product=product,
                     quantity=item['quantity'],
                     size=item['size'],
-                    milk_type=item['milk_type']
+                    milk_type=item['milk']
                 )
                 order_line_item.save()
             order.save()

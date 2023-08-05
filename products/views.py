@@ -81,9 +81,9 @@ def customize_product(request, item_id):
     product = get_object_or_404(Product, id=item_id)
     addition_list = Additions.objects.all()
     form = customLineItemForm(instance=request.user)
-    additiones = additions_contents(request)
-    current_additions = additiones['additions']
-    additions_total = additiones['total']
+    additions = additions_contents(request)
+    current_additions = additions['additions']
+    additions_total = additions['total']
 
     if request.method == 'POST':
         form = customLineItemForm(request.POST, instance=product)
@@ -115,14 +115,10 @@ def addition(request, product_id, item_id):
         quantity = int(request.POST['quantity'])
         redirect_url = request.POST.get('redirect_url')
 
-        if str(addition.name) in addition_dict:
-            quantity += addition_dict[str(addition.name)]['quantity']
-
-        addition_dict[str(addition.name)] = {
-            'addition_id': addition.id,
-            'addition_name': addition.name,
-            'quantity': quantity,
-        }
+        if item_id in list(addition_dict.keys()):
+            addition_dict[item_id] += quantity
+        else:
+            addition_dict[item_id] = quantity
 
         request.session['addition_dict'] = addition_dict
         return redirect(redirect_url)
@@ -133,7 +129,7 @@ def delete_addition(request, item_id):
         redirect_url = request.POST.get('redirect_url')
         addition = get_object_or_404(Additions, id=item_id)
         addition_dict = request.session.get("addition_dict")
-        addition_dict.pop(str(addition.name))
+        addition_dict.pop(item_id)
         request.session['addition_dict'] = addition_dict
 
     return redirect(redirect_url)
@@ -143,16 +139,14 @@ def adjust_additions(request, item_id):
     if request.method == "POST":
         addition = get_object_or_404(Additions, id=item_id)
         addition_dict = request.session.get('addition_dict')
-        item = addition_dict[str(addition.name)]
         redirect_url = request.POST.get('redirect_url')
-        quantity = item['quantity']
         if request.POST.get('increment'):
-            item['quantity'] = quantity + 1
+            addition_dict[addition_name] += 1
         elif request.POST.get('decrement'):
-            if quantity == '1':
-                addition_dict.pop(str(addition.name))
+            if addition_dict[addition_name] == 1:
+                addition_dict.pop(addition_name)
             else:
-                item['quantity'] = quantity - 1
+                addition_dict[addition.name] -= 1
 
         request.session['addition_dict'] = addition_dict
         return redirect(redirect_url)

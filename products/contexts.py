@@ -10,21 +10,18 @@ def additions_contents(request):
     count = 0
     context = {}
 
-    for item in addition_dict.values():
-        addition_id = item['addition_id']
-        addition_name = item['addition_name']
-        quantity = int(item['quantity'])
-        addition = get_object_or_404(Additions, id=addition_id)
+    for item_id, quantity in addition_dict.items():
+        addition = get_object_or_404(Additions, id=item_id)
+        addition_id = addition.id
+        addition_name = addition.name
+        quantity = quantity
         total += quantity * addition.price
-        count += quantity
 
         additions.append({
-            'addition_id': addition_id,
             'addition_name': addition_name,
+            'addition_id': addition_id,
             'quantity': quantity,
-            'addition': addition,
             'total': total,
-            'count': count
         })
 
     context = {

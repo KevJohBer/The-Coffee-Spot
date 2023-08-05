@@ -7,29 +7,26 @@
     <div class="row no-gutters" style="background-color: #703600;">
         <div class="container">
         <h1 class="display-4 logo-font text-white">Profile page</h1>
-        <div class="col">
-            <div class="d-flex">
-                <a href="{% url 'edit_profile' %}">
-                    <img src="{{ user.profile.avatar.url }}" alt="your profile picture" width="300px" height="300px">
-                </a>
-                <div class="d-flex flex-column">
-                    <h2 class="text-white">{{ user.username }}</h2>
-                    {% if user.profile.first_name %}
-                        <h3 class="text-white">{{ user.profile.first_name}} {{ user.profile.last_name }}</h3>
-                    {% else %}
-                        <h3 class="text-white">Full name</h3>
-                    {% endif %}
-                    <p class="text-white">{{ user.profile.description }}</p>
-                </div>
-            </div>
+        <div class="d-flex">
+            <a href="{% url 'edit_profile' %}" width="300px" height="300px">
+                <img src="{{ user.profile.avatar.url }}" alt="your profile picture" id="user_avatar">
+            </a>
             <div class="d-flex flex-column">
-                <a href="{% url 'order_history' %}" class="text-white">Order History {% if user.profile.has_active_orders %}
-                    ({{ user.profile.has_active_orders.count }})
-                  {% endif %}</a>
-                <a href="{% url 'user_settings' %}" class="text-white">Settings</a>
-                <a href="{% url 'view_subscriptions' %}" class="text-white">My Subscriptions</a>
-                <a href="#" class="text-white">Invoices</a>
+                <h2 class="text-white">{{ user.username }}</h2>
+                {% if user.profile.first_name %}
+                    <h3 class="text-white">{{ user.profile.first_name}} {{ user.profile.last_name }}</h3>
+                {% else %}
+                    <h3 class="text-white">Full name</h3>
+                {% endif %}
+                <p class="text-white">{{ user.profile.description }}</p>
             </div>
+        </div>
+        <div class="d-flex flex-column">
+            <a href="{% url 'order_history' %}" class="text-white">Order History {% if user.profile.has_active_orders %}
+                ({{ user.profile.has_active_orders.count }})
+                {% endif %}</a>
+            <a href="{% url 'user_settings' %}" class="text-white">Settings</a>
+            <a href="{% url 'view_subscriptions' %}" class="text-white">My Subscriptions</a>
         </div> 
     </div>
 <!-- view order history -->
@@ -58,9 +55,6 @@
                                         <p>Date: {{ order.date|date:"Y-m-d" }}</p>
                                         <p>Pickup at: {{ order.address }}</p>
                                         <p>Ready at: {{ order.date|time:"H:i" }}</p>
-                                        <div class="d-inline">
-                                        <i class="fa-regular fa-star rating"></i><i class="fa-regular fa-star rating"></i><i class="fa-regular fa-star rating"></i>
-                                        </div>
                                         {% if order.active %}
                                             <a href="{% url 'cancel_order'  order.id %}" onclick="return confirmDeleteOrder();">Cancel order</a>
                                         {% endif %}
@@ -92,7 +86,7 @@
         <div class="container">
             <h2 class="display-4 logo-font text-white">Subscriptions</h2>
             {% if not subscriptions %}
-                <h3 class="text-white">You currently don't have any subscriptions</h3>
+                <p class="text-white">You currently don't have any subscriptions</p>
             {% endif %}
             <div class="row">
                 <div class="col">
