@@ -1,11 +1,11 @@
-from .models import Profile, UserDefaultInfo
+from .models import Profile
 from django.forms import ModelForm, TextInput, ImageField
 from django import forms
 
 
 class InfoForm(forms.ModelForm):
     class Meta:
-        model = UserDefaultInfo
+        model = Profile
         fields = ['default_address', 'default_postal_code', 'default_city']
         widgets = {
             'default_address': forms.TextInput(attrs={

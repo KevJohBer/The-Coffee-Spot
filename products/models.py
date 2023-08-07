@@ -20,8 +20,11 @@ class Product(models.Model):
         return self.name
 
     def average_rating(self):
-        average_rating = self.ratings.aggregate(avg_rating=Avg('rating'))['avg_rating']
-        return average_rating
+        if self.ratings.exists():
+            average_rating = self.ratings.aggregate(avg_rating=Avg('rating'))['avg_rating']
+            return round(average_rating, 1)
+        else:
+            return None
 
 
 class Additions(models.Model):

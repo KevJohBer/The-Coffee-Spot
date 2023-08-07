@@ -95,14 +95,16 @@ def add_to_cart(request, item_id, *args, **kwargs):
             if str(key) not in cart_keys:
                 index = key
 
-        if len(cart) != 0:
+        comparator = []
+        for item in list(cart.values()):
+            comparator.append(list(item.values())[:5])
+
+        if list(contents.values())[:5] not in comparator:
+            cart[index] = contents
+        else:
             for key in cart_keys:
                 if list(cart[key].values())[:5] == list(contents.values())[:5]:
                     cart[key]['quantity'] += 1
-                else:
-                    cart[index] = contents
-        else:
-            cart[index] = contents
 
         request.session['cart'] = cart
         return redirect('order')

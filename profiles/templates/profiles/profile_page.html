@@ -25,7 +25,7 @@
             <a href="{% url 'order_history' %}" class="text-white">Order History {% if user.profile.has_active_orders %}
                 ({{ user.profile.has_active_orders.count }})
                 {% endif %}</a>
-            <a href="{% url 'user_settings' %}" class="text-white">Settings</a>
+            <a href="{% url 'user_settings' %}" class="text-white">Billing Info</a>
             <a href="{% url 'view_subscriptions' %}" class="text-white">My Subscriptions</a>
         </div> 
     </div>
@@ -70,11 +70,13 @@
 {% if request.resolver_match.view_name == "user_settings" %}
     <div class="row no-gutters w-100" style="background-color: #1E0E00;">
         <div class="container">
-            <h2 class="display-4 logo-font text-white">Settings</h2>
+            <h2 class="display-4 logo-font text-white">Billing Info</h2>
             {% if errormsg %}{{ errormsg }}{% endif %}
             <form action="{% url 'user_settings' %}" method="POST">
                 {% csrf_token %}
-                {{ form }}
+                {{ form.default_address }}
+                {{ form.default_postal_code }}
+                {{ form.default_city }}
                 <input class="btn btn-outline-light rounded-0 py-3" type="submit">
             </form>
         </div>

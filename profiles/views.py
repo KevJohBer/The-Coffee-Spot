@@ -71,9 +71,9 @@ def cancel_subscription(request, item_id):
 
 def user_settings(request):
     """ A view to let users change settings on their experience """
-    form = InfoForm(instance=request.user.user_info)
+    form = InfoForm(instance=request.user.profile)
     if request.method == 'POST':
-        form = InfoForm(request.POST, instance=request.user.user_info)
+        form = InfoForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
             return redirect('user_settings')
