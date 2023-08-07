@@ -18,6 +18,9 @@
                 <p>Date: {{ order.date|date:"Y-m-d" }}</p>
                 <p>Selected Coffee shop: {{ order.address }}</p>
                 <p>Ready at: {{ order.date|time:"H:i" }}</p>
+                {% if order.to_go %}
+                    <p>To-Go</p>
+                {% endif %}
             </div>
         </div>
         <form action="#">

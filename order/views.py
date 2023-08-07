@@ -106,6 +106,8 @@ def add_to_cart(request, item_id, *args, **kwargs):
                 if list(cart[key].values())[:5] == list(contents.values())[:5]:
                     cart[key]['quantity'] += 1
 
+        if 'addition_dict' in request.session:
+            del request.session['addition_dict']
         request.session['cart'] = cart
         return redirect('order')
 
@@ -155,7 +157,8 @@ def order_confirmation(request, *args, **kwargs):
             'customer': request.user,
             'name': request.POST['name'],
             'address': request.POST['address'],
-            'total_cost': request.POST['total'],
+            'total_cost': request.POST['total_cost'],
+            'to_go': request.POST['to_go']
         }
 
         form = orderForm(form_data)

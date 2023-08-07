@@ -9,7 +9,7 @@
             {% if errormsg %}
                 <p class="text-white">{{ errormsg }}</p>
             {% endif %}
-            <form method="POST" class="d-flex flex-column">
+            <form action="{% url 'edit_product' product.id %}" method="POST" class="d-flex flex-column" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.name }}
                 {{ form.price }}

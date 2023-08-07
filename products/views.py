@@ -52,20 +52,23 @@ def delete_product(request, item_id):
 def edit_product(request, item_id):
     """ A view to allow superuser to edit product infomation """
     product = get_object_or_404(Product, id=item_id)
+    form = productForm(instance=product)
 
     if request.method == 'POST':
         category_id = int(request.POST.get('category_id'))
         category_names = ['Regular', 'Special', 'Premium']
         category_name = category_names[category_id - 1]
-        form = productForm(data=request.POST, instance=product)
+        form = productForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
-            edited_product = form.save()
+            edited_product = form.save(commit=False)
             edited_product.category = category_name
             edited_product.save()
             return redirect('order')
 
-    form = productForm(instance=product)
-    context = {'form': form}
+    context = {
+        'form': form,
+        'product': product,
+        }
     return render(request, 'product/edit_product.html', context)
 
 

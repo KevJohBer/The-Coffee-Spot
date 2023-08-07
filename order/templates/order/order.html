@@ -25,14 +25,16 @@
     <div class="d-flex d-flex-row">
       <div class="card-deck flex-nowrap" id="scrollbar" style="overflow-x: scroll;">
         {% for product in product_list %}
-          <div class="card rounded-0 border-light" style="background-color: #703600; min-width: 300px;">
-            <div class="card-body text-white">
-                <form action="{% url 'add_to_cart' product.id %}" method="POST">
-                  {% csrf_token %}
-                  <h4 class="card-title">{{ product.name }}</h4>
-                  <p>cost: ${{ product.price }}</p>
-                  <p>category: {{ product.category }}</p>
-                  <p>rating: {{ product.average_rating }}</p>
+          <div class="card rounded-0 border-light" style="background-color: #703600; width: 18rem;">
+            <img class="card-img-top" src="{% if product.image %}{{ product.image.url }}{% endif %}" alt="picture of {{ product.name }}">
+            <div class="card-body text-white product-card">
+              <h4 class="card-title">{{ product.name }} ${{ product.price }}</h4>
+              <p>category: {{ product.category }}</p>
+              <p>rating: {{ product.average_rating }}</p>
+            </div>
+            <div class="d-flex">
+              <form action="{% url 'add_to_cart' product.id %}" method="POST">
+                {% csrf_token %}
                 <input type="submit" class="btn btn-outline-light rounded-0" value="+">
                 <input type="hidden" value="Standard" name="size">
                 <input type="hidden" value="Milk" name="milk_type">
@@ -40,12 +42,12 @@
               </form>
               {% if user.is_superuser %}
                 <div class="d-flex justify-content-end">
-                  <a href="{% url 'delete_product' product.id %}" class="btn btn-outline-light rounded-0">Delete</a>
-                  <a href="{% url 'edit_product' product.id %}" class="btn btn-outline-light rounded-0">Edit</a>
+                  <a href="{% url 'delete_product' product.id %}" class="btn btn-outline-light rounded-0"><i class="fa-regular fa-trash-can"></i></a>
+                  <a href="{% url 'edit_product' product.id %}" class="btn btn-outline-light rounded-0"><i class="fa-regular fa-pen-to-square"></i></a>
                 </div>
               {% endif %}
               <div class="d-flex justify-content-end">
-                <a href="{% url 'customize_product' product.id %}" class="btn btn-outline-light rounded-0">Customize</a>
+                <a href="{% url 'customize_product' product.id %}" class="btn btn-outline-light rounded-0">. . .</a>
                 <a href="{% url 'product_details' product.id %}" class="btn btn-outline-light rounded-0">Details</a>
               </div>
             </div>
@@ -61,55 +63,60 @@
   <div class="container checkout">
     <h2 class="text-white">items</h2>
     <div class="row no-gutters">
-      <div class="col">
-        <div class="card-deck">
-          {% for item in current_cart.cart_items %}
-            <div class="card rounded-0 border-light" style="background-color: #1E0E00; max-width: 300px;">
-              <div class="card-body text-white">
-                <div class="d-flex flex-inline" style="justify-content: space-between;">
-                <h4 class="card-title">{{ item.product.name }}</h4>
-                <form class="text-right" action="{% url 'remove_from_cart' %}" method="POST">
+      <div class="card-deck">
+        {% for item in current_cart.cart_items %}
+          <div class="card rounded-0 border-light" style="background-color: #1E0E00; max-width: 300px;">
+            <div class="card-body text-white">
+              <div class="d-flex flex-inline" style="justify-content: space-between;">
+              <h4 class="card-title">{{ item.product.name }}</h4>
+              <form class="text-right" action="{% url 'remove_from_cart' %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-outline-light rounded-0" value="x">
+                <input type="hidden" name="index" value="{{ item.index }}">
+              </form>
+              </div>
+              <p>Cost: ${{ item.product.price }}</p>
+              <p>Category: {{ item.product.category }}</p>
+              <p>Size: {{ item.size }}</p>
+              <p>Milk: {{ item.milk_type }}</p>
+              <div class="row d-flex justify-content-center" style="height: 38px;">
+                <form class="form-inline" action="{% url 'adjust_cart_items' %}" method="POST">
                   {% csrf_token %}
-                  <input type="submit" class="btn btn-outline-light rounded-0" value="x">
+                  <input type="submit" value="+" name="increment" class="btn btn-outline-light rounded-0">
+                  <p class="text-center" style="padding: 0 15px; margin: 0; border: 1px solid white; height: 100%;">{{ item.quantity }}</p>
+                  <input type="submit" value="-" name="decrement" class="btn btn-outline-light rounded-0">
                   <input type="hidden" name="index" value="{{ item.index }}">
                 </form>
-                </div>
-                <p>Cost: ${{ item.product.price }}</p>
-                <p>Category: {{ item.product.category }}</p>
-                <p>Size: {{ item.size }}</p>
-                <div class="row d-flex justify-content-center" style="height: 38px;">
-                  <form class="form-inline" action="{% url 'adjust_cart_items' %}" method="POST">
-                    {% csrf_token %}
-                    <input type="submit" value="+" name="increment" class="btn btn-outline-light rounded-0">
-                    <p class="text-center" style="padding: 0 15px; margin: 0; border: 1px solid white; height: 100%;">{{ item.quantity }}</p>
-                    <input type="submit" value="-" name="decrement" class="btn btn-outline-light rounded-0">
-                    <input type="hidden" name="index" value="{{ item.index }}">
-                  </form>
-                </div>
               </div>
             </div>
-          {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <h1 class="display-4 logo-font text-white">Checkout</h1>
+    <div class="row">
+      <form method="POST" action="{% url 'order_confirmation' %}" class="w-50" id="payment-form">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="id_name" class="text-white">Customer Name</label>
+          {{ order_form.name }}
         </div>
-      </div>
-      <div class="col">
-        <h1 class="display-4 logo-font text-white">Checkout</h1>
-          <form method="POST" action="{% url 'order_confirmation' %}" id="payment-form">
-            {% csrf_token %}
-            <div class="form-group">
-              {{ order_form.name }}
-            </div>
-            <div class="form-group">
-              {{ order_form.address }}
-            </div>
-            <div class="form-group">
-              <div class="form-control col text-right rounded-0 border-light" id="card-element" style="background-color: #401F00;"></div>
-            </div>
-            <h4 class="text-white">Total = {{ current_cart.total }}$</h4>
-            <input type="button" name="togo" value="To-go">
-            <input type="submit" value="create order" class="text-right btn btn-outline-light rounded-0 py-3">
-            <input type="hidden" id="total" name="total_cost" value="{{ current_cart.total }}">
-          </form>
-      </div>
+        <div class="form-group">
+          <label for="id_address" class="text-white">Pickup At</label>
+          {{ order_form.address }}
+        </div>
+        <div class="form-group">
+          <label for="cart-element" class="text-white">Card Info</label>
+          <div class="form-control col text-right rounded-0 border-light" id="card-element" style="background-color: #401F00;"></div>
+        </div>
+        <h4 class="text-white">Total = {{ current_cart.total }}$</h4>
+        <label for="id_to_go" class="text-left text-white">
+          To-Go
+          {{ order_form.to_go }}
+        </label>
+        <input type="submit" value="create order" class="text-right btn btn-outline-light rounded-0 py-3">
+        <input type="hidden" id="total" name="total_cost" value="{{ current_cart.total }}">
+      </form>
     </div>
   </div>
 {% endif %}

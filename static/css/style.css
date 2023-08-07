@@ -93,7 +93,12 @@ h2 {
     margin-right: 20px;
 }
 
+div[class="card-body text-white product-card"] p {
+    margin-bottom: 0;
+}
+
 /* login page */
+
 .card-body,
 .btn-outline-light,
 .border {

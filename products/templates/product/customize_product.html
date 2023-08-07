@@ -57,6 +57,8 @@
                     <div class="d-flex">
                         {{ form.milk_type }}
                     </div>
+                {% else %}
+                    <input type="hidden" name="milk_type" value="No Milk">
                 {% endif %}
                 <input type="submit" class="btn btn-outline-light rounded-0" value="Add to Order">
                 <input type="hidden" name="quantity" value="1">
