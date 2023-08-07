@@ -76,7 +76,7 @@ def user_settings(request):
         form = InfoForm(request.POST, instance=request.user.user_info)
         if form.is_valid():
             form.save()
-            return redirect('settings')
+            return redirect('user_settings')
         else:
             form = InfoForm()
             errormsg = 'Whoa! Something went wrong, data did not validate, check your information and try again'

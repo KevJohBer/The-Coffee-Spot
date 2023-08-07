@@ -1,4 +1,4 @@
-from .models import Product, Additions
+from .models import Product, Additions, Rating
 from django.forms import ModelForm, TextInput, ImageField, ChoiceField
 from django import forms
 
@@ -51,3 +51,10 @@ class productForm(forms.ModelForm):
                 'placeholder': 'Has Milk',
             }),
         }
+
+
+class ratingForm(forms.ModelForm):
+
+    class Meta:
+        model = Rating
+        fields = ['rating']

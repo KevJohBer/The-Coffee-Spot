@@ -197,3 +197,17 @@ input[type="radio"] {
     background-color: white;
     color: black;
 }
+
+/* product details */
+
+input[name="rating"] {
+    margin: 30px;
+    font-size: 35px;
+}
+
+/* login */
+
+label[for='id_login'],
+label[for=id_password] {
+    display: none;
+}

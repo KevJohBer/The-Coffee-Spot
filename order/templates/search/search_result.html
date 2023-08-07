@@ -11,7 +11,7 @@
                 <h4 class="card-title">{{ result.name }}</h4>
                 <p>cost: {{ result.price }}$</p>
                 <p>category: {{ result.category }}</p>
-                <p>rating: {{ result.rating }}</p>
+                <p>rating: {{ result.average_rating }}</p>
               <input type="submit" class="btn btn-outline-light rounded-0" value="+">
               <input type="hidden" name="quantity" value="1">
               <input type="hidden" name = redirect_url value="{% url 'order' %}">
