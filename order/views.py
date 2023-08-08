@@ -10,6 +10,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib import messages
 
 import stripe
 
@@ -164,16 +165,16 @@ def order_confirmation(request, *args, **kwargs):
     if 'cart' in request.session:
         cart = request.session.get('cart', {})
     else:
+        messages.error(request, 'Your cart is empty')
         return redirect('order')
 
     if request.method == 'POST':
-
         form_data = {
             'customer': request.user,
             'name': request.POST['name'],
             'address': request.POST['address'],
             'total_cost': request.POST['total_cost'],
-            'to_go': request.POST['to_go']
+            'to_go': request.POST.get('to_go'),
         }
 
         form = OrderForm(form_data)
@@ -192,11 +193,11 @@ def order_confirmation(request, *args, **kwargs):
             order.save()
             prep_time(order.id)
 
-        if 'cart' in request.session:
-            del request.session['cart']
-
-        context = {
-            'order': order,
-            }
-
-    return render(request, 'order/order_confirmation.html', context)
+            if 'cart' in request.session:
+                del request.session['cart']
+            context = {'order': order}
+            return render(request, 'order/order_confirmation.html', context)
+        else:
+            messages.error(
+                request, 'Data invalid, check your information and try again')
+    return redirect('order')

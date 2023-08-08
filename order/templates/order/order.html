@@ -13,8 +13,12 @@
       {{ search_form.query }}
       <button class="btn btn-outline-light rounded-0" style="height: 38px;" type="submit">Search</button>
     </form>
-    {% if errormsg %}
-      <strong class="text-white">{{ errormsg }}</strong>
+    {% if messages %}
+      <ul class="messages text-white">
+      {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+      </ul>
     {% endif %}
     {% if search_result %}
       <strong class="text-white">search tag</strong>

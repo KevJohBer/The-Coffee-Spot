@@ -19,7 +19,7 @@ class Order(models.Model):
     customer = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True,
         blank=True, related_name='orders')
-    name = models.CharField(max_length=35, null=True, blank=True)
+    name = models.CharField(max_length=35)
     order_number = models.UUIDField(
         default=uuid.uuid4, unique=True,
         db_index=True, editable=False)

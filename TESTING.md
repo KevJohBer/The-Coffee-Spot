@@ -29,6 +29,8 @@ Order page was success apart from the django template language.
 
 ![W3C Markup Validation Success (order page)](static/testing/order-page-check.png)
 
+Profile page was a success apart from hte django template language
+
 ![W3C Markup Validation Success (profile page)](static/testing/profile-page-check.png)
 
 ### CSS
@@ -46,8 +48,10 @@ Javascript was tested using jshint
 
 ### Python
 
-Python was tested using pycodestyle, I still had these two problems but they seem to be an issue with gipod rather than the sites code
+Python was tested using pycodestyle and partially pylint, I still had these two problems but they seem to be an issue with gipod rather than the sites code
 ![pycodestyle validation](static/testing/python-validation-check.png)
+
+### Responsiveness
 
 Responsiveness was tested using Chrome Lighthouse
 

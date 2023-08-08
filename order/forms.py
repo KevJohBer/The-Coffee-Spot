@@ -34,6 +34,7 @@ class OrderForm(forms.ModelForm):
                 'class': "form-control rounded-0 border-light text-white",
                 'style': 'background-color: #1E0E00',
                 'placeholder': 'Name',
+                'required': 'True'
             }),
             'address': forms.TextInput(attrs={
                 'class': "form-control rounded-0 border-light text-white",
