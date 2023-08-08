@@ -12,7 +12,7 @@
             <!-- Addition selection -->
             <h3>Addition</h3>
             <form action="how to cheat django rules" display="none"></form>
-            <div class="d-flex">
+            <div class="d-flex flex-wrap">
                 {% for item in addition_list %}
                     <div style="padding-right: 10px; padding-bottom: 10px;">
                         <form action="{% url 'addition' product.id item.id %}" method="POST">
@@ -54,9 +54,7 @@
                 <!-- milk selection -->
                 {% if product.has_milk %}
                     <h3>Milk</h3>
-                    <div class="d-flex">
-                        {{ form.milk_type }}
-                    </div>
+                    {{ form.milk_type }}
                 {% else %}
                     <input type="hidden" name="milk_type" value="No Milk">
                 {% endif %}
@@ -66,37 +64,47 @@
             </form>
         </div>
     </div>
-  </div>
+</div>
 
 {% endblock %}
 
 {% block postloadjs %}
   <script>
-    size_radios = document.getElementsByName('size')
-    milk_type_radios = document.getElementsByName('milk_type')
-    for (let radio of size_radios) {
+    let size_radios = document.getElementsByName('size');
+    let milk_type_radios = document.getElementsByName('milk_type');
+    let radios = Array.from(size_radios).concat(Array.from(milk_type_radios));
+
+    window.addEventListener('load', function() {
+        var standardSize = document.getElementById('id_size_0');
+        var standardMilk = document.getElementById('id_milk_type_0');
+
+        standardSize.checked = true;
+        standardMilk.checked = true;
+
+        for (let input of radios) {
+            if (input.checked) {
+                input.parentElement.style.backgroundColor = "white";
+                input.parentElement.style.color = "black";
+            } else {
+                input.parentElement.style.backgroundColor = "transparent";
+                input.parentElement.style.color = "white";
+            };
+        };
+    });
+
+
+    for (let radio of radios) {
         radio.addEventListener('click', ()=> {
-            for (let input of size_radios)
+            for (let input of radios) {
                 if (input.checked) {
-                    input.parentElement.style.backgroundColor = "white"
-                    input.parentElement.style.color = "black"
+                    input.parentElement.style.backgroundColor = "white";
+                    input.parentElement.style.color = "black";
                 } else {
-                    input.parentElement.style.backgroundColor = "transparent"
-                    input.parentElement.style.color = "white"
-                }
-        })
-    };
-    for (let radio of milk_type_radios) {
-        radio.addEventListener('click', ()=> {
-            for (let input of milk_type_radios)
-                if (input.checked) {
-                    input.parentElement.style.backgroundColor = "white"
-                    input.parentElement.style.color = "black"
-                } else {
-                    input.parentElement.style.backgroundColor = "transparent"
-                    input.parentElement.style.color = "white"
-                }
-        })
+                    input.parentElement.style.backgroundColor = "transparent";
+                    input.parentElement.style.color = "white";
+                };
+            };
+        });
     };
   </script>
   

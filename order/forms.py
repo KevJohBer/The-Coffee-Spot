@@ -4,6 +4,7 @@ from django import forms
 
 
 class orderForm(forms.ModelForm):
+
     CHOICES = (
         ('Drottninggatan 19', 'Drottninggatan 19'),
         ('Hamngatan 14', 'Hamngatan 14'),
@@ -61,7 +62,7 @@ class customLineItemForm(forms.ModelForm):
         ('Coconut Milk', 'Coconut Milk'),
     )
     milk_type = forms.ChoiceField(choices=OPTIONS2, widget=forms.RadioSelect(attrs={
-        'style': 'background-color:  #703600; width: 50%;'
+        'style': 'background-color:  #703600; width: 50%;',
     }))
 
     class Meta:

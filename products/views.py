@@ -72,6 +72,7 @@ def edit_product(request, item_id):
     return render(request, 'product/edit_product.html', context)
 
 
+@user_passes_test(lambda u: u.is_authenticated)
 def product_details(request, item_id):
     """ A view to get more information about the product and rate it """
     product = get_object_or_404(Product, id=item_id)
@@ -173,12 +174,12 @@ def adjust_additions(request, item_id):
         addition_dict = request.session.get('addition_dict')
         redirect_url = request.POST.get('redirect_url')
         if request.POST.get('increment'):
-            addition_dict[addition_name] += 1
+            addition_dict[item_id] += 1
         elif request.POST.get('decrement'):
-            if addition_dict[addition_name] == 1:
-                addition_dict.pop(addition_name)
+            if addition_dict[item_id] == 1:
+                addition_dict.pop(item_id)
             else:
-                addition_dict[addition.name] -= 1
+                addition_dict[item_id] -= 1
 
         request.session['addition_dict'] = addition_dict
         return redirect(redirect_url)

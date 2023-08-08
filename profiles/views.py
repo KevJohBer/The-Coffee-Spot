@@ -4,16 +4,19 @@ from subscription.models import Subscription
 from datetime import timedelta
 from django.conf import settings
 from .forms import profileForm, InfoForm
+from django.contrib.auth.decorators import user_passes_test
 import stripe
 
 # Profile page
 
 
+@user_passes_test(lambda u: u.is_authenticated)
 def profile_page(request):
     """ A view to display user profile """
     return render(request, 'profiles/profile_page.html')
 
 
+@user_passes_test(lambda u: u.is_authenticated)
 def edit_profile(request):
     """ Allows user to edit their profile """
     form = profileForm(instance=request.user.profile)
@@ -32,6 +35,7 @@ def edit_profile(request):
 
 # Orders
 
+@user_passes_test(lambda u: u.is_authenticated)
 def order_history(request):
     """ Shows users order history """
     orders = Order.objects.filter(customer=request.user)
@@ -43,6 +47,7 @@ def order_history(request):
     return render(request, 'profiles/profile_page.html', context)
 
 
+@user_passes_test(lambda u: u.is_authenticated)
 def cancel_order(request, item_id):
     """ Gives user the option to cancel an order """
     order = get_object_or_404(Order, pk=item_id)
@@ -52,6 +57,7 @@ def cancel_order(request, item_id):
 # subscriptions
 
 
+@user_passes_test(lambda u: u.is_authenticated)
 def view_subscriptions(request):
     """ shows users their subscription """
     subscriptions = Subscription.objects.filter(subscriber=request.user)
@@ -59,6 +65,7 @@ def view_subscriptions(request):
     return render(request, 'profiles/profile_page.html', context,)
 
 
+@user_passes_test(lambda u: u.is_authenticated)
 def cancel_subscription(request, item_id):
     """ Gives user the option to cancel their subscription """
     stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -69,6 +76,7 @@ def cancel_subscription(request, item_id):
     return redirect('view_subscriptions')
 
 
+@user_passes_test(lambda u: u.is_authenticated)
 def user_settings(request):
     """ A view to let users change settings on their experience """
     form = InfoForm(instance=request.user.profile)

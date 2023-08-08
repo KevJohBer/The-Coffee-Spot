@@ -8,9 +8,11 @@ from products.forms import productForm
 from .utils import prep_time
 from profiles.models import Profile
 from django.conf import settings
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import user_passes_test
 from .contexts import cart_contents
 from products.contexts import additions_contents
+from django.db.models import Q
 import stripe
 
 # Create your views here.
@@ -34,13 +36,16 @@ class order(LoginRequiredMixin, View):
 
         if 'query' in request.GET:
             query = request.GET['query']
-            if product_list.filter(name=query).exists():
-                product = get_object_or_404(Product, name=query)
-                search_result.append(product)
-            else:
-                errormsg = f'sorry, we could not find a result for "{query}"'
+            queries = Q(name__icontains=query) | Q(description__icontains=query)
+            search_result = product_list.filter(queries)
 
-        order_form = orderForm()
+        if request.user.profile.first_name:
+            initial_data = {
+                'name': request.user.profile.first_name
+            }
+            order_form = orderForm(data=initial_data)
+        else:
+            order_form = orderForm()
 
         if current_cart:
             total = current_cart['total']
@@ -68,6 +73,7 @@ class order(LoginRequiredMixin, View):
         return render(request, 'order/order.html', context)
 
 
+@user_passes_test(lambda u: u.is_authenticated)
 def add_to_cart(request, item_id, *args, **kwargs):
     """ allows user to add a selected item to cart """
     if request.method == 'POST':
@@ -112,6 +118,7 @@ def add_to_cart(request, item_id, *args, **kwargs):
         return redirect('order')
 
 
+@user_passes_test(lambda u: u.is_authenticated)
 def adjust_cart_items(request):
     """ allows user to increase or decrease amount of selected product """
     index = request.POST.get('index')
@@ -122,9 +129,13 @@ def adjust_cart_items(request):
     if request.method == 'POST':
         if request.POST.get('increment'):
             item['quantity'] = quantity + 1
+            if item['additions'] != None:
+                for addition in item['additions']:
+                    item['additions'][addition] += 1
+
         elif request.POST.get('decrement'):
             if quantity == 1:
-                cart.pop(str(product.name))
+                cart.pop(index)
             else:
                 item['quantity'] = quantity - 1
 
@@ -132,6 +143,7 @@ def adjust_cart_items(request):
     return redirect('order')
 
 
+@user_passes_test(lambda u: u.is_authenticated)
 def remove_from_cart(request):
     """ removes selected item from cart """
     cart = request.session.get('cart', {})
@@ -141,6 +153,7 @@ def remove_from_cart(request):
     return redirect('order')
 
 
+@user_passes_test(lambda u: u.is_authenticated)
 def order_confirmation(request, *args, **kwargs):
     """ confirms stripe payment """
     stripe_public_key = settings.STRIPE_PUBLIC_KEY

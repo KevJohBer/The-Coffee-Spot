@@ -97,6 +97,18 @@ div[class="card-body text-white product-card"] p {
     margin-bottom: 0;
 }
 
+input[id=id_to_go] {
+    display: none;
+}
+
+label[for=id_to_go] {
+    margin: 0;
+}
+
+.card-img-top {
+    width: 200px;
+}
+
 /* login page */
 
 .card-body,
@@ -126,6 +138,7 @@ div[class="card-body text-white product-card"] p {
 
 #id_size {
     display: flex;
+    flex-wrap: wrap;
 }
 
 #id_size div label {
@@ -168,6 +181,7 @@ input[type="radio"] {
 
 #id_milk_type {
     display: flex;
+    flex-wrap: wrap;
 }
 
 #id_milk_type div label {

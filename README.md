@@ -129,9 +129,23 @@ By selecting one of the subscriptions on the home page by clicking "see more" yo
 
 ### Order page 
 
-The order page features a search bar that let's you search for specific drinks to make it easier for users to find what they are looking for. If they prefer to browse, they have the horizontal scroll bar that let's you browse through the drinks. Once you add a drink to your order, a form will appear and you can enter your credit card information and finish your order. You can also choose which address you would like to pick up the finished coffee from. Although there are only three addresses currently. Once you have filled out the form and created your forum, you will be redirected to a confirmation page where you can view the details of your order. 
+The order page features a search bar that let's you search for specific drinks to make it easier for users to find what they are looking for. 
+
+If users prefer to browse, they have the horizontal scroll bar that let's you browse through the drinks. For every drink there are 3 butons "+", "customize" and "details". Clicking "+" will add the product to the cart, clicking "customize" will take you to the product customization page" and clicking "details" will take you to the product details page.
+
+Once you add a drink to your order, a form will appear and you can enter your credit card information and finish your order. You can also choose which address you would like to pick up the finished coffee from. Although there are only three addresses currently. Once you have filled out the form and created your forum, you will be redirected to a confirmation page where you can view the details of your order. 
 
 For the admin, there is an edit and delete button on each product. The edit button will let you edit the information of all products. The delete button will let you delete the product from the database entirely. 
+
+### Customize product page
+
+The customize product page allows a user to customize the item they want to buy. They get to choose among 3 additions to their drink "Extra Espresso Shot", "Vanilla syrup" or "Caramel Syrup" if the user so would like to add them. The additions cost an extra $1 each which is then added to the order total. users can also choose what size they want their drink to be, "small" or "standard". Finally users can choose what type of milk they want in their drink. They can choose between "milk", "non lactose milk", "Oat milk", "Soy Milk" and "coconut milk".
+
+### Product details page
+
+The product details page displays all information that you would want to know about your drink like a description of the drink, the ingredients, category, price and even the rating on the drink.
+
+The product details page also allows users to rate the drink from 1 to 5.
 
 ### Profile page
 
@@ -145,15 +159,9 @@ If you are logged in as an admin, you can view the create product page by clicki
 ### Future implementations
 
 * Editable subscriptions, admin should have the ability to change subscriptions to add discounts and let it include other drinks
-* Advanced search logic. Users should be able to search for products and get results despite spelling mistakes
 * Advanced form handling. Users should not be able to have accounts with fake or inappropriate information
-* Customized confirmation. Confirmations are the standard browser confirmations, these ruin the experience for users.
-* Customizable profiles. Users should be able to personalize their profiles
-* Automatically fill order fields with default information
 * More details on addresses. When you make an order you get to pick 3 addresses in stockholm but you it would be nice to have a visual that lets you know more about the address
 * Admin should be able to add addresses to the address list and there should be more addresses to choose from.
-* Users should have a takeaway button so the user can choose to sit at the coffee shop or take the coffee to go
-* Users should have the liberty of selecting a drink size
 
 ## Technologies Used
 
@@ -239,11 +247,13 @@ All testing can be found [here](TESTING.md)
 
 ### Code Used
 
-The Product and Order models were inspired by the CI Boutique Ado project
+The Product and Order models were inspired by the CI Boutique Ado tutorial
 
 The subscriptions were made with help of this [tutorial](https://www.youtube.com/watch?v=Bq5lR5WQNOw)
 
 Having profile models with default information was also inspired by the CI Boutique Ado project
+
+The code for making search queries was taken from CI Boutique Ado tutorial
 
 ### Media
 

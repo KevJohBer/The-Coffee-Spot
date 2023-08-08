@@ -17,12 +17,20 @@ def cart_contents(request):
         milk_type = cart[key]['milk']
         additions = cart[key]['additions']
         index = key
+        adds = {}
         product = get_object_or_404(Product, id=item_id)
         if request.user.subscriptions.exists():
             subscription = request.user.subscriptions.all()[0].subscription_id
             if product.category_id <= subscription:
                 product.price = 0
         total += quantity * product.price
+
+        if additions != None:
+            for addition_id, addition_quantity in additions.items():
+                addition = get_object_or_404(Additions, id=addition_id)
+                total += addition_quantity * addition.price
+                adds[addition.name] = addition_quantity
+
         product_count += quantity
 
         cart_items.append({
@@ -33,9 +41,9 @@ def cart_contents(request):
             'product_count': product_count,
             'size': size,
             'milk_type': milk_type,
-            'index': index
+            'index': index,
+            'adds': adds,
         })
-
         context['cart_items'] = cart_items
         context['total'] = total
     return context
