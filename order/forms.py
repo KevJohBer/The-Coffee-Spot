@@ -12,7 +12,6 @@ from django import forms
 from .models import Order, OrderLineItem
 
 
-
 class OrderForm(forms.ModelForm):
     """ A form to let users make an order """
     CHOICES = (
@@ -74,9 +73,10 @@ class CustomLineItemForm(forms.ModelForm):
         ('Soy Milk', 'Soy Milk'),
         ('Coconut Milk', 'Coconut Milk'),
     )
-    milk_type = forms.ChoiceField(choices=OPTIONS2, widget=forms.RadioSelect(attrs={
-        'style': 'background-color:  #703600; width: 50%;',
-    }))
+    milk_type = forms.ChoiceField(choices=OPTIONS2, widget=forms.RadioSelect(
+        attrs={
+            'style': 'background-color:  #703600; width: 50%;',
+        }))
 
     class Meta:
         """  CustomLineItemForm Meta """

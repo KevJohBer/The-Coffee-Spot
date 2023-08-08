@@ -17,10 +17,11 @@ class ProductForm(forms.ModelForm):
         ('2', 'Special'),
         ('3', 'Premium'),
     )
-    category_id = forms.ChoiceField(choices=CHOICES, widget=forms.Select(attrs={
-        'class': "form-control rounded-0 border-light text-white",
-        'style': 'background-color:  #703600',
-        })
+    category_id = forms.ChoiceField(
+        choices=CHOICES, widget=forms.Select(attrs={
+            'class': "form-control rounded-0 border-light text-white",
+            'style': 'background-color:  #703600',
+            })
     )
     HAS_MILK = (
         ('True', 'Milk'),

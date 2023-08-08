@@ -36,7 +36,8 @@ class OrderView(LoginRequiredMixin, View):
 
         if 'query' in request.GET:
             query = request.GET['query']
-            queries = Q(name__icontains=query) | Q(description__icontains=query)
+            queries = Q(
+                name__icontains=query) | Q(description__icontains=query)
             search_result = product_list.filter(queries)
 
         if request.user.profile.first_name:
@@ -69,7 +70,8 @@ class OrderView(LoginRequiredMixin, View):
 
         if 'query' in request.GET:
             query = request.GET['query']
-            queries = Q(name__icontains=query) | Q(description__icontains=query)
+            queries = Q(
+                name__icontains=query) | Q(description__icontains=query)
             search_result = product_list.filter(queries)
             context['query'] = query
             context['search_result'] = search_result
