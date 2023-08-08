@@ -29,7 +29,8 @@ def edit_profile(request):
     form = ProfileForm(instance=request.user.profile)
     context = {'form': form}
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        form = ProfileForm(
+            request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
             form.save()
             return redirect('profile_page')
@@ -77,7 +78,8 @@ def cancel_subscription(request, item_id):
     """ Gives user the option to cancel their subscription """
     stripe.api_key = settings.STRIPE_SECRET_KEY
     subscription = stripe.Subscription.retrieve(item_id)
-    subscription_object = get_object_or_404(Subscription, stripe_subscription_id=item_id)
+    subscription_object = get_object_or_404(
+        Subscription, stripe_subscription_id=item_id)
     subscription_object.delete()
     subscription.cancel()
     return redirect('view_subscriptions')

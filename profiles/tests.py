@@ -13,7 +13,8 @@ class TestProfile(TestCase):
     """ tests for profiles app """
     def setUp(self):
         """ sets up test environment """
-        self.user = User.objects.create_user(username='testuser', password='test')
+        self.user = User.objects.create_user(
+            username='testuser', password='test')
 
         login = self.client.login(username='testuser', password='test')
 

@@ -27,19 +27,22 @@ def subscription_detail(request, subscription_id):
         subscription_name = 'Regular'
         stripe_price_id = settings.STRIPE_PLAN_REGULAR
         included_drinks = Product.objects.filter(category_id__lt=2)
-        about = "if you just want regular black coffee with or without milk and no other fancy additions then this is the subscription for you"
+        about = "if you just want regular black coffee with or without milk \
+        and no other fancy additions then this is the subscription for you"
     elif subscription_id == 2:
         price = 40
         subscription_name = 'Special'
         stripe_price_id = settings.STRIPE_PLAN_SPECIAL
         included_drinks = Product.objects.filter(category_id__lt=3)
-        about = "If you want more options to you coffee, this subscriptions offers special warm drinks like caffe latte, cappucino or Americano"
+        about = "If you want more options to you coffee, this subscriptions \
+        offers special warm drinks like caffe latte, cappucino or Americano"
     elif subscription_id == 3:
         price = 70
         subscription_name = 'Premium'
         stripe_price_id = settings.STRIPE_PLAN_PREMIUM
         included_drinks = Product.objects.filter(category_id__lt=4)
-        about = "If you don’t like limitations, then premium is the subscription for you. Enjoy any drink warm or cold from our menu"
+        about = "If you don’t like limitations, then premium is the \
+            subscription for you. Enjoy any drink warm or cold from our menu"
 
     form = SubscriptionForm()
 
@@ -116,14 +119,17 @@ def confirm_subscription(request):
 
         if form.is_valid():
             if request.user.subscriptions.exists():
-                subscription_object = Subscription.objects.filter(subscriber=request.user)[0]
-                old_subscription = stripe.Subscription.retrieve(subscription_object.stripe_subscription_id)
+                subscription_object = Subscription.objects.filter(
+                    subscriber=request.user)[0]
+                old_subscription = stripe.Subscription.retrieve(
+                    subscription_object.stripe_subscription_id)
                 subscription_object.delete()
                 old_subscription.cancel()
             subscription = form.save()
             subscription.save()
         else:
-            errormsg = 'Whoa! Something went wrong, data did not validate, check your information and try again'
+            errormsg = 'Whoa! Something went wrong, data did not validate, \
+                check your information and try again'
             request.session['errormsg'] = errormsg
 
     return redirect('subscription', subscription_id=subscription_id)

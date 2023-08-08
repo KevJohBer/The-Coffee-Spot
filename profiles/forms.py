@@ -9,7 +9,6 @@ from django import forms
 from .models import Profile
 
 
-
 class InfoForm(forms.ModelForm):
     """ form for default information """
     class Meta:

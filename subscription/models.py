@@ -14,9 +14,10 @@ class Subscription(models.Model):
     """ A model to define a subscription """
     subscription_id = models.IntegerField(default=0)
     subscription_name = models.CharField(max_length=30, blank=True, null=True)
-    stripe_subscription_id = models.CharField(max_length=100,
-        blank=True, null=True)
-    subscriber = models.ForeignKey(User, on_delete=models.CASCADE,
+    stripe_subscription_id = models.CharField(
+        max_length=100, blank=True, null=True)
+    subscriber = models.ForeignKey(
+        User, on_delete=models.CASCADE,
         null=False, blank=False, related_name='subscriptions')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     address = models.CharField(max_length=40, null=True, blank=True)
