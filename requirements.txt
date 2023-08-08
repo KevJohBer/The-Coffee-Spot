@@ -1,4 +1,5 @@
 asgiref==3.7.2
+backports.zoneinfo==0.2.1
 boto3==1.28.21
 botocore==1.31.21
 dj-database-url==2.0.0
@@ -8,6 +9,7 @@ django-countries==7.5.1
 django-crispy-forms==2.0
 django-extensions==3.2.3
 django-storages==1.13.2
+gunicorn==21.2.0
 jmespath==1.0.1
 oauthlib==3.2.2
 Pillow==10.0.0
