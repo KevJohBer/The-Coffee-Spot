@@ -90,8 +90,7 @@ Responsiveness was tested using Chrome Lighthouse
 ## Bugs
 
 * If you enter invalid data on the subscription detail page the error message will remain even after exiting the website.
-* You cannot submit the edit profile Form
-* 404 handler is not working
+* Choosing an addition on the customize product page will reset milk and size.
 
 ## Unfinished Features
 

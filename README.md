@@ -259,3 +259,5 @@ The code for making search queries was taken from CI Boutique Ado tutorial
 ### Media
 
 Coffee cup image was taken from [cityPNG](https://www.citypng.com/photo/21638/coffee-cup-tea-white-silhouette-icon-transparent-png)
+
+The email newsletter signup image was taken from [copenhagen brew](https://copenhagenbrew.dk/sv/blogs/altomkaffe/den-store-guide-til-latte-art)

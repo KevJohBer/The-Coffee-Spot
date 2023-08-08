@@ -5,8 +5,9 @@ views for subscription app
 """
 
 from django.shortcuts import render, redirect
-import stripe
 from django.conf import settings
+from django.contrib import messages
+import stripe
 from order.models import Product
 from .models import Subscription
 from .forms import SubscriptionForm
@@ -54,9 +55,6 @@ def subscription_detail(request, subscription_id):
         setup_future_usage='off_session',
     )
     client_secret = intent.client_secret
-
-    if 'errormsg' in request.session:
-        errormsg = request.session['errormsg']
 
     context = {
         'price': price,
@@ -128,8 +126,7 @@ def confirm_subscription(request):
             subscription = form.save()
             subscription.save()
         else:
-            errormsg = 'Whoa! Something went wrong, data did not validate, \
-                check your information and try again'
-            request.session['errormsg'] = errormsg
+            messages.error(request, 'Data invalid, \
+            please check your information and try again')
 
     return redirect('subscription', subscription_id=subscription_id)

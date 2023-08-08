@@ -26,8 +26,12 @@
         <input type="hidden" name="price" value="{{ price }}">
         <input type="hidden" id="email" value="{{ user.email }}">
         <input type="hidden" name="intent_id" value="{{ intent_id }}">
-        {% if errormsg %}
-          <p style="color: red;">{{ errormsg }}</p>
+        {% if messages %}
+            <ul class="messages text-white">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+            </ul>
         {% endif %}
         <h3>Billing Address</h3>
           {{ form.address }}
