@@ -1,4 +1,12 @@
+"""
+Home app - Views
+
+Home app views
+"""
+
+
 from django.shortcuts import render
+
 from order.models import Product
 
 # Create your views here.

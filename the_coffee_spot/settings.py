@@ -26,7 +26,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '8000-kevjohber-thecoffeespot-ple57maej6k.ws-eu102.gitpod.io',
@@ -174,7 +174,10 @@ if 'USE_AWS' in os.environ:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-kevjohber-thecoffeespot-oggaxra3acm.ws-eu97.gitpod.io', 'https://the-coffee-spot.herokuapp.com']
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-kevjohber-thecoffeespot-oggaxra3acm.ws-eu97.gitpod.io',
+    'https://the-coffee-spot.herokuapp.com'
+     ]
 
 STRIPE_CURRENCY = 'usd'
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')

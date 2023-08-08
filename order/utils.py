@@ -1,3 +1,9 @@
+"""
+Order App - utils
+
+utils for order app
+"""
+
 from threading import Timer
 from .models import Order
 

@@ -15,7 +15,7 @@
             <div class="d-flex flex-wrap">
                 {% for item in addition_list %}
                     <div style="padding-right: 10px; padding-bottom: 10px;">
-                        <form action="{% url 'addition' product.id item.id %}" method="POST">
+                        <form action="{% url 'addition' item.id %}" method="POST">
                             {% csrf_token %}
                             <input type="submit" class="btn btn-outline-light rounded-0" value="{{ item.name }}">
                             <input type="hidden" name="quantity" value="1">

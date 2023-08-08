@@ -139,7 +139,16 @@
     {{ client_secret|json_script:"id_client_secret" }}
     <script src="{% static 'js/stripe_elements.js' %}"></script>
     <script>
-      let togoButton = document.getElementById('id_to_go')
+      let togoButton = document.getElementById('id_to_go');
+      window.addEventListener('load', ()=> {
+        if (togoButton.checked) {
+            togoButton.parentElement.style.backgroundColor = "white";
+            togoButton.parentElement.style.color = "black";
+          } else {
+              togoButton.parentElement.style.backgroundColor = "transparent";
+              togoButton.parentElement.style.color = "white";
+          };
+      });
       togoButton.addEventListener('click', ()=> {
         if (togoButton.checked) {
               togoButton.parentElement.style.backgroundColor = "white";

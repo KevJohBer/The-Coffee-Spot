@@ -1,10 +1,19 @@
-from .models import Profile
+"""
+Profiles App - forms
+
+forms for profiles app
+"""
+
 from django.forms import ModelForm, TextInput, ImageField
 from django import forms
+from .models import Profile
+
 
 
 class InfoForm(forms.ModelForm):
+    """ form for default information """
     class Meta:
+        """ InfoForm Meta """
         model = Profile
         fields = ['default_address', 'default_postal_code', 'default_city']
         widgets = {
@@ -26,8 +35,10 @@ class InfoForm(forms.ModelForm):
         }
 
 
-class profileForm(forms.ModelForm):
+class ProfileForm(forms.ModelForm):
+    """ Form for editing profiles """
     class Meta:
+        """ ProfileForm Meta """
         model = Profile
         fields = ['first_name', 'last_name', 'description', 'avatar']
         widgets = {

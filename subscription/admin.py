@@ -1,3 +1,9 @@
+"""
+Subscription App - Admin
+
+admin configuration for subscription app
+"""
+
 from django.contrib import admin
 from .models import Subscription
 
@@ -5,7 +11,11 @@ from .models import Subscription
 
 
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('subscription_id','subscription_name', 'subscriber', 'price', 'address', 'city', 'postal_code', 'date')
+    """ admin configuration for subscriptions """
+    list_display = (
+        'subscription_id', 'subscription_name', 'subscriber',
+        'price', 'address', 'city', 'postal_code', 'date'
+        )
 
 
 admin.site.register(Subscription, SubscriptionAdmin)

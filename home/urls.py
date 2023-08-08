@@ -1,5 +1,10 @@
-from django.contrib import admin
-from django.urls import path, include
+"""
+Home App - URLS
+
+home app urls
+"""
+
+from django.urls import path
 from . import views
 
 urlpatterns = [

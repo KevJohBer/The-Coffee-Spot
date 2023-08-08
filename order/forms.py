@@ -1,10 +1,20 @@
-from .models import Order, OrderLineItem
+"""
+Order App - Forms
+
+Forms for Order App
+-orderForm
+-searchForm
+-customLineItemForm
+"""
+
 from django.forms import ModelForm, TextInput, ImageField, ChoiceField
 from django import forms
+from .models import Order, OrderLineItem
 
 
-class orderForm(forms.ModelForm):
 
+class OrderForm(forms.ModelForm):
+    """ A form to let users make an order """
     CHOICES = (
         ('Drottninggatan 19', 'Drottninggatan 19'),
         ('Hamngatan 14', 'Hamngatan 14'),
@@ -17,6 +27,7 @@ class orderForm(forms.ModelForm):
     )
 
     class Meta:
+        """ OrderForm Meta """
         model = Order
         fields = ["customer", "name", "address", "total_cost", "to_go"]
         widgets = {
@@ -39,6 +50,7 @@ class orderForm(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
+    """ A form to let users search for products """
     query = forms.CharField(max_length=30, widget=forms.TextInput(attrs={
         'class': "form-control rounded-0 border-light text-white",
         'style': 'background-color:  #703600; width: 50%;',
@@ -47,7 +59,8 @@ class SearchForm(forms.Form):
     )
 
 
-class customLineItemForm(forms.ModelForm):
+class CustomLineItemForm(forms.ModelForm):
+    """ A form to let users customize order line items """
     OPTIONS1 = (
         ('Standard', 'Standard'),
         ('Small', 'Small'),
@@ -66,5 +79,6 @@ class customLineItemForm(forms.ModelForm):
     }))
 
     class Meta:
+        """  CustomLineItemForm Meta """
         model = OrderLineItem
         fields = ['size', 'milk_type']

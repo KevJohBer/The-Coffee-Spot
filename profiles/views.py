@@ -1,11 +1,18 @@
+"""
+Profiles App - Views
+
+views for profiles app
+"""
+
 from django.shortcuts import render, redirect, get_object_or_404
-from order.models import Order, OrderLineItem
-from subscription.models import Subscription
-from datetime import timedelta
 from django.conf import settings
-from .forms import profileForm, InfoForm
 from django.contrib.auth.decorators import user_passes_test
 import stripe
+from order.models import Order
+from subscription.models import Subscription
+
+from .forms import ProfileForm, InfoForm
+
 
 # Profile page
 
@@ -19,18 +26,18 @@ def profile_page(request):
 @user_passes_test(lambda u: u.is_authenticated)
 def edit_profile(request):
     """ Allows user to edit their profile """
-    form = profileForm(instance=request.user.profile)
-
+    form = ProfileForm(instance=request.user.profile)
+    context = {'form': form}
     if request.method == 'POST':
-        form = profileForm(request.POST, request.FILES, instance=request.user.profile)
+        form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
             form.save()
             return redirect('profile_page')
         else:
-            form = profileForm()
-            errormsg = 'Whoa! Something went wrong, data did not validate, check your information and try again'
-            return render(request, 'profiles/edit_profile.html', {'form': form, 'errormsg': errormsg})
-    return render(request, 'profiles/edit_profile.html', {'form': form})
+            errormsg = "data invalid, check your information and try again"
+            context['errormsg': errormsg]
+
+    return render(request, 'profiles/edit_profile.html', context)
 
 
 # Orders
@@ -80,13 +87,13 @@ def cancel_subscription(request, item_id):
 def user_settings(request):
     """ A view to let users change settings on their experience """
     form = InfoForm(instance=request.user.profile)
+    context = {'form': form}
     if request.method == 'POST':
         form = InfoForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
             return redirect('user_settings')
         else:
-            form = InfoForm()
-            errormsg = 'Whoa! Something went wrong, data did not validate, check your information and try again'
-            return render(request, "profiles/profile_page.html", {'form': form, 'errormsg': errormsg})
-    return render(request, "profiles/profile_page.html", {'form': form})
+            errormsg = 'data invalid, check your information and try again'
+            context['errormsg'] = errormsg
+    return render(request, "profiles/profile_page.html", context)

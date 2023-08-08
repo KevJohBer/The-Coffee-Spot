@@ -1,9 +1,15 @@
+"""
+Products App - Views
+
+views for products app
+"""
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib import messages
+from order.forms import CustomLineItemForm
 from .models import Product, Additions, Rating
-from .forms import productForm, ratingForm
-from order.forms import customLineItemForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import ProductForm, RatingForm
 from .contexts import additions_contents
 
 # Create your views here.
@@ -14,30 +20,27 @@ from .contexts import additions_contents
 def create_product(request):
     """ A view for admin to create products """
 
+    form = ProductForm()
+    context = {
+        'form': form
+        }
+
     if request.method == 'POST':
         category_id = int(request.POST.get('category_id'))
         category_names = ['Regular', 'Special', 'Premium']
         category_name = category_names[category_id - 1]
-        form = productForm(data=request.POST)
+        form = ProductForm(data=request.POST)
 
         if form.is_valid():
-            product = form.save()
+            product = form.save(commit=False)
             product.category = category_name
             product.save()
             return redirect('home_page')
         else:
-            form = productForm()
-            errormsg = 'data did not validate'
-            context = {'form': form, 'errormsg': errormsg}
-            return render(request, 'product/create_product.html', context)
+            messages.error(request, 'data invalid, check your \
+                information and try again')
 
-    else:
-        form = productForm()
-        context = {
-            'form': form
-            }
-
-        return render(request, 'product/create_product.html', context)
+    return render(request, 'product/create_product.html', context)
 
 
 @user_passes_test(lambda u: u.is_superuser)
@@ -52,13 +55,13 @@ def delete_product(request, item_id):
 def edit_product(request, item_id):
     """ A view to allow superuser to edit product infomation """
     product = get_object_or_404(Product, id=item_id)
-    form = productForm(instance=product)
+    form = ProductForm(instance=product)
 
     if request.method == 'POST':
         category_id = int(request.POST.get('category_id'))
         category_names = ['Regular', 'Special', 'Premium']
         category_name = category_names[category_id - 1]
-        form = productForm(request.POST, request.FILES, instance=product)
+        form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             edited_product = form.save(commit=False)
             edited_product.category = category_name
@@ -76,17 +79,18 @@ def edit_product(request, item_id):
 def product_details(request, item_id):
     """ A view to get more information about the product and rate it """
     product = get_object_or_404(Product, id=item_id)
-    form = ratingForm()
+    form = RatingForm()
     rating_values = [1, 2, 3, 4, 5]
     if request.method == 'POST':
         redirect_url = request.POST.get('redirect_url')
         if Rating.objects.filter(user=request.user, product=product).exists():
-            rating = Rating.objects.filter(user=request.user, product=product)[0]
+            rating = Rating.objects.filter(
+                user=request.user, product=product)[0]
             rating.rating = request.POST['rating']
             rating.save()
             return redirect(redirect_url)
         else:
-            form = ratingForm(request.POST)
+            form = RatingForm(request.POST)
         if form.is_valid():
             rating = form.save(commit=False)
             rating.product = product
@@ -94,7 +98,7 @@ def product_details(request, item_id):
             rating.save()
             return redirect(redirect_url)
         else:
-            form = ratingForm()
+            form = RatingForm()
     context = {
         'product': product,
         'form': form,
@@ -108,21 +112,18 @@ def customize_product(request, item_id):
     """ a view to let user customize products in their order """
     product = get_object_or_404(Product, id=item_id)
     addition_list = Additions.objects.all()
-    form = customLineItemForm(instance=request.user)
+    form = CustomLineItemForm(instance=request.user)
     additions = additions_contents(request)
     current_additions = additions['additions']
     additions_total = additions['total']
     if request.method == 'POST':
-        form = customLineItemForm(request.POST, instance=product)
+        form = CustomLineItemForm(request.POST, instance=product)
         if form.is_valid():
             form.save()
             return redirect('order')
         else:
-            form = customLineItemForm()
+            form = CustomLineItemForm()
             return redirect('customize_product')
-
-    if 'addition_dict' in request.session:
-        addition_dict = request.session.get('addition_dict')
 
     context = {
         'addition_list': addition_list,
@@ -138,10 +139,9 @@ def customize_product(request, item_id):
 
 
 @user_passes_test(lambda u: u.is_authenticated)
-def addition(request, product_id, item_id):
+def addition(request, item_id):
+    """ adds an addition to customized drink """
     if request.method == 'POST':
-        addition = get_object_or_404(Additions, id=item_id)
-        product = get_object_or_404(Product, id=product_id)
         addition_dict = request.session.get('addition_dict', {})
         quantity = int(request.POST['quantity'])
         redirect_url = request.POST.get('redirect_url')
@@ -152,14 +152,14 @@ def addition(request, product_id, item_id):
             addition_dict[item_id] = quantity
 
         request.session['addition_dict'] = addition_dict
-        return redirect(redirect_url)
+    return redirect(redirect_url)
 
 
 @user_passes_test(lambda u: u.is_authenticated)
 def delete_addition(request, item_id):
+    """ Deletes selected addition from customized drink"""
     if request.method == "POST":
         redirect_url = request.POST.get('redirect_url')
-        addition = get_object_or_404(Additions, id=item_id)
         addition_dict = request.session.get("addition_dict")
         addition_dict.pop(item_id)
         request.session['addition_dict'] = addition_dict
@@ -169,8 +169,8 @@ def delete_addition(request, item_id):
 
 @user_passes_test(lambda u: u.is_authenticated)
 def adjust_additions(request, item_id):
+    """ adjust chosen additions for custom drink"""
     if request.method == "POST":
-        addition = get_object_or_404(Additions, id=item_id)
         addition_dict = request.session.get('addition_dict')
         redirect_url = request.POST.get('redirect_url')
         if request.POST.get('increment'):
@@ -182,4 +182,4 @@ def adjust_additions(request, item_id):
                 addition_dict[item_id] -= 1
 
         request.session['addition_dict'] = addition_dict
-        return redirect(redirect_url)
+    return redirect(redirect_url)

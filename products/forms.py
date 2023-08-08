@@ -1,9 +1,17 @@
-from .models import Product, Additions, Rating
+"""
+Product App - Forms
+
+Forms for product app
+"""
+
+
 from django.forms import ModelForm, TextInput, ImageField, ChoiceField
 from django import forms
+from .models import Product, Rating
 
 
-class productForm(forms.ModelForm):
+class ProductForm(forms.ModelForm):
+    """ A form for creating products """
     CHOICES = (
         ('1', 'Regular'),
         ('2', 'Special'),
@@ -24,8 +32,13 @@ class productForm(forms.ModelForm):
     }))
 
     class Meta:
+        """ Meta for ProductForm """
         model = Product
-        fields = ['name', 'price', 'image', 'category', 'category_id', 'has_milk']
+        fields = [
+            'name', 'price', 'image', 'category',
+            'category_id', 'has_milk', 'ingredients',
+            'description'
+            ]
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': "form-control rounded-0 border-light text-white",
@@ -50,11 +63,22 @@ class productForm(forms.ModelForm):
                 'style': 'background-color:  #703600',
                 'placeholder': 'Has Milk',
             }),
+            'ingredients': forms.TextInput(attrs={
+                'class': "form-control rounded-0 border-light text-white",
+                'style': 'background-color: #703600',
+                'placeholder': 'ingredients',
+            }),
+            'description': forms.TextInput(attrs={
+                'class': "form-control rounded-0 border-light text-white",
+                'style': 'background-color: #703600',
+                'placeholder': 'description',
+            }),
         }
 
 
-class ratingForm(forms.ModelForm):
-
+class RatingForm(forms.ModelForm):
+    """ A form for rating products """
     class Meta:
+        """ Meta for RatingForm"""
         model = Rating
         fields = ['rating']

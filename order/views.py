@@ -1,38 +1,38 @@
+"""
+Order App - Views
+
+views for order app
+"""
+
 from django.shortcuts import render, get_object_or_404, redirect
-from datetime import timedelta
-from django.views import generic, View
-from .models import Order, OrderLineItem
-from products.models import Product
-from .forms import orderForm, SearchForm
-from products.forms import productForm
-from .utils import prep_time
-from profiles.models import Profile
+from django.views import View
+from django.db.models import Q
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import user_passes_test
-from .contexts import cart_contents
-from products.contexts import additions_contents
-from django.db.models import Q
+
 import stripe
+
+from products.models import Product
+from .contexts import cart_contents
+from .models import OrderLineItem
+from .forms import OrderForm, SearchForm
+from .utils import prep_time
+
 
 # Create your views here.
 
 
 # Creating orders
-class order(LoginRequiredMixin, View):
-
+class OrderView(LoginRequiredMixin, View):
     """ A view for ordering coffee """
     def get(self, request):
+        """ handles get requests for order"""
         product_list = Product.objects.all()
         search_form = SearchForm()
-        cart = request.session.get('cart', {})
         current_cart = cart_contents(request)
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         stripe_secret_key = settings.STRIPE_SECRET_KEY
-        client_secret = 0
-        search_result = []
-        query = None
-        errormsg = None
 
         if 'query' in request.GET:
             query = request.GET['query']
@@ -43,9 +43,17 @@ class order(LoginRequiredMixin, View):
             initial_data = {
                 'name': request.user.profile.first_name
             }
-            order_form = orderForm(data=initial_data)
+            order_form = OrderForm(data=initial_data)
         else:
-            order_form = orderForm()
+            order_form = OrderForm()
+
+        context = {
+            'product_list': product_list,
+            'current_cart': current_cart,
+            'order_form': order_form,
+            'stripe_public_key': stripe_public_key,
+            'search_form': search_form,
+        }
 
         if current_cart:
             total = current_cart['total']
@@ -57,18 +65,14 @@ class order(LoginRequiredMixin, View):
                     currency=settings.STRIPE_CURRENCY,
                 )
                 client_secret = intent.client_secret
+                context['client_secret'] = client_secret
 
-        context = {
-            'product_list': product_list,
-            'current_cart': current_cart,
-            'order_form': order_form,
-            'stripe_public_key': stripe_public_key,
-            'client_secret': client_secret,
-            'search_form': search_form,
-            'search_result': search_result,
-            'query': query,
-            'errormsg': errormsg,
-        }
+        if 'query' in request.GET:
+            query = request.GET['query']
+            queries = Q(name__icontains=query) | Q(description__icontains=query)
+            search_result = product_list.filter(queries)
+            context['query'] = query
+            context['search_result'] = search_result
 
         return render(request, 'order/order.html', context)
 
@@ -78,10 +82,8 @@ def add_to_cart(request, item_id, *args, **kwargs):
     """ allows user to add a selected item to cart """
     if request.method == 'POST':
         product = get_object_or_404(Product, id=item_id)
-        quantity = int(request.POST.get('quantity'))
         cart = request.session.get('cart', {})
         cart_keys = list(cart.keys())
-        size = request.POST['size']
         milk_type = request.POST['milk_type']
         if 'addition_dict' in request.session:
             additions = request.session.get('addition_dict')
@@ -91,10 +93,10 @@ def add_to_cart(request, item_id, *args, **kwargs):
         contents = {
             'name': product.name,
             'item_id': product.id,
-            'size': size,
+            'size': request.POST['size'],
             'milk': milk_type,
             'additions': additions,
-            'quantity': quantity,
+            'quantity': int(request.POST.get('quantity')),
         }
 
         for key in range(1, 50):
@@ -115,7 +117,7 @@ def add_to_cart(request, item_id, *args, **kwargs):
         if 'addition_dict' in request.session:
             del request.session['addition_dict']
         request.session['cart'] = cart
-        return redirect('order')
+    return redirect('order')
 
 
 @user_passes_test(lambda u: u.is_authenticated)
@@ -129,7 +131,7 @@ def adjust_cart_items(request):
     if request.method == 'POST':
         if request.POST.get('increment'):
             item['quantity'] = quantity + 1
-            if item['additions'] != None:
+            if item['additions'] is not None:
                 for addition in item['additions']:
                     item['additions'][addition] += 1
 
@@ -156,8 +158,6 @@ def remove_from_cart(request):
 @user_passes_test(lambda u: u.is_authenticated)
 def order_confirmation(request, *args, **kwargs):
     """ confirms stripe payment """
-    stripe_public_key = settings.STRIPE_PUBLIC_KEY
-    stripe_secret_key = settings.STRIPE_SECRET_KEY
 
     if 'cart' in request.session:
         cart = request.session.get('cart', {})
@@ -174,7 +174,7 @@ def order_confirmation(request, *args, **kwargs):
             'to_go': request.POST['to_go']
         }
 
-        form = orderForm(form_data)
+        form = OrderForm(form_data)
         if form.is_valid():
             order = form.save()
             for item in cart.values():

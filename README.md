@@ -44,7 +44,6 @@ The Coffee Spot is an online web application that lets you order coffee from a T
 * As a user, once I have chosen what product I am ordering, I can create an order by filling out the details. I can also cancel the order while it is active. 
 * As a user I can view previous orders that I have made when viewing my profile page.
 * As a user I can view the current subscriptions that I have active by viewing my progile page.
-* As a user I can view my invoices to see how much I am paying.
 
 ### User Experience Goals
 
@@ -66,7 +65,9 @@ The coffee spot favors brown color to remind users of coffee. The website does n
 
 ### Typography
 
-The coffee shop uses the bootstrap logo fonts, other than that it does not use any custom fonts.
+The Coffee shop uses the google [Pacifico](https://fonts.google.com/specimen/Pacifico) 
+
+The Coffee shop also uses the [Bootstrap5 typography](https://getbootstrap.com/docs/5.0/content/typography/)
 
 ### Imagery
 

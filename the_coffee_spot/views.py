@@ -1,3 +1,9 @@
+"""
+The Coffee Spot App - views
+
+views for the coffee spot app
+"""
+
 from django.shortcuts import render
 
 

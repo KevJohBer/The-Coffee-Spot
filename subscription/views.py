@@ -1,11 +1,16 @@
+"""
+Subscription App - Views
+
+views for subscription app
+"""
+
 from django.shortcuts import render, redirect
-from .models import Subscription
-from .forms import subscriptionForm
-from django.conf import settings
-from profiles.models import Profile
-from order.models import Product
-from django.db.models import Q
 import stripe
+from django.conf import settings
+from order.models import Product
+from .models import Subscription
+from .forms import SubscriptionForm
+
 
 # Create your views here.
 
@@ -36,7 +41,7 @@ def subscription_detail(request, subscription_id):
         included_drinks = Product.objects.filter(category_id__lt=4)
         about = "If you don’t like limitations, then premium is the subscription for you. Enjoy any drink warm or cold from our menu"
 
-    form = subscriptionForm()
+    form = SubscriptionForm()
 
     stripe.api_key = stripe_secret_key
     intent = stripe.PaymentIntent.create(
@@ -107,7 +112,7 @@ def confirm_subscription(request):
             'postal_code': request.POST['postal_code'],
         }
 
-        form = subscriptionForm(form_data, request.POST)
+        form = SubscriptionForm(form_data, request.POST)
 
         if form.is_valid():
             if request.user.subscriptions.exists():
@@ -117,7 +122,6 @@ def confirm_subscription(request):
                 old_subscription.cancel()
             subscription = form.save()
             subscription.save()
-            return redirect('view_subscriptions')
         else:
             errormsg = 'Whoa! Something went wrong, data did not validate, check your information and try again'
             request.session['errormsg'] = errormsg

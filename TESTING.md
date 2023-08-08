@@ -1,6 +1,21 @@
 # The Coffee Spot Testing
 
+## Contents
+
+* [Automated Testing](#automated-testing)
+    * [HTML](#html)
+    * [CSS](#css)
+    * [JS](#javascript)
+    * [Python](#python)
+* [Manual Testing](#manual-testing)
+    * [Testing User Stories](#testing-user-stories)
+* [Bugs](#bugs)
+* [Unfinished Features](#unfinished-features)
+* [Testing Devices](#testing-devices)
+
 ## Automated Testing
+
+### HTML
 
 HTML was validated using the W3C Markup Validation Service
 
@@ -16,14 +31,23 @@ Order page was success apart from the django template language.
 
 ![W3C Markup Validation Success (profile page)](static/testing/profile-page-check.png)
 
+### CSS
+
 CSS was validated using W3C Jigsaw
 
 ![W3C CSS validation (CSS)](static/testing/css-check.png)
+
+### Javascript
 
 Javascript was tested using jshint
 ![jshint validation (Order)](static/testing/order-js-check.png)
 
 ![jshint validation (Subscription)](static/testing/subscription-js-check.png)
+
+### Python
+
+Python was tested using pycodestyle, I still had these two problems but they seem to be an issue with gipod rather than the sites code
+![pycodestyle validation](static/testing/python-validation-check.png)
 
 Responsiveness was tested using Chrome Lighthouse
 
@@ -45,8 +69,11 @@ Responsiveness was tested using Chrome Lighthouse
 | Users should be able to sign up for a subscription | This is acheived by filling out the form on the subscription page | yes |
 | Users should be able to view products | In the order page there is a selection of coffees to choose from aswell as a search bar | yes |
 | Users should be able o make an order | When the user has chosen the product they want to purchase, they get to fill out the order details and create an order | yes |
+| Users should be able to customize their product | When the user clicks customize on a product and fills out the form | yes |
+| Users should be able to see more information about their products | By clicking details on a product | yes |
+| Users should be able to rate a product | When the user is in the product detail page and presses a rating | yes |
 | Users should be met with an error message if the form is invalid | this is acheived with form handling | yes |
-| Users should get some notiffication thatt their order is complete | When the users submits the form they get redirected to a order success page | Yes |
+| Users should get some notification that their order is complete | When the users submits the form they get redirected to a order success page | Yes |
 | Users should receive further confirmation | an email should be sent after every order | No |
 | users should be able to view their own orders, subscriptions and information | This is acheived by having a profile page | yes |
 | Users should be able to edit their profiles | this is acheived by clicking the profile image which takes you to a form in which you can change your information | Yes |
@@ -60,20 +87,17 @@ Responsiveness was tested using Chrome Lighthouse
 | Admins should be able to edit products | This is acheived by clicking "edit" on any product on the order page | yes |
 | Admins should be able to delete proudcts | This is acheived by clicking "delete" on any product on the order page | yes |
 
-### Bugs
+## Bugs
 
 * If you enter invalid data on the subscription detail page the error message will remain even after exiting the website.
 * You cannot submit the edit profile Form
 * 404 handler is not working
 
-### Unfinished Features
+## Unfinished Features
 
-* You cannot view settings or invoices in profile page
-* You cannot edit your profile on the profile page
 * The order details is supposed to show you when your coffee is ready but it is currently displaying the time the order was created.
-* You can't see your invoices because closely prior to the deadline the tempmail I was using for stripe was logged out and I do not remember the mail or password. The solution would be to create another account using one of my own emails and change the environment variables but I did not have time for this unfortunately.
 
-### Testing Devices
+## Testing Devices
 
 Testing was performed with the following devices:
 

@@ -1,4 +1,9 @@
-from django.contrib import admin
+"""
+Subscription App - URLS
+
+urls for subscription app
+"""
+
 from django.urls import path
 from . import views
 

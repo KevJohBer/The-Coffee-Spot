@@ -1,5 +1,10 @@
-from django.contrib import admin
-from django.urls import path, include
+"""
+Profiles App - URLS
+
+urls for profiles app
+"""
+
+from django.urls import path
 from . import views
 
 urlpatterns = [
