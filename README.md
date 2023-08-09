@@ -2,6 +2,8 @@
 
 The Coffee Spot is an online web application that lets you order coffee from a The Coffee Spot coffee shop. It is in this application that you can sign up for a subscription so that you can order at much coffee as you like
 
+[link to deployed website](https://the-coffee-spot.herokuapp.com/)
+
 ## Contents
 
 * [User Experience](#user-experience)
