@@ -48,8 +48,11 @@ Javascript was tested using jshint
 
 ### Python
 
-Python was tested using pycodestyle and partially pylint, I still had these two problems but they seem to be an issue with gipod rather than the sites code
+Python was tested using pycodestyle, I still had these two problems but they seem to be an issue with gipod rather than the sites code
 ![pycodestyle validation](static/testing/python-validation-check.png)
+
+Python was also partially tested using pylint where it scored 7.87, pylint also checks migration files which is why it still might not pass, furthermore pylint suggests that django.forms imports were not used eventhough they were.
+![pylint validation](static/testing/pylint-validation-check.png)
 
 ### Responsiveness
 
@@ -95,10 +98,14 @@ Responsiveness was tested using Chrome Lighthouse
 
 * If you enter invalid data on the subscription detail page the error message will remain even after exiting the website.
 * Choosing an addition on the customize product page will reset milk and size.
+* You get console errors on order page because the site is listening for elements that arent't displayed until you add an item to the cart.
 
 ## Unfinished Features
 
 * The order details is supposed to show you when your coffee is ready but it is currently displaying the time the order was created.
+* The order details and confirmation is supposed to show you what additions you added to the drinks.
+* Changing the billing info on your profile page is supposed to change it for the subscription billing aswell.
+* If you have customized billing info on profile then creating a subscription should fill out the fields for you. 
 
 ## Testing Devices
 

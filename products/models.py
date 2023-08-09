@@ -17,8 +17,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=3, decimal_places=2)
     image = models.ImageField(
         null=True, blank=True, upload_to='static/images',
-        default='static/images/coffee-cup.png'
-        )
+        default='static/images/coffee-cup.png')
     category = models.CharField(max_length=30, null=True, blank=True)
     category_id = models.IntegerField(default=0)
     ingredients = models.CharField(max_length=300, blank=True, null=True)

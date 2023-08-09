@@ -19,6 +19,8 @@ The Coffee Spot is an online web application that lets you order coffee from a T
     * [Home page](#home-page)
     * [Subscription detail](#subscription-page)
     * [Order page](#order-page)
+    * [Customzie Product](#customize-product-page)
+    * [Product detail](#product-details-page)
     * [Profile page](#profile-page)
     * [Create Product](#create-product-page)
 * [Technologies Used](#technologies-used)
@@ -73,7 +75,7 @@ The Coffee shop also uses the [Bootstrap5 typography](https://getbootstrap.com/d
 
 The coffee spot does not use a lot of images, it uses a a image of a coffee cup image on order items and subscriptions to further push the coffee narative. 
 
-### Order page
+### Order page Design
 
 Order page has a unique design choice inspired by streaming websites (oddly enough) that allows users to scroll horizontally to view products. They also have the option to search. The idea is to not display the checkout part of the page until the user has chosen their products. It is supposed to function as an all in one solution so that you don't have your store and cart separate. 
 
@@ -171,6 +173,11 @@ If you are logged in as an admin, you can view the create product page by clicki
 * Gitpod, VScode and CodeAnywhere was used to write and test the code.
 * The website was debugged using chrome devtools
 * Source code is in a Github repository
+* Heroku was used for deploying the project
+* Wireframes were made using Figma
+* Font Awesome was used to display icons
+* Google fonts were used for typography
+* Amazon Web Services was used to store static and media files
 
 ### Languages Used
 

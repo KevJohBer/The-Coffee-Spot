@@ -197,7 +197,6 @@ def order_confirmation(request, *args, **kwargs):
                 del request.session['cart']
             context = {'order': order}
             return render(request, 'order/order_confirmation.html', context)
-        else:
-            messages.error(
-                request, 'Data invalid, check your information and try again')
+        messages.error(
+            request, 'Data invalid, check your information and try again')
     return redirect('order')

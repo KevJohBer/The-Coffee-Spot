@@ -7,6 +7,7 @@ views for profiles app
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib import messages
 import stripe
 from order.models import Order
 from subscription.models import Subscription
@@ -34,10 +35,8 @@ def edit_profile(request):
         if form.is_valid():
             form.save()
             return redirect('profile_page')
-        else:
-            errormsg = "data invalid, check your information and try again"
-            context['errormsg': errormsg]
-
+        messages.error(
+            request, 'Data invalid, check your information and try again')
     return render(request, 'profiles/edit_profile.html', context)
 
 
@@ -95,7 +94,6 @@ def user_settings(request):
         if form.is_valid():
             form.save()
             return redirect('user_settings')
-        else:
-            errormsg = 'data invalid, check your information and try again'
-            context['errormsg'] = errormsg
+        messages.error(
+            request, 'Data not valid, check your information and try again.')
     return render(request, "profiles/profile_page.html", context)

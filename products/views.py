@@ -36,9 +36,8 @@ def create_product(request):
             product.category = category_name
             product.save()
             return redirect('home_page')
-        else:
-            messages.error(request, 'data invalid, check your \
-                information and try again')
+        messages.error(request, 'data invalid, check your \
+            information and try again')
 
     return render(request, 'product/create_product.html', context)
 
@@ -89,16 +88,14 @@ def product_details(request, item_id):
             rating.rating = request.POST['rating']
             rating.save()
             return redirect(redirect_url)
-        else:
-            form = RatingForm(request.POST)
+        form = RatingForm(request.POST)
         if form.is_valid():
             rating = form.save(commit=False)
             rating.product = product
             rating.user = request.user
             rating.save()
             return redirect(redirect_url)
-        else:
-            form = RatingForm()
+        form = RatingForm()
     context = {
         'product': product,
         'form': form,
@@ -121,9 +118,8 @@ def customize_product(request, item_id):
         if form.is_valid():
             form.save()
             return redirect('order')
-        else:
-            form = CustomLineItemForm()
-            return redirect('customize_product')
+        form = CustomLineItemForm()
+        return redirect('customize_product')
 
     context = {
         'addition_list': addition_list,
