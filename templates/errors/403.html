@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="row no-gutters" style="background-color: #703600">
+        <div class="container">
+            <h1 class="display-4 logo-font text-white">403! You're not authorised to view this page!</h1>
+            <a href="{% url 'home_page' %}" class="btn btn-outline-light rounded-0 py-3">Head back home</a>
+        </div>
+    </div>
+{% endblock %}
