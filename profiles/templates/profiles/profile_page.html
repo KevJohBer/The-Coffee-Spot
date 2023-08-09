@@ -8,7 +8,7 @@
         <div class="container">
             <h1 class="display-4 logo-font text-white">Profile page</h1>
             <div class="d-flex">
-                <a href="{% url 'edit_profile' %}" width="300px" height="300px">
+                <a href="{% url 'edit_profile' %}">
                     <img src="{{ user.profile.avatar.url }}" alt="your profile picture" id="user_avatar">
                 </a>
                 <div class="d-flex flex-column">
