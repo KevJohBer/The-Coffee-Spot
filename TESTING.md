@@ -99,13 +99,15 @@ Responsiveness was tested using Chrome Lighthouse
 * If you enter invalid data on the subscription detail page the error message will remain even after exiting the website.
 * Choosing an addition on the customize product page will reset milk and size.
 * You get console errors on order page because the site is listening for elements that arent't displayed until you add an item to the cart.
+* If you try to enter subscription details page then you will get a 404 instead of being redirected to the login page
 
 ## Unfinished Features
 
 * The order details is supposed to show you when your coffee is ready but it is currently displaying the time the order was created.
 * The order details and confirmation is supposed to show you what additions you added to the drinks.
 * Changing the billing info on your profile page is supposed to change it for the subscription billing aswell.
-* If you have customized billing info on profile then creating a subscription should fill out the fields for you. 
+* If you have customized billing info on profile then creating a subscription should fill out the fields for you.
+* Poorly styled order confirmation page,  
 
 ## Testing Devices
 

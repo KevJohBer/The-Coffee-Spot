@@ -27,7 +27,7 @@
     {% else %}
     <!-- list of products -->
     <div class="d-flex d-flex-row">
-      <div class="card-deck flex-nowrap" id="scrollbar" style="overflow-x: scroll;">
+      <div class="card-deck flex-nowrap scrollbar" style="overflow-x: scroll;">
         {% for product in product_list %}
           <div class="card rounded-0 border-light d-flex align-items-center" style="background-color: #703600; min-width: 300px;">
             <img class="card-img-top" src="{% if product.image %}{{ product.image.url }}{% endif %}" alt="picture of {{ product.name }}">
@@ -71,7 +71,7 @@
   <div class="container checkout">
     <h2 class="text-white">items</h2>
     <div class="row no-gutters">
-      <div class="card-deck d-flex flex-nowrap" id="scrollbar"  style="overflow-x: scroll;">
+      <div class="card-deck d-flex flex-nowrap scrollbar"  style="overflow-x: scroll;">
         {% for item in current_cart.cart_items %}
           <div class="card rounded-0 border-light" style="background-color: #1E0E00; min-width: 300px;">
             <div class="card-body text-white">
@@ -121,7 +121,7 @@
           {{ order_form.address }}
         </div>
         <div class="form-group">
-          <label for="cart-element" class="text-white">Card Info</label>
+          <label for="card-element" class="text-white">Card Info</label>
           <div class="form-control col text-right rounded-0 border-light" id="card-element" style="background-color: #401F00;"></div>
         </div>
         <h4 class="text-white">Total = {{ current_cart.total }}$</h4>

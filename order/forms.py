@@ -44,7 +44,6 @@ class OrderForm(forms.ModelForm):
             'to_go': forms.CheckboxInput(attrs={
                 'class': "form-control rounded-0 border-light text-white",
                 'style': 'background-color: #1E0E00',
-                'label': 'To-go',
             })
         }
 
