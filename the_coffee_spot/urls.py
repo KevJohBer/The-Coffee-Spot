@@ -22,7 +22,7 @@ from .views import handler404, handler403, handler500
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('account/', include('allauth.urls')),
+    path('accounts/', include('allauth.urls')),
     path('', include('home.urls')),
     path('subscription/', include('subscription.urls')),
     path('products/', include('products.urls')),
